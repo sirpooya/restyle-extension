@@ -19,6 +19,7 @@ import './events';
 import './incremental-search';
 import './manage.css';
 import './manage-table.css';
+import '@/css/onoffswitch.css';
 import '@/css/target-site.css';
 import '@/css/theme-modern.css';
 

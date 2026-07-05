@@ -86,15 +86,35 @@ $iconGapY: .25rem;
     flex: 0 0 auto;
     display: flex;
     align-items: center;
-    margin-left: auto; /* push actions to the trailing edge */
     z-index: 100;
     .delete i {
       font-size: 16px;
     }
   }
-  /* Not interested in size/age in this list */
+  /* size/age sit at the trailing side before the actions; hidden on narrow screens */
   .style-info:is([data-type=size], [data-type=age]) {
-    display: none;
+    flex: 0 0 auto;
+    color: var(--c50);
+    font-size: 12px;
+    text-align: right;
+    white-space: nowrap;
+  }
+  /* first trailing item pushes the whole size/age/actions cluster to the right */
+  .style-info[data-type=size] {
+    min-width: var(--size-width);
+    margin-left: auto;
+  }
+  .style-info[data-type=age] {
+    min-width: 4ch;
+  }
+  @media (max-width: 600px), compact {
+    .style-info:is([data-type=size], [data-type=age]) {
+      display: none;
+    }
+    /* with size/age hidden, actions become the trailing cluster */
+    .actions {
+      margin-left: auto;
+    }
   }
   .updater-icons > * {
     transition: opacity 1s;

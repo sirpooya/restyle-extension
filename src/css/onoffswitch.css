@@ -4,8 +4,8 @@
   --height: 22px;
   --pad: 2px;
   --knob: calc(var(--height) - 2 * var(--pad));
-  --color-off: hsl(0, 0%, 80%);
-  --color-on: hsl(142, 71%, 45%);
+  --color-off: var(--c65, hsl(0, 0%, 80%));
+  --color-on: var(--accent-1, hsl(142, 71%, 45%));
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -41,7 +41,7 @@
     box-shadow: var(--focus-shadow);
   }
   :root[data-ui-theme="dark"] & {
-    --color-off: hsl(0, 0%, 38%);
-    --color-on: hsl(142, 65%, 42%);
+    --color-off: var(--c65, hsl(0, 0%, 38%));
+    --color-on: var(--accent-1, hsl(142, 65%, 42%));
   }
 }
