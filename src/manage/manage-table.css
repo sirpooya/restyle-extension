@@ -12,10 +12,10 @@ $iconGapY: .25rem;
     margin-top: .25rem;
   }
   .entry {
-    --target-height: 18px;
+    --target-height: 19px;
     --name-size: 14px;
     --padY: .5rem;
-    padding: calc(var(--padY) * 1.75) 1.5em;
+    padding: calc(var(--padY) * 2.4) 1.75em;
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
@@ -38,7 +38,11 @@ $iconGapY: .25rem;
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 4px;
+  }
+  /* smaller external-link (homepage) icon next to the title */
+  .homepage.icon i {
+    font-size: 11px;
   }
   .style-info {
     &:is([data-type=size], [data-type=age]) {
@@ -147,13 +151,14 @@ $iconGapY: .25rem;
   }
   .entry i {
     color: var(--c60);
+    transition: color .12s;
   }
-  .entry:hover i {
-    color: var(--c40);
+  /* Don't darken the trailing action icons on row hover (looked like the whole
+     row was a delete target); only react when hovering the icon itself. */
+  .entry .actions a:hover i {
+    color: var(--fg);
   }
-  .entry input:checked::after,
-  .entry:hover input:checked::after,
-  .entry:hover i:hover {
+  .entry input:checked::after {
     color: var(--fg);
   }
   .checking-update .check-update {

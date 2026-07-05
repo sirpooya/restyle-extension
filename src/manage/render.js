@@ -211,12 +211,19 @@ export function createTargetsElement({entry, expanded, style = entry.styleMeta})
   entry._allTargetsRendered = allTargetsRendered;
   entry._numTargets = numTargets;
   if (UI.tableView) entry.style.setProperty('--num-targets', Math.min(numTargets, UI.targets));
-  // Single favicon shown before the title (derived from the first target)
+  // Single favicon shown before the title (derived from the first target).
+  // If the site has no real favicon (load error / known-bad), show nothing
+  // rather than a generic placeholder.
   const fav = entry.$('.entry-favicon');
   if (fav) {
     const src = firstTarget && faviconForTarget(firstTarget.type, firstTarget.val);
-    if (src) fav.src = src;
-    fav.classList.toggle('hidden', !src);
+    if (src) {
+      fav.classList.remove('hidden');
+      fav.onerror = () => fav.classList.add('hidden');
+      fav.src = src;
+    } else {
+      fav.classList.add('hidden');
+    }
   }
 }
 

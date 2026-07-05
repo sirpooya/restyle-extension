@@ -250,8 +250,7 @@ h1 {
   }
 }
 
-.oldUI .disabled h2::after,
-.entry.usercss .style-name-link::after {
+.oldUI .disabled h2::after {
   font-size: 9px;
   font-weight: 600;
   line-height: 1;
@@ -260,9 +259,14 @@ h1 {
   margin-left: 1ex;
   white-space: nowrap;
   content: "UC";
-  background-color: hsl(230 12% 90%); /* neutral gray, not teal */
+  background-color: hsl(230 12% 90%);
   padding: 2px 4px;
   color: var(--c40);
+}
+/* UC badge hidden in the manage list per request */
+.entry.usercss .style-name-link::after {
+  display: none !important;
+  content: none !important;
 }
 .oldUI .disabled h2::after {
   content: var(--genericDisabledLabel);
