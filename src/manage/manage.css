@@ -427,6 +427,10 @@ h1 {
   cursor: pointer;
   white-space: nowrap;
   &:hover { background: var(--c95); }
+  .slider {
+    --width: 28px;
+    --height: 16px;
+  }
 }
 
 /* ---- Overflow (⋯) menu: houses less-used actions moved out of the toolbar ---- */

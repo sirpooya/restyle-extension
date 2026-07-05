@@ -301,7 +301,6 @@ code {
 
 #header {
   background-color: var(--c97);
-  border-right: 1px solid var(--c80);
   box-shadow: none;
 }
 

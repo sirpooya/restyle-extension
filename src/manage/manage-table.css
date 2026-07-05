@@ -119,9 +119,13 @@ $iconGapY: .25rem;
     word-break: break-word;
   }
   .actions {
-    flex: 0 0 auto;
+    /* fixed width (room for the widest case: update/refresh + delete) so
+       delete always lands in the same spot and size/age stay aligned
+       across rows regardless of how many icons a row has */
+    flex: 0 0 48px;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     /* delete is first in the DOM but must sit rightmost; appended update/refresh
        icons then fall to its left */
     flex-direction: row-reverse;
