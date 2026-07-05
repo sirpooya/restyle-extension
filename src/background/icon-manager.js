@@ -270,7 +270,7 @@ async function setIcon(data, dot) {
         val = imageDataCache[url] || (imageDataCache[url] = loadImage(url));
         if (dot) {
           val = imageDataCache[cacheKey] = Promise.resolve(val)
-            .then(img => img && paintDot(img, dot));
+            .then(img => img && paintDot(img));
         }
       }
       val = val.then ? await val : val;
@@ -288,7 +288,7 @@ async function setIcon(data, dot) {
 }
 
 /** @param {ImageData} img */
-function paintDot(img, color) {
+function paintDot(img) {
   const {width: w, height: h} = img;
   const r = w * 3 / 16; // 3px radius on the 16px icon, scales with DPI variants
   const bw = w * 2 / 16; // 2px border on the 16px icon, scales with DPI variants

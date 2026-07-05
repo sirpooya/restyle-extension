@@ -107,7 +107,7 @@ $iconGapY: .25rem;
   .entry .target img {
     display: none;
   }
-  .has-favicons & .entry .target {
+  .has-favicons .entry .target {
     padding-left: 0;
   }
   .style-name-link {
