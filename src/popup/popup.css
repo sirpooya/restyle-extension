@@ -720,15 +720,25 @@ a:hover i {
       border-radius: 0 50% 50% 0;
     }
   }
-}
-/* When the dropdown chevron is hidden (e.g. blocked pages), the lone
-   manage button should be a full circle, not a half pill. */
-.blocked #popup-options .split-btn > a:first-child:has(~ .dropdown.if-not-blocked) {
-  padding-right: $pad;
-  border-radius: 50%;
+  /* Manage button carries a text label → render it as a rounded pill,
+     not an icon circle. */
+  #popup-manage-button {
+    gap: $pad05;
+    padding-left: calc($pad * .9);
+    border-radius: 999px 0 0 999px;
+    .label {
+      white-space: nowrap;
+    }
+  }
 }
 .i-manage {
   font-size: 18px;
+}
+/* When the dropdown chevron is hidden (e.g. blocked pages), the lone
+   manage button should be a full rounded pill, not a half one. */
+.blocked #popup-options .split-btn > a#popup-manage-button:has(~ .dropdown.if-not-blocked) {
+  padding-right: calc($pad * .9);
+  border-radius: 999px;
 }
 #find-styles-btn ~ .split-btn-menu {
   @media (max-height: 130px) {

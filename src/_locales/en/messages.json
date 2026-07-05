@@ -1031,7 +1031,7 @@
     "description": "Label for the checkbox after 'Open editor in a new window' checkbox, so it's like a continuation of the sentence."
   },
   "openManage": {
-    "message": "Manage",
+    "message": "Manage styles",
     "description": "Link to open style manager."
   },
   "openOptionsSidebar": {
