@@ -506,12 +506,6 @@ h1 {
   white-space: nowrap;
 }
 
-#get-styles-row {
-  gap: $iconGapY;
-}
-#get-styles-button {
-  flex: 1 1 auto;
-}
 /* the links list shown inside the Get-styles modal */
 .links-list {
   display: flex;

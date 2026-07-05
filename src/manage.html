@@ -124,12 +124,6 @@
           <span i18n="checkAllUpdates"></span>
           <span id="update-progress"></span>
         </button>
-        <button id="sync-styles" i18n="title:optionsCustomizeSync">
-          <img hidden>
-          <i class=i-cloud></i>
-          <span i18n="optionsCustomizeSync"></span>
-        </button>
-        <p id="sync-status"></p>
         <button id="update-history-button" i18n="title:genericHistoryLabel">
           <i class=i-log></i>
           <span i18n="genericHistoryLabel"></span>
@@ -253,6 +247,17 @@
             <i class=i-plus></i>
           </button>
         </a>
+        <button id="sync-styles" i18n="title:optionsCustomizeSync" class="icon">
+          <img hidden>
+          <i class=i-cloud></i>
+        </button>
+        <p id="sync-status"></p>
+        <button id="get-styles-button" i18n="linkGetStyles"></button>
+        <button id="import" i18n="importLabel"></button>
+        <span class="split-btn">
+          <button id="export" i18n="exportLabel"></button
+          ><button class="split-btn-pedal" i18n="menu-compat:exportCompatible"></button>
+        </span>
         <div id="update-all">
           <template data-id="updateAll">
             <button id="apply-all-updates" i18n="applyAllUpdates"></button>
@@ -263,17 +268,9 @@
       </main>
     </div>
 
-    <div class="settings-column" id="links">
-      <div id="get-styles-row" class="flex wrap center-items">
-        <button id="get-styles-button" i18n="linkGetStyles"></button>
-        <button id="import" i18n="importLabel"></button>
-        <span class="split-btn">
-          <button id="export" i18n="exportLabel"></button
-          ><button class="split-btn-pedal" i18n="menu-compat:exportCompatible"></button>
-        </span>
-      </div>
+    <div id="links" hidden>
       <!-- links + backup hint live here (hidden); shown in a modal via the button -->
-      <div id="get-styles-content" hidden>
+      <div id="get-styles-content">
         <div class="links-list"><% _.forEach([
           ['userstyles.world/explore', /*i18n*/'linkGetShareStyles'],
           ['uso.kkx.one/browse/styles', /*i18n*/'linkGetStyles'],
@@ -302,10 +299,22 @@
   <h2 i18n="emptyStateTitle"></h2>
   <p i18n="emptyStateSubtitle"></p>
   <div class="flex wrap center-items">
-    <button id="empty-import" i18n="importLabel"></button>
-    <button id="empty-get-styles" i18n="linkGetStyles"></button>
-    <button id="empty-write-style" i18n="addStyleLabel"></button>
-    <button id="empty-sync" i18n="optionsCustomizeSync"></button>
+    <button id="empty-import">
+      <i class=i-import></i>
+      <span i18n="importLabel"></span>
+    </button>
+    <button id="empty-get-styles">
+      <i class=i-external></i>
+      <span i18n="linkGetStyles"></span>
+    </button>
+    <button id="empty-write-style">
+      <i class=i-plus></i>
+      <span i18n="addStyleLabel"></span>
+    </button>
+    <button id="empty-sync">
+      <i class=i-cloud></i>
+      <span i18n="optionsCustomizeSync"></span>
+    </button>
   </div>
 </div>
 

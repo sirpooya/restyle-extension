@@ -1,0 +1,26 @@
+diff --git a/dist/parserlib.js b/dist/parserlib.js
+index a3648de75ff05d98b198020f237a624675dbf27c..d197c52b03b3e5ed09d456297b685300ee12412d 100644
+--- a/dist/parserlib.js
++++ b/dist/parserlib.js
+@@ -800,7 +800,7 @@ const Properties = {
+   'cy': '<x>',
+ 
+   'd': 1,
+-  'direction': 'ltr | rtl',
++  'direction': 'ltr | rtl | bidi',
+   'display': '[ <display-outside> || <display-inside> ] | ' +
+     '<display-listitem> | <display-internal> | <display-box> | <display-legacy> | ' +
+     '-webkit-box | -webkit-inline-box | -ms-flexbox', // deprecated and nonstandard
+diff --git a/src/lib/properties.js b/src/lib/properties.js
+index f4257cd3b0afe8676ad2e1358b903ea6916c3af9..73d87eff79a2ab4f5b9bbae8b337e752e256af9e 100644
+--- a/src/lib/properties.js
++++ b/src/lib/properties.js
+@@ -261,7 +261,7 @@ const Properties = {
+   'cy': '<x>',
+ 
+   'd': 1,
+-  'direction': 'ltr | rtl',
++  'direction': 'ltr | rtl | bidi',
+   'display': '[ <display-outside> || <display-inside> ] | ' +
+     '<display-listitem> | <display-internal> | <display-box> | <display-legacy> | ' +
+     '-webkit-box | -webkit-inline-box | -ms-flexbox', // deprecated and nonstandard

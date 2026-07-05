@@ -20,6 +20,9 @@ overrides:
   ttf2woff2>node-gyp: ^12.3.0
   uuid@<11.1.1: ^11.1.1
 
+patchedDependencies:
+  csslint-mod@1.0.13: b885b746266b273e8c4e3afbf4e59e02263651f4c72209582a89691534e3c412
+
 importers:
 
   .:
@@ -32,7 +35,7 @@ importers:
         version: 5.65.20
       csslint-mod:
         specifier: github:openstyles/csslint-mod#semver:v1.0.13
-        version: https://codeload.github.com/openstyles/csslint-mod/tar.gz/d130b1c4fbb99fd8c338511900c626922ba5c3a7
+        version: https://codeload.github.com/openstyles/csslint-mod/tar.gz/d130b1c4fbb99fd8c338511900c626922ba5c3a7(patch_hash=b885b746266b273e8c4e3afbf4e59e02263651f4c72209582a89691534e3c412)
       db-to-cloud:
         specifier: ^0.8.1
         version: 0.8.1
@@ -5782,7 +5785,7 @@ snapshots:
 
   cssesc@3.0.0: {}
 
-  csslint-mod@https://codeload.github.com/openstyles/csslint-mod/tar.gz/d130b1c4fbb99fd8c338511900c626922ba5c3a7: {}
+  csslint-mod@https://codeload.github.com/openstyles/csslint-mod/tar.gz/d130b1c4fbb99fd8c338511900c626922ba5c3a7(patch_hash=b885b746266b273e8c4e3afbf4e59e02263651f4c72209582a89691534e3c412): {}
 
   cssnano-preset-default@7.0.17(postcss@8.5.16):
     dependencies:

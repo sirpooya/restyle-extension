@@ -25,3 +25,6 @@ overrides:
   "@babel/plugin-transform-modules-systemjs@>=7.12.0 <=7.29.3": ">=7.29.4"
   "ttf2woff2>node-gyp": "^12.3.0"
   uuid@<11.1.1: ^11.1.1
+
+patchedDependencies:
+  csslint-mod@1.0.13: patches/csslint-mod@1.0.13.patch

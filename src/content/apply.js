@@ -2,6 +2,7 @@
 import {k_deepCopy, kApplyPort} from '@/js/consts';
 import {onMessage} from '@/js/msg';
 import {API, isFrame, isTab, TDM, updateTDM} from '@/js/msg-api';
+import {updateAutoDir} from './auto-dir';
 import * as styleInjector from './style-injector';
 import {FF, isXml, own, ownId, runtime} from './style-injector';
 
@@ -61,6 +62,7 @@ if (TDM < 0) {
   document.onprerenderingchange = onReified;
 }
 styleInjector.onInjectorUpdate = () => {
+  updateAutoDir(!own.cfg.off && styleInjector.list);
   updateCount();
   if (isFrame) updateExposeIframes();
   if (isFrame || own.cfg.wake) updatePort();
@@ -215,6 +217,7 @@ function updateDisableAll() {
     if (!offscreen) init();
   } else {
     styleInjector.toggle(!own.cfg.off);
+    updateAutoDir(!own.cfg.off && styleInjector.list);
   }
 }
 
@@ -325,6 +328,7 @@ function selfDestruct() {
   if (__.MV3) removeEventListener('mousedown', wakeUpSW, true);
   navHubParent?.removeEventListener(NAV_ID, onUrlChanged, true);
   offscreen = null;
+  updateAutoDir();
   styleInjector.shutdown();
   onMessage.delete(applyOnMessage);
   port?.disconnect();

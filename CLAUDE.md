@@ -68,6 +68,29 @@ Locale files (`messages.json`) live in `src/_locales/` and are synced with Trans
 
 Logic often needs to work across Manifest V2 and V3 simultaneously (different background execution models: persistent background page vs. service worker vs. offscreen document). When touching `background/`, check whether a change needs to account for both `manifest-mv2*.json` and `manifest-mv3.json` targets, and whether offscreen-document delegation (`offscreen/`) is involved for APIs unavailable in MV3 service workers.
 
+## Custom feature: `direction: bidi` (auto RTL/LTR detection)
+
+This fork adds a non-standard CSS value, `direction: bidi`, usable in any style section:
+
+```css
+.chat .message-bubble { direction: bidi; }
+```
+
+The browser ignores the invalid declaration; instead the content script detects it and sets
+`dir="rtl"` or `dir="ltr"` on each matching element based on its first strong directional
+character (Arabic/Persian/Hebrew/etc. → RTL). Works on dynamically added elements
+(e.g. incoming chat messages) via a MutationObserver. Scoped per style/section since the
+directive lives in the style's own CSS text.
+
+Implementation:
+- `src/content/auto-dir.js` — parses applied section CSS for `direction: bidi` selectors,
+  runs the MutationObserver, applies/removes `dir` per element. Wired from
+  `src/content/apply.js` on style apply/update/removal.
+- Linter acceptance: `bidi` was added to the `direction` property's allowed values in the
+  `csslint-mod` dependency via a pnpm patch (`patches/csslint-mod*.patch`,
+  `pnpm.patchedDependencies` in `package.json`) so the editor doesn't flag it.
+  Note: the Stylelint linter option (if selected in editor settings) may still flag it.
+
 ## Code discovery
 
 This repo is indexed with `codebase-memory-mcp`. Prefer `search_graph`, `trace_path`, `get_code_snippet`, and `search_code` over ad hoc grepping for structural questions (call chains, dependents, architecture). Use plain Grep/Glob for text/config/non-code lookups.
