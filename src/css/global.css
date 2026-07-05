@@ -448,7 +448,7 @@ html:not(.all-disabled) {
   pointer-events: auto;
   z-index: 10000000;
   &:active {
-    border-color: var(--c50);
+    border-color: var(--c65);
   }
   &::before {
     $HRExtra: 5px;

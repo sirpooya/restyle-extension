@@ -169,6 +169,12 @@ function splitMenu(event) {
     pedal.on('mousedown', e => e.preventDefault());
     wrapper.classList.toggle('active');
     pedal.after(menu);
+    // decide up/down synchronously (before paint) so no scrollbar flashes
+    // while the menu briefly sits at its default (downward) position
+    if (menu.getBoundingClientRect().bottom > innerHeight) {
+      menu.style.top = 'auto';
+      menu.style.bottom = '100%';
+    }
     moveFocus(menu, 0);
     setHocus(menu.firstChild, isHocused(pedal));
     xo.observe(menu);
@@ -204,12 +210,6 @@ function splitMenuIntersect(entries, observer) {
     width = Math.min(width, ir.width - (x != null ? x : (x = ir.x, 0)));
   x = width - entries[0].boundingClientRect.width;
   if (x < 0) menu.style.transform = `translateX(calc(${x}px - var(--menu-pad)))`;
-  // flip the menu to open upward if it overflows below the visible area
-  const rect = entries[0].boundingClientRect;
-  if (rect.bottom > entries[0].intersectionRect.bottom) {
-    menu.style.top = 'auto';
-    menu.style.bottom = '100%';
-  }
   menu.style.opacity = '';
 }
 

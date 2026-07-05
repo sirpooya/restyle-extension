@@ -717,15 +717,11 @@ button i {
   box-shadow: var(--shadow-lg);
   overflow: hidden;
 }
-#sort-filter {
-  margin: 6px;
-  padding: 4px 8px;
-}
 #sort-options {
   display: flex;
   flex-direction: column;
   gap: 1px;
-  padding: 0 6px 6px;
+  padding: 6px;
   max-height: 18em;
   overflow-y: auto;
   .sort-group-label {
@@ -756,9 +752,6 @@ button i {
         position: absolute;
         left: 8px;
       }
-    }
-    &.hidden-by-filter {
-      display: none;
     }
   }
 }

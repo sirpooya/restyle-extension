@@ -26,13 +26,15 @@ body {
   flex-direction: column;
   max-height: var(--100dvh);
   box-sizing: border-box;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
   .tab & {
     @media (min-height: $docMin1W) {
       max-height: calc(var(--100dvh) - $outerPad * 2);
     }
     margin: auto;
     border: 1px solid var(--c60);
-    box-shadow: 0 5px 15px 3px hsla(0, 0%, 0%, .35);
   }
 }
 

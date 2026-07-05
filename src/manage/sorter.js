@@ -88,7 +88,7 @@ function addOptions() {
   const option = $tag('option');
   const optgroup = $tag('optgroup');
   const meta = {
-    desc: ` 🠇`,
+    desc: ` ▼`,
     enabled: t('genericEnabledLabel'),
     disabled: t('genericDisabledLabel'),
     dateNew: ` (${t('sortDateNewestFirst')})`,
@@ -132,7 +132,6 @@ function initCustomDropdown() {
   if (!menu) return;
   const select = $id(ID);
   const button = $id('sort-button');
-  const filterInput = $id('sort-filter');
   const list = $id('sort-options');
   const groupTpl = $tag('div');
   groupTpl.className = 'sort-group-label';
@@ -175,42 +174,9 @@ function initCustomDropdown() {
     menu.open = false;
   }
 
-  function filterOptions() {
-    const q = filterInput.value.trim().toLowerCase();
-    let lastGroup = null;
-    for (const el of list.children) {
-      if (el.classList.contains('sort-group-label')) {
-        lastGroup = el;
-        el.classList.add('hidden-by-filter');
-      } else {
-        const shown = !q || el.textContent.toLowerCase().includes(q);
-        el.classList.toggle('hidden-by-filter', !shown);
-        if (shown && lastGroup) {
-          lastGroup.classList.remove('hidden-by-filter');
-          lastGroup = null;
-        }
-      }
-    }
-  }
-
   list.on('click', e => {
     const el = e.target.closest('.sort-option');
     if (el) selectOption(el);
-  });
-  filterInput.on('input', filterOptions);
-  filterInput.on('keydown', e => {
-    if (e.key !== 'Enter') return;
-    e.preventDefault();
-    const first = [...list.children].find(el =>
-      el.classList.contains('sort-option') && !el.classList.contains('hidden-by-filter'));
-    if (first) selectOption(first);
-  });
-  menu.on('toggle', () => {
-    if (menu.open) {
-      filterInput.value = '';
-      filterOptions();
-      filterInput.focus();
-    }
   });
   prefs.subscribe(ID, render, true);
 }
