@@ -1,8 +1,8 @@
-Stylus is a browser extension to restyle the websites via CSS themes, compatible with Chrome, Firefox, and any Chromium-based browsers.
+Restyle is a browser extension to restyle the websites via CSS themes, compatible with Chrome, Firefox, and any Chromium-based browsers.
 
 ## Highlights
 
-* No analytics/tracking - this is our foundational principle as Stylus was created solely because the original Stylish extension was sold to a Web analytics company.
+* No analytics/tracking - this is our foundational principle as Restyle was created solely because the original Stylish extension was sold to a Web analytics company.
 * Lots of themes in external galleries like [USW](https://userstyles.world/explore), [USO archive](https://uso.kkx.one/browse/categories), [greasyfork](https://greasyfork.org/en/scripts/by-site/*?language=css):
   * click the `Find` button in the popup UI,
   * click the screenshot to apply the style to the website,
@@ -14,7 +14,7 @@ Stylus is a browser extension to restyle the websites via CSS themes, compatible
 * Lightweight content script (~10kB) in the web pages runs in about a millisecond.
 * Lots of options to configure UI and behavior.
 * Built-in editor for your own CSS themes (CSS/LESS/Stylus) that highlights problems using up-to-date linters ([Stylelint](https://stylelint.io/) and [CSSLint-mod](https://github.com/openstyles/csslint-mod)) with customizable rules.
-* Support for external IDE or advanced editor via the [live reload feature](https://github.com/openstyles/stylus/wiki/Writing-UserCSS#live-reload-on-the-fly-previewingwhen-developing-styles-locally-in-another-editoride) e.g. you can write SASS/SCSS by setting up a build step to produce standard CSS in a separate file that will be tracked by Stylus.
+* Support for external IDE or advanced editor via the [live reload feature](https://github.com/openstyles/stylus/wiki/Writing-UserCSS#live-reload-on-the-fly-previewingwhen-developing-styles-locally-in-another-editoride) e.g. you can write SASS/SCSS by setting up a build step to produce standard CSS in a separate file that will be tracked by Restyle.
 
 <details><summary>
 
@@ -76,6 +76,6 @@ Stylus is a browser extension to restyle the websites via CSS themes, compatible
 
 ## License: [GPLv3](./LICENSE)
 
-* Copyright &copy; 2017-2025 [Stylus Team](https://github.com/openstyles/stylus/graphs/contributors)
+* Copyright &copy; 2017-2025 [Restyle Team](https://github.com/openstyles/stylus/graphs/contributors)
 * Copyright &copy; 2005-2014 [Jason Barnabe](jason.barnabe@gmail.com) for the ever diminishing parts of the original [Stylish](https://github.com/stylish-userstyles/stylish/).
 * Licenses of modified external libraries: [vendor-overwrites](./src/vendor-overwrites).

@@ -1,10 +1,10 @@
 {
-  "name": "Stylus",
+  "name": "Restyle",
   "version": "2.4.3",
-  "description": "Redesign the web with Stylus, a user styles manager",
+  "description": "Redesign the web with Restyle, a user styles manager",
   "license": "GPL-3.0-only",
   "repository": "openstyles/stylus",
-  "author": "Stylus Team",
+  "author": "Restyle Team",
   "dependencies": {
     "@eight04/draggable-list": "^0.3.0",
     "codemirror": "5.65.20",
