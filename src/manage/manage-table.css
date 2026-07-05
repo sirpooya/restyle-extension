@@ -46,9 +46,14 @@ $iconGapY: .25rem;
     color: var(--c45);
     line-height: 1.5;
   }
-  /* smaller external-link (homepage) icon next to the title */
+  /* smaller external-link (homepage) icon, nudged up to sit on the title baseline */
+  .homepage.icon {
+    align-self: center;
+  }
   .homepage.icon i {
     font-size: 11px;
+    position: relative;
+    top: -3px;
   }
   .style-info {
     &:is([data-type=size], [data-type=age]) {

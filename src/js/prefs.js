@@ -85,7 +85,7 @@ const defaults = {
   [pFaviconsGray]: false,         // gray out favicons
   [pManageNewUiTargets]: 3,       // max number of applies-to targets visible: 0 = none
   'manage.newUI.sort': 'title,asc',
-  'manage.searchMode': 'meta',
+  'manage.searchMode': 'all',
 
   'editor.options': {},           // CodeMirror.defaults.*
   'editor.toc.expanded': true,    // UI element state: expanded/collapsed

@@ -40,7 +40,7 @@ function initFilters() {
   elSearchMode.oninput = () => router.updateSearch(fltMode, elSearchMode.value);
 
   for (const el of [$('#search-wrapper a'), $('#sort-wrapper a')])
-    el.dataset.title = el.title.replace(/.+\n?/g, '<p>$&</p>');
+    if (el) el.dataset.title = el.title.replace(/.+\n?/g, '<p>$&</p>');
 
   $$('select[id$=".invert"]').forEach(el => {
     const slave = $id(el.id.replace('.invert', ''));

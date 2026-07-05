@@ -289,6 +289,13 @@ h1 {
     font-weight: normal;
     transition: color .25s .1s;
   }
+  /* dim the whole row content (favicon, name, URLs) when the style is off */
+  .entry-favicon {
+    opacity: .4;
+  }
+  .applies-to .target {
+    opacity: .7;
+  }
   &.usercss .style-name-link::after {
     background-color: hsla(180, 35%, 50%, .2);
   }

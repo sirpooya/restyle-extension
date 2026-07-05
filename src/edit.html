@@ -29,6 +29,9 @@
   <template data-id="body"><!-- https://crbug.com/1288447 -->
     <div id="header" class="dvh100">
       <section id="basic-info">
+        <a id="cancel-button" i18n="title:styleCancelEditLabel" tabindex="0" class="icon">
+          <i class=i-back></i>
+        </a>
         <h1 class="ellipsis hide-if-compact"></h1>
         <a id="url" target="_blank" class="icon" i18n="title:externalHomepage">
           <i class=i-external></i>
@@ -59,9 +62,6 @@
         </div>
         <button id="beautify" i18n="styleBeautify" class="hide-if-sticky"></button>
         <button id="testRE" i18n="+genericTest, title:appliesRegexpOption" hidden></button>
-        <a id="cancel-button" i18n="title:styleCancelEditLabel" tabindex="0">
-          <i class=i-undo></i>
-        </a>
         <a tabindex="0" id="from-mozilla" i18n="title:importLabel" class="sectioned-only hide-if-sticky">
           <i class="i-import"></i>
         </a>

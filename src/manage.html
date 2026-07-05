@@ -184,27 +184,22 @@
           <input id="search" type="search" i18n="placeholder:search" spellcheck="false"
                  data-filter=":not(.not-matching)"
                  data-filter-hide=".not-matching">
-          <div class="select-wrapper">
-            <select id="manage.searchMode" class="fit-width">
-              <option i18n="searchStylesName" value="name"></option>
-              <option i18n="searchStylesMeta" value="meta" selected></option>
-              <option i18n="searchStylesCode" value="code"></option>
-              <option i18n="searchStylesMatchUrl" value="url"></option>
-              <option i18n="searchStylesAll" value="all"></option>
-            </select>
-          </div>
-          <a tabindex="0" class="icon" data-cmd="note" i18n="title:searchStylesHelp">
-            <i class=i-info></i>
-          </a>
+          <!-- search mode is fixed to "all"; the select is kept (hidden) so the
+               existing filter JS that reads its value keeps working -->
+          <select id="manage.searchMode" hidden>
+            <option i18n="searchStylesName" value="name"></option>
+            <option i18n="searchStylesMeta" value="meta"></option>
+            <option i18n="searchStylesCode" value="code"></option>
+            <option i18n="searchStylesMatchUrl" value="url"></option>
+            <option i18n="searchStylesAll" value="all" selected></option>
+          </select>
         </div>
 
       <div id="sort-wrapper">
+        <span class="field-label" i18n="sortLabel"></span>
         <div class="select-wrapper" i18n="title:sortLabel">
           <select id="manage.newUI.sort"></select>
         </div>
-        <a tabindex="0" class="icon" data-cmd="note" i18n="title:sortStylesHelp">
-          <i class=i-info></i>
-        </a>
       </div>
     </div>
 
