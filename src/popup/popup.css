@@ -711,6 +711,18 @@ a:hover i {
       background-color: var(--c95);
     }
   }
+  .split-btn {
+    display: flex;
+    align-items: center;
+    > a:first-child {
+      padding-right: $pad05;
+      border-radius: 50% 0 0 50%;
+    }
+    .dropdown {
+      padding-left: $pad05;
+      border-radius: 0 50% 50% 0;
+    }
+  }
 }
 .i-manage {
   font-size: 18px;

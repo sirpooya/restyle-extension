@@ -1,4 +1,4 @@
-import {pSideManager, UCD} from '@/js/consts';
+import {UCD} from '@/js/consts';
 import {isTouch} from '@/js/dom';
 import {configDialog} from '@/js/dom-util';
 import {template} from '@/js/localization';
@@ -49,7 +49,6 @@ export const pSideFinder = 'popup.sidePanel.finder';
 const pSideEditor = 'popup.sidePanel.editor';
 const sideTitleMap = {
   [pSideEditor]: selEdit + ', #write-wrapper a',
-  [pSideManager]: selManager,
   ...!isSidebar && {
     [pSideConfig]: selConfig,
     [pSideFinder]: selFinder,
@@ -180,20 +179,18 @@ export async function openEditor(event, entry, button) {
 
 /**
  * @param {MouseEvent|KeyboardEvent} event
- * @param {StyleEntryElement} [entry]
- * @param {number} [button]
  */
-function openManager(event, entry, button) {
+function openManager(event) {
   event?.preventDefault();
   return openDashboard(
     event.shiftKey || (/**@type{CustomEvent}*/event).detail === 'site'
       ? {search: tabUrl, searchMode: 'url'}
       : {},
-    button === 2, close, {windowId});
+    true, close, {windowId});
 }
 
 export function openOptions() {
-  return openDashboard({}, true, close, {windowId});
+  return openDashboard(null, true, close, {windowId});
 }
 
 /**

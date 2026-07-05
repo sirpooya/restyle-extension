@@ -1,62 +1,47 @@
 .slider {
-  --width: 24px;
-  --knob: 12px;
-  --pad: 0px;
-  --color-off: hsla(0, 0%, 50%, .35);
-  --color-on: hsla(180, 50%, 40%, .33);
-  --shadow-hsl: 180, 50%, 10%;
+  /* iOS-style switch */
+  --width: 38px;
+  --height: 22px;
+  --pad: 2px;
+  --knob: calc(var(--height) - 2 * var(--pad));
+  --color-off: hsl(0, 0%, 80%);
+  --color-on: hsl(142, 71%, 45%);
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   border: none;
   flex: 0 0 var(--width); /* ensuring min/max width */
   width: var(--width);
-  height: calc(var(--knob) - 2 * var(--pad));
-  border-radius: var(--knob);
-  color: var(--bg);
+  height: var(--height);
+  border-radius: var(--height);
   background: var(--color-off);
-  transition: box-shadow .2s;
+  transition: background-color .2s ease;
   display: inline-flex;
   align-items: center;
-  &, &:focus {
-    box-shadow: inset 1px 1px 2px hsla(var(--shadow-hsl), .5);
-  }
+  padding: var(--pad);
+  cursor: pointer;
+  box-sizing: border-box;
   &::after {
     content: "";
     width: var(--knob);
     height: var(--knob);
     border-radius: 100%;
-    box-shadow: 2px 2px 4px 1px hsla(var(--shadow-hsl), .4);
-    margin: 0 calc(-1 * var(--pad));
-    background-color: currentColor;
-    border: 1px solid var(--color-off);
-    box-sizing: border-box;
+    background-color: #fff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+    transition: transform .2s ease;
+    transform: translateX(0);
   }
   &:checked {
     background-color: var(--color-on);
-    justify-content: flex-end;
-    color: var(--accent-2);
     &::after {
-      border-color: hsla(var(--shadow-hsl), .25);
+      transform: translateX(calc(var(--width) - var(--knob) - 2 * var(--pad)));
     }
   }
-  &:hover {
-    box-shadow: inset 1px 1px 2px hsla(var(--shadow-hsl), .8);
-  }
-  &:focus {
-    position: relative;
-    &:not([data-focused-via-click])::before {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: calc(-2 * var(--pad));
-      padding: calc(var(--pad) + 2px) calc(var(--pad) * 2);
-      box-shadow: var(--focus-shadow);
-    }
+  &:focus:not([data-focused-via-click]) {
+    box-shadow: var(--focus-shadow);
   }
   :root[data-ui-theme="dark"] & {
-    --color-off: hsla(0, 0%, 50%, 0.6);
-    --color-on: hsla(180, 50%, 60%, .3);
+    --color-off: hsl(0, 0%, 38%);
+    --color-on: hsl(142, 65%, 42%);
   }
 }
