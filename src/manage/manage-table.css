@@ -12,10 +12,10 @@ $iconGapY: .25rem;
     margin-top: .25rem;
   }
   .entry {
-    --target-height: 19px;
+    --target-height: 17px;
     --name-size: 14px;
     --padY: .5rem;
-    padding: calc(var(--padY) * 2.4) 1.75em;
+    padding: 14px 24px; /* breathing space, top/bottom and left/right */
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
@@ -38,7 +38,13 @@ $iconGapY: .25rem;
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 1px; /* tight gap between the name and its target URLs */
+  }
+  /* target URLs: smaller and lighter than the title */
+  .applies-to .target {
+    font-size: 11.5px;
+    color: var(--c45);
+    line-height: 1.5;
   }
   /* smaller external-link (homepage) icon next to the title */
   .homepage.icon i {
@@ -111,7 +117,10 @@ $iconGapY: .25rem;
     flex: 0 0 auto;
     display: flex;
     align-items: center;
-    gap: 6px; /* breathing room between update/refresh and delete */
+    /* delete is first in the DOM but must sit rightmost; appended update/refresh
+       icons then fall to its left */
+    flex-direction: row-reverse;
+    gap: 8px; /* breathing room between update/refresh and delete */
     z-index: 100;
     .delete i {
       font-size: 16px;
@@ -300,8 +309,10 @@ $iconGapY: .25rem;
       margin: $iconGapX $pad -$iconGapX;
       display: block;
     }
+    /* keep breathing room on narrow/compact screens (was 0 for the old cell
+       layout); the new flex row needs its own padding */
     .entry {
-      padding: 0;
+      padding: 12px 16px;
     }
   }
 }

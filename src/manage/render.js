@@ -212,19 +212,42 @@ export function createTargetsElement({entry, expanded, style = entry.styleMeta})
   entry._numTargets = numTargets;
   if (UI.tableView) entry.style.setProperty('--num-targets', Math.min(numTargets, UI.targets));
   // Single favicon shown before the title (derived from the first target).
-  // If the site has no real favicon (load error / known-bad), show nothing
-  // rather than a generic placeholder.
+  // The favicon service returns a 404 (with a generic grey body that still
+  // decodes as an image) for sites without a real favicon, so an <img> onerror
+  // won't fire — we verify via fetch and fall back to a neutral globe icon.
   const fav = entry.$('.entry-favicon');
   if (fav) {
     const src = firstTarget && faviconForTarget(firstTarget.type, firstTarget.val);
-    if (src) {
-      fav.classList.remove('hidden');
-      fav.onerror = () => fav.classList.add('hidden');
-      fav.src = src;
-    } else {
-      fav.classList.add('hidden');
-    }
+    fav.classList.remove('hidden');
+    if (src) setEntryFavicon(fav, src);
+    else fav.src = GLOBE_ICON;
   }
+}
+
+/* Neutral globe placeholder (like the browser's default favicon) shown when a
+   site has no favicon of its own. Inline SVG data URI, currentColor-agnostic gray. */
+const GLOBE_ICON = 'data:image/svg+xml,' + encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" ' +
+  'stroke="#8a90a2" stroke-width="1.2">' +
+  '<circle cx="8" cy="8" r="6.2"/>' +
+  '<path d="M1.8 8h12.4M8 1.8v12.4M3 4.4c1.4 1 8.6 1 10 0M3 11.6c1.4-1 8.6-1 10 0"/>' +
+  '<ellipse cx="8" cy="8" rx="3" ry="6.2"/></svg>');
+
+const faviconOkCache = new Map(); // url -> boolean|Promise<boolean>
+async function setEntryFavicon(fav, src) {
+  let ok = faviconOkCache.get(src);
+  if (ok === undefined) {
+    ok = fetch(src, {method: 'GET', cache: 'force-cache'})
+      .then(r => r.ok)
+      .catch(() => false);
+    faviconOkCache.set(src, ok);
+    ok = await ok;
+    faviconOkCache.set(src, ok);
+  } else if (ok.then) {
+    ok = await ok;
+  }
+  if (!fav.isConnected) return;
+  fav.src = ok ? src : GLOBE_ICON; // real favicon, or neutral globe placeholder
 }
 
 function highlightEditedStyle() {
