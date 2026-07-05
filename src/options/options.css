@@ -39,11 +39,8 @@ body {
 main {
   background: var(--bg);
   overflow-y: auto;
-  @media (min-width: $docMin2W) {
-    columns: 2;
-    column-gap: 0;
-    column-rule: $blockBorder;
-  }
+  width: $colW;
+  max-width: 100%;
 }
 
 .clickable {
@@ -311,6 +308,11 @@ a.icon {
 }
 .sync-options:not([data-enabled]) .actions {
   display: none;
+}
+.sync-options .actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5em;
 }
 .sync-options .actions button {
   margin-top: .5em;

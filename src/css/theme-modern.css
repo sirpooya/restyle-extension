@@ -140,8 +140,10 @@ button:disabled {
   opacity: .6;
 }
 
-/* Primary-action buttons (save, install, import) get the accent treatment */
-#import,
+/* Primary-action buttons (save, install, import) get the accent treatment.
+   Note: button#import — not #import — so the import *report* container
+   (a <div id="import"> in the message box) doesn't get an accent fill. */
+button#import,
 #save-button,
 button.save,
 button[name="install"],
@@ -150,7 +152,7 @@ button[name="install"],
   border-color: var(--accent-1);
   color: var(--accent-contrast);
 }
-#import:not(:disabled):hover,
+button#import:not(:disabled):hover,
 #save-button:not(:disabled):hover,
 button.save:not(:disabled):hover,
 button[name="install"]:not(:disabled):hover,
@@ -187,16 +189,16 @@ input[type=search]:hover,
 input[type=url]:hover {
   border-color: var(--c50);
 }
-/* Number inputs: tighter padding so the value and the native
-   up/down spinner aren't cramped, and give the spinner room. */
+/* Number inputs: value padded on the left only; the native spinner
+   sits flush against the right border (no gap after it). */
 input[type=number] {
-  padding: 0 6px !important;
+  padding: 0 0 0 8px !important;
   text-align: left;
 }
 input[type=number]::-webkit-inner-spin-button {
   height: var(--input-height);
-  margin-left: 4px;
-  opacity: .6;
+  margin: 0;
+  opacity: .55;
 }
 input[type=number]:hover::-webkit-inner-spin-button,
 input[type=number]:focus::-webkit-inner-spin-button {
@@ -209,6 +211,13 @@ select {
 }
 .select-wrapper > select {
   border-radius: var(--radius-sm);
+  padding-right: 22px;
+}
+/* Vertically center the custom dropdown chevron regardless of select height */
+.select-wrapper::after {
+  top: 50% !important;
+  transform: translateY(-50%);
+  right: 7px !important;
 }
 
 /* Checkboxes: crisp, accent-filled when checked */
@@ -234,11 +243,49 @@ input[type="checkbox"]:not(.slider):hover {
   background-color: transparent;
 }
 
-input[type="radio"]:checked::after {
-  background-color: var(--accent-1);
+/* Radios: crisp accent ring + filled dot, matching the checkboxes */
+input[type="radio"] {
+  height: 16px;
+  width: 16px;
+  border: 1.5px solid var(--c50);
+  background: transparent;
+  margin: 0 6px 0 0;
+  transition: border-color .12s;
+  &::after {
+    height: 8px;
+    width: 8px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0);
+  }
+  &:hover {
+    border-color: var(--accent-1);
+  }
+  &:checked {
+    border-color: var(--accent-1);
+    &::after {
+      background-color: var(--accent-1);
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
 }
 input[type="range"] {
   accent-color: var(--accent-1);
+}
+
+/* Date/time inputs: match the text-input treatment */
+input[type=time],
+input[type=date] {
+  border: 1px solid var(--c65);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg);
+  color: var(--fg);
+  padding: 0 6px;
+  height: var(--input-height);
+  box-shadow: var(--shadow-sm);
+  &:hover {
+    border-color: var(--c50);
+  }
 }
 
 code {
@@ -257,6 +304,26 @@ code {
 /* Popup: soften the frame */
 #stylus-popup {
   background: var(--bg);
+}
+
+/* ---- Options dialog (standalone tab & embedded modal) ---- */
+/* Modal card: rounded corners + a soft, layered shadow */
+body.tab {
+  border: 1px solid var(--c80) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: 0 10px 30px -8px hsl(230 30% 15% / .28),
+              0 4px 10px -4px hsl(230 30% 15% / .18) !important;
+  overflow: hidden;
+}
+/* Title bar: drop the loud accent tint for a calm neutral header */
+body > header {
+  background-color: var(--c95);
+  border-bottom: 1px solid var(--c85);
+}
+/* Action bar (footer): a lighter neutral than the old --c90 */
+body > footer {
+  background-color: var(--c95);
+  border-top: 1px solid var(--c85);
 }
 
 /* Message boxes / menus: modern floating cards */
