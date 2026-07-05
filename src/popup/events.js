@@ -1,4 +1,4 @@
-import {pSideManager, pSideOptions, UCD} from '@/js/consts';
+import {pSideManager, UCD} from '@/js/consts';
 import {isTouch} from '@/js/dom';
 import {configDialog} from '@/js/dom-util';
 import {template} from '@/js/localization';
@@ -50,7 +50,6 @@ const pSideEditor = 'popup.sidePanel.editor';
 const sideTitleMap = {
   [pSideEditor]: selEdit + ', #write-wrapper a',
   [pSideManager]: selManager,
-  [pSideOptions]: selOptions,
   ...!isSidebar && {
     [pSideConfig]: selConfig,
     [pSideFinder]: selFinder,
@@ -193,13 +192,8 @@ function openManager(event, entry, button) {
     button === 2, close, {windowId});
 }
 
-/**
- * @param {MouseEvent|KeyboardEvent} event
- * @param {StyleEntryElement} [entry]
- * @param {number} [button]
- */
-export function openOptions(event, entry, button) {
-  return openDashboard(null, button === 2, close, {windowId});
+export function openOptions() {
+  return openDashboard({}, true, close, {windowId});
 }
 
 /**

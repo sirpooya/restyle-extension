@@ -12,17 +12,20 @@ import {tabCache} from './tab-manager';
 const kStyleManager = 'styleManager';
 /** Keeping r-less old spelling to preserve user's browser pref for the hotkey */
 const kOpenManage = 'openManage';
+const kOpenOptions = 'openOptions';
 const kReload = 'reload';
 const kStyleDisableAll = 'styleDisableAll';
 const kToggleTab = 'toggleTab';
 
 const cmdOpenManager = (info, {windowId} = {}) => openDashboard({}, null, false, {windowId});
+const cmdOpenOptions = (info, {windowId} = {}) => openDashboard(null, null, false, {windowId});
 const cmdReload = () => chrome.runtime.reload();
 const cmdStyleDisableAll = info => prefs.ready.then(() => prefs.set(kDisableAll,
   info ? info.checked : !prefs.__values[kDisableAll]));
 
 const COMMANDS = {
   [kOpenManage]: cmdOpenManager,
+  [kOpenOptions]: cmdOpenOptions,
   [kReload]: cmdReload,
   [kStyleDisableAll]: cmdStyleDisableAll,
   [kToggleTab]: cmdToggleTab,
@@ -37,8 +40,11 @@ const MENUS = !!chromeMenus && {
 };
 if (MENUS) {
   for (const [menuId, cmdId = menuId] of [
+    [kToggleTab],
     [kDisableAll, kStyleDisableAll],
     [kStyleManager, kOpenManage],
+    [kOpenOptions],
+    [kReload],
   ]) {
     MENUS[menuId] = [
       COMMANDS[cmdId],
