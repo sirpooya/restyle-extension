@@ -49,15 +49,27 @@ main {
 }
 
 header {
-  font-weight: bold;
-  background-color: var(--accent-3);
-  padding: var(--pad);
+  /* app-bar style: white, low-height, smaller type/icon than a page <h1> */
+  font-weight: 600;
+  background-color: var(--bg);
+  padding: 10px var(--pad);
   display: flex;
   align-items: center;
-  border-bottom: 1px solid hsla(0, 0%, 50%, .2);
+  gap: var(--pad05);
+  border-bottom: 1px solid var(--c85);
+  img {
+    width: 20px;
+    height: 20px;
+  }
   & h1 {
     flex: 1 0;
-    margin: 0 var(--pad05);
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  & i {
+    font-size: 16px;
+    cursor: pointer;
   }
   & i:hover {
     color: var(--accent-1);

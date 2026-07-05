@@ -39,6 +39,12 @@ window.on('keydown', event => {
     tellTopToCloseOptions();
   }
 });
+if (top !== window) {
+  // clicking the backdrop area around the dialog (embedded iframe mode) closes it
+  document.body.on('click', e => {
+    if (e.target === document.body) tellTopToCloseOptions();
+  });
+}
 top.on('beforeunload', () => {
   document.activeElement?.blur(); // auto-save on closing
 });

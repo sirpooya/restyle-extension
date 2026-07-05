@@ -92,8 +92,7 @@ export class MessageBox {
       window.on('scroll', this, {passive: false});
       this.#blockScroll = {x: scrollX, y: scrollY};
     }
-    if (el.matches('.note'))
-      el.on('click', this);
+    el.on('click', this);
     boxes.delete(this);
     pauseAll();
     this.paused = false;

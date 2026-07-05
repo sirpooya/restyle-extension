@@ -32,6 +32,22 @@ $iconGapY: .25rem;
       flex: 0 0 auto;
     }
   }
+  /* Visual-only affordance for future drag-to-reorder; sits in the row's own
+     left padding so it doesn't shift the existing layout */
+  .drag-handle {
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    color: var(--c70);
+    cursor: grab;
+    opacity: 0;
+    transition: opacity .15s;
+  }
+  .entry:hover .drag-handle {
+    opacity: 1;
+  }
   /* Title + targets stacked vertically; grouped horizontally with the switch */
   .entry-text {
     flex: 1 1 auto;
@@ -125,7 +141,9 @@ $iconGapY: .25rem;
     flex: 0 0 48px;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    /* row-reverse's main-start is the right edge, so flex-start packs
+       icons flush right — delete always lands in the same spot */
+    justify-content: flex-start;
     /* delete is first in the DOM but must sit rightmost; appended update/refresh
        icons then fall to its left */
     flex-direction: row-reverse;
