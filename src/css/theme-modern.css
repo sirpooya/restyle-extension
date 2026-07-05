@@ -1,0 +1,266 @@
+/*
+ * theme-modern.css — a clean, minimal reskin layered on top of Stylus's
+ * existing design tokens. Loaded last (see themer.js) so it wins the cascade.
+ *
+ * Strategy: the whole UI (popup / manage / options) reads a handful of CSS
+ * custom properties (--bg, --fg, --accent-*, the --cNN gray ramp, --family,
+ * radii). We redefine those tokens and refine the base controls. No markup
+ * or layout changes — low risk, applies everywhere at once.
+ */
+
+:root {
+  /* ---- Typography: native system stack instead of Arial ---- */
+  --family: system-ui, -apple-system, "SF Pro Text", "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-size: 13px;
+  --font: normal var(--font-size)/1.45 var(--family);
+
+  /* ---- Sizing / shape ---- */
+  --input-height: 30px;
+  --radius: 8px;
+  --radius-sm: 6px;
+  --radius-lg: 12px;
+
+  /* ---- Accent: a calm indigo/blue, single hue ---- */
+  --accent-h: 232;
+  --accent-1: hsl(var(--accent-h) 83% 57%);   /* primary */
+  --accent-2: hsl(var(--accent-h) 80% 64%);
+  --accent-3: hsl(var(--accent-h) 70% 82%);
+  --accent-4: hsl(var(--accent-h) 68% 90%);
+  --accent-5: hsl(var(--accent-h) 66% 95%);
+  --accent-contrast: #fff;
+
+  /* ---- Neutral ramp tuned for a soft, warm-neutral light UI ---- */
+  --c00: hsl(230 15% 12%);
+  --c10: hsl(230 12% 20%);
+  --c20: hsl(230 10% 28%);
+  --c30: hsl(230 9% 38%);
+  --c35: hsl(230 8% 44%);
+  --c40: hsl(230 8% 50%);
+  --c45: hsl(230 8% 56%);
+  --c50: hsl(230 10% 62%);
+  --c60: hsl(230 12% 72%);
+  --c65: hsl(230 14% 80%);
+  --c70: hsl(230 16% 85%);
+  --c75: hsl(230 18% 88%);
+  --c80: hsl(230 20% 91%);
+  --c85: hsl(230 22% 93%);
+  --c90: hsl(230 24% 95%);
+  --c95: hsl(230 28% 97%);
+  --c97: hsl(230 30% 98%);
+  --c98: hsl(230 33% 98.5%);
+  --c99: hsl(230 40% 99%);
+  --c100: hsl(0 0% 100%);
+  --cmin: hsl(230 15% 12%);
+  --cmax: hsl(0 0% 100%);
+
+  --bg: var(--c100);
+  --fg: var(--c00);
+  --red1: hsl(352 78% 55%);
+  --zebra: hsl(230 30% 50% / 0.045);
+
+  --shadow-sm: 0 1px 2px hsl(230 30% 20% / 0.06), 0 1px 1px hsl(230 30% 20% / 0.04);
+  --shadow-md: 0 4px 14px hsl(230 30% 20% / 0.10), 0 1px 3px hsl(230 30% 20% / 0.06);
+  --shadow-lg: 0 12px 40px hsl(230 30% 15% / 0.18);
+
+  --focus-shadow: 0 0 0 3px hsl(var(--accent-h) 83% 57% / 0.30);
+}
+
+@media screen and (prefers-color-scheme: dark), dark {
+  :root {
+    --accent-1: hsl(var(--accent-h) 90% 70%);
+    --accent-2: hsl(var(--accent-h) 60% 55%);
+    --accent-3: hsl(var(--accent-h) 40% 34%);
+    --accent-4: hsl(var(--accent-h) 38% 26%);
+    --accent-5: hsl(var(--accent-h) 36% 20%);
+    --accent-contrast: hsl(230 30% 10%);
+
+    --c00: hsl(225 20% 92%);
+    --c10: hsl(225 16% 84%);
+    --c20: hsl(225 14% 76%);
+    --c30: hsl(225 12% 66%);
+    --c35: hsl(225 11% 60%);
+    --c40: hsl(225 10% 54%);
+    --c45: hsl(225 10% 48%);
+    --c50: hsl(225 10% 44%);
+    --c60: hsl(225 11% 38%);
+    --c65: hsl(225 12% 32%);
+    --c70: hsl(225 13% 28%);
+    --c75: hsl(225 14% 24%);
+    --c80: hsl(225 15% 21%);
+    --c85: hsl(225 16% 18%);
+    --c90: hsl(225 17% 16%);
+    --c95: hsl(225 18% 14%);
+    --c97: hsl(225 19% 13%);
+    --c98: hsl(225 20% 12.5%);
+    --c99: hsl(225 21% 12%);
+    --c100: hsl(225 22% 11%);
+    --cmin: hsl(0 0% 100%);
+    --cmax: hsl(225 22% 8%);
+
+    --bg: var(--c100);
+    --fg: var(--c00);
+    --red1: hsl(352 90% 68%);
+    --input-bg: var(--c90);
+    --zebra: hsl(225 40% 70% / 0.05);
+
+    --shadow-sm: 0 1px 2px hsl(0 0% 0% / 0.4);
+    --shadow-md: 0 6px 20px hsl(0 0% 0% / 0.45);
+    --shadow-lg: 0 16px 48px hsl(0 0% 0% / 0.6);
+  }
+}
+
+/* ============================ Controls ============================ */
+
+button {
+  border: 1px solid var(--c65);
+  border-radius: var(--radius-sm);
+  background: var(--c95);
+  background-image: none;
+  padding: 5px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.3;
+  box-shadow: var(--shadow-sm);
+  transition: background-color .12s, border-color .12s, box-shadow .12s, transform .05s;
+}
+button:not(:disabled):hover {
+  background-color: var(--c90);
+  border-color: var(--c50);
+}
+button:not(:disabled):active {
+  background-image: none;
+  background-color: var(--c85);
+  transform: translateY(0.5px);
+  box-shadow: none;
+}
+button:disabled {
+  border-color: var(--c80);
+  box-shadow: none;
+  opacity: .6;
+}
+
+/* Primary-action buttons (save, install, import) get the accent treatment */
+#import,
+#save-button,
+button.save,
+button[name="install"],
+.message-box-buttons button:first-child {
+  background: var(--accent-1);
+  border-color: var(--accent-1);
+  color: var(--accent-contrast);
+}
+#import:not(:disabled):hover,
+#save-button:not(:disabled):hover,
+button.save:not(:disabled):hover,
+button[name="install"]:not(:disabled):hover,
+.message-box-buttons button:first-child:not(:disabled):hover {
+  background: var(--accent-2);
+  border-color: var(--accent-2);
+}
+
+input:not([type]),
+input[type=text],
+input[type=number],
+input[type=search],
+input[type=url] {
+  border: 1px solid var(--c65);
+  border-radius: var(--radius-sm);
+  padding: 0 10px !important;
+  box-shadow: var(--shadow-sm);
+}
+input:not([type]):hover,
+input[type=text]:hover,
+input[type=search]:hover,
+input[type=url]:hover {
+  border-color: var(--c50);
+}
+
+select {
+  border-radius: var(--radius-sm);
+  padding: 0 8px;
+}
+.select-wrapper > select {
+  border-radius: var(--radius-sm);
+}
+
+/* Checkboxes: crisp, accent-filled when checked */
+input[type="checkbox"]:not(.slider) {
+  height: 16px;
+  width: 16px;
+  flex: 0 0 16px;
+  border-radius: 4px;
+  border: 1.5px solid var(--c50);
+  background-color: transparent;
+}
+input[type="checkbox"]:not(.slider):checked {
+  background-color: var(--accent-1);
+  border-color: var(--accent-1);
+}
+input[type="checkbox"]:not(.slider):checked::after {
+  content: '✓';
+  font: 700 11px/1 var(--family);
+  color: var(--accent-contrast);
+}
+input[type="checkbox"]:not(.slider):hover {
+  border-color: var(--accent-1);
+  background-color: transparent;
+}
+
+input[type="radio"]:checked::after {
+  background-color: var(--accent-1);
+}
+input[type="range"] {
+  accent-color: var(--accent-1);
+}
+
+code {
+  border-radius: var(--radius-sm);
+  border-color: var(--c80);
+}
+
+/* ============================ Surfaces ============================ */
+
+#header {
+  background-color: var(--c97);
+  border-right: 1px solid var(--c80);
+  box-shadow: none;
+}
+
+/* Popup: soften the frame */
+#stylus-popup {
+  background: var(--bg);
+}
+
+/* Message boxes / menus: modern floating cards */
+#message-box > div,
+.split-btn-menu {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--c75);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+.split-btn-menu {
+  border-radius: var(--radius);
+  padding: 4px;
+}
+.split-btn-menu > * {
+  border-radius: var(--radius-sm);
+  padding: 7px 12px;
+}
+.split-btn-menu > :hover {
+  background-color: var(--accent-5);
+  color: var(--fg);
+}
+@media screen and (prefers-color-scheme: dark), dark {
+  .split-btn-menu > :hover {
+    background-color: var(--accent-4);
+  }
+}
+
+/* Focus ring: soft accent halo everywhere */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-shadow);
+  border-radius: var(--radius-sm);
+}

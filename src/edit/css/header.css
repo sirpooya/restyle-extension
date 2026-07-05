@@ -1,0 +1,126 @@
+@import 'vars.css';
+
+#header {
+  width: var(--header-width);
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  padding-top: $pad;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+}
+h1 {
+  margin: 0;
+}
+/* basic info */
+#basic-info,
+#basic-info-name,
+#actions {
+  display: flex;
+  align-items: center;
+  gap: $pad05;
+}
+#basic-info-name {
+  flex: 1;
+}
+#name {
+  flex: 1;
+  padding-right: var(--input-height);
+}
+#url {
+  margin-left: $pad025;
+}
+#url:not([href^="http"]) {
+  display: none;
+}
+#editor\.livePreview\.delay {
+  field-sizing: content;
+  padding-left: $pad05;
+  margin: 0 .5ch 0 1ch;
+  max-width: 8ch;
+}
+/* collapsibles */
+#details-wrapper {
+  display: flex;
+  flex-flow: column;
+  flex-grow: 1;
+  margin-top: $pad05;
+  > details {
+    &[open] {
+      overflow-y: auto;
+    }
+    > summary {
+      align-items: center;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+  h2 {
+    display: inline-block;
+    border-bottom: 1px dotted transparent;
+    margin: 0 0 0 -13px;
+    padding-left: 13px; /* clicking directly on details-marker doesn't set pref so we cover it with h2 */
+    vertical-align: middle;
+  }
+  .settings .icon {
+    margin-top: -.1em;
+  }
+  details > :not(summary) {
+    margin: 0 $pad;
+    padding: $pad025 0;
+  }
+}
+#general {
+  > main > :not([hidden]) {
+    display: flex;
+    align-items: center;
+    min-height: var(--input-height);
+  }
+}
+#editor\.linter {
+  background: none;
+  margin-left: $pad05;
+}
+.dirty #save-button {
+  &, & + button {
+    background: linear-gradient(gold, orange);
+    border-color: darkgoldenrod;
+    color: #000;
+  }
+}
+
+#toc-title[data-num]::after {
+  content: "(" attr(data-num) ")";
+  margin-left: .5ex;
+}
+#toc {
+  counter-reset: codelabel;
+  &:empty::after {
+    content: attr(data-empty);
+  }
+  li {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    &.current {
+      font-weight: bold;
+    }
+    &[tabindex="-1"] {
+      opacity: .25;
+      pointer-events: none;
+    }
+    &:hover {
+      background-color: hsla(180, 50%, 36%, .2);
+    }
+    &[tabindex="0"]::before {
+      counter-increment: codelabel;
+      content: counter(codelabel) ": ";
+    }
+  }
+}
+
+.disabled {
+  opacity: .5;
+}

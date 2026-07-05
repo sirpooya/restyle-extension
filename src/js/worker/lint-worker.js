@@ -1,0 +1,223 @@
+import {kAtRuleNoUnknown, kCssPropSuffix, kDeclValue, kGradientDir} from '@/js/consts';
+import {metaLint} from './meta-parser';
+import {load, loadParserlib, loadStylusLang, parserlib, stylusLang} from './util';
+
+let CSSLint, stylelint;
+
+const loadCSSLint = () => (parserlib || loadParserlib()) && load('csslint.js', 'CSSLint');
+const loadStylelint = mode => (
+  stylusLang || mode === 'stylus' && loadStylusLang() || (
+    // TODO: fix stylint-bundle so it reads the `stylus` global on demand and not on startup
+    global.stylus = Object.create(new Proxy({}, {
+      get: (obj, key) => (obj[key] ||= (stylusLang || loadStylusLang())[key]),
+    }))
+  )
+) && load('stylelint.js', 'stylelint');
+
+const rxVarsLessDecl = /"@[-\w]+:"/;
+const rxVendorPrefix = /(?:^|[^-\w])-(?:moz|webkit|o|ms)-\w/;
+
+/** @namespace WorkerAPI */
+const LintWorkerAPI = {
+
+  csslint(code, config) {
+    CSSLint ||= loadCSSLint();
+    config.import = 1;
+    const results = CSSLint.verify(code, config).messages;
+    let len = 0;
+    let line, col;
+    for (const r of results) {
+      if ((line = r.line)) {
+        line--;
+        col = r.col;
+        results[len++] = {
+          message: r.message,
+          from: {line, ch: col - 1},
+          to: {line, ch: col},
+          rule: r.rule.id,
+          severity: r.type,
+        };
+      }
+    }
+    results.length = len;
+    return results;
+  },
+
+  getCssPropsValues() {
+    if (!parserlib) loadParserlib();
+    const {
+      css: {GlobalKeywords, NamedColors, Parser: {AT}, Properties},
+      util: {describeProp, VTFunctions},
+    } = parserlib;
+    const atKeys = [`@-moz-document`, '@starting-style'];
+    const keys = Object.keys(Properties).sort();
+    const COLOR = '<color>';
+    const rxColor = RegExp(`${COLOR}|${describeProp(COLOR).replace(/[()|]/g, '\\$&')}|~~~`, 'g');
+    const rxFunc = /([-\w]+\().*?\)/g;
+    const rxNonWord = /(?:<.+?>|[^-\w<(]+\d*)+/g;
+    const res = {};
+    // moving vendor-prefixed props to the end
+    const cmp = (a, b) => a[0] === '-' && b[0] !== '-' ? 1 : a < b ? -1 : a > b;
+    for (const k in AT) {
+      if (k !== 'document') atKeys.push('@' + k);
+    }
+    for (let i = 0, k, v; i < keys.length; i++) {
+      k = keys[i];
+      v = Properties[k];
+      if (typeof v === 'string') {
+        let last = '';
+        const uniq = [];
+        // strip definitions of function arguments
+        const vNoColor = v.replace(rxColor, '~~~');
+        const desc = describeProp(vNoColor);
+        const descNoColors = desc.replace(rxColor, '');
+        // add a prefix to functions to group them at the end
+        const words = descNoColors.replace(rxFunc, 'z-$1').split(rxNonWord).sort(cmp);
+        for (let w of words) {
+          if (w.startsWith('z-')) w = w.slice(2);
+          if (w !== last) uniq.push(last = w);
+        }
+        if (desc !== descNoColors || v !== vNoColor) uniq.push(COLOR);
+        v = uniq.join('\n');
+      } else if (v === -1) { // skipping deprecated props
+        k = '';
+      } else {
+        v = '';
+      }
+      if (k) res[k += kCssPropSuffix] = v;
+      keys[i] = k;
+    }
+    /** @namespace AutocompleteSpec */
+    return {
+      all: res,
+      ats: atKeys.sort(),
+      colors: NamedColors.join('\n') + '\n' + Object.keys(VTFunctions.color).join('(\n') + '(',
+      global: GlobalKeywords,
+      keys: keys.filter(Boolean),
+    };
+  },
+
+  getRules(linter) {
+    return ruleRetriever[linter]();
+  },
+
+  metalint(code) {
+    const result = metaLint(code);
+    // extract needed info
+    result.errors = result.errors.map(err => ({
+      code: err.code,
+      args: err.args,
+      message: err.message,
+      index: err.index,
+    }));
+    return result;
+  },
+
+  async stylelint(code, config, mode) {
+    stylelint ||= loadStylelint(mode);
+    for (const r in config.rules)
+      if (!stylelint.rules[r]) delete config.rules[r];
+    const {results: [res]} = await stylelint.lint({
+      code, config,
+      customSyntax: stylelint.syntax[mode],
+    });
+    const messages = res._postcssResult?.messages || res.warnings;
+    messages.push(...res.parseErrors);
+    collectStylelintResults(messages, code, mode);
+    return messages;
+  },
+};
+
+const ruleRetriever = {
+
+  csslint() {
+    CSSLint ||= loadCSSLint();
+    return CSSLint.getRuleList().map(rule => {
+      const output = {};
+      for (const [key, value] of Object.entries(rule)) {
+        if (typeof value !== 'function') {
+          output[key] = value;
+        }
+      }
+      return output;
+    });
+  },
+
+  stylelint() {
+    stylelint ||= loadStylelint();
+    const options = {};
+    const rxPossible = /\bpossible:("[^"]*?"|\[[^\]]*?]|\{[^}]*?})/g;
+    const rxString = /"([-\w\s]{3,}?)"/g;
+    for (const [id, rule] of Object.entries(stylelint.rules)) {
+      const ruleCode = `${rule()}`;
+      const sets = [];
+      let m, mStr;
+      while ((m = rxPossible.exec(ruleCode))) {
+        const possible = m[1];
+        const set = [];
+        while ((mStr = rxString.exec(possible))) {
+          const s = mStr[1];
+          if (s.includes(' ')) {
+            set.push(...s.split(/\s+/));
+          } else {
+            set.push(s);
+          }
+        }
+        if (possible.includes('ignoreAtRules')) {
+          set.push('ignoreAtRules');
+        }
+        if (possible.includes('ignoreShorthands')) {
+          set.push('ignoreShorthands');
+        }
+        if (set.length) {
+          sets.push(set);
+        }
+      }
+      options[id] = sets;
+    }
+    return options;
+  },
+};
+
+function getRawValue(code, n, end) {
+  let res = code.slice(n.source.start.offset + n.prop.length + n.raws.between.length, end);
+  if (!res.trim() && (res = n.parent.nodes, n = res[res.indexOf(n) + 1]) && n.type === 'comment')
+    res = '/*' + n.text;
+  return res;
+}
+
+const collectStylelintResults = (messages, code, mode) => {
+  let prev, pL, pC, pL2, pC2, v;
+  let len = 0;
+  for (const m of messages) {
+    const {rule, line: L, column: C, endLine: L2 = L, endColumn: C2 = C} = m;
+    const {start: {offset: a} = {}, end: {offset: b} = {}} = m;
+    const msg = m.text.replace(/^Unexpected\s+/, '').replace(` (${rule})`, '');
+    if (
+      msg === prev && L === pL && C === pC && L2 === pL2 && C2 === pC2 ||
+      mode === 'less' &&
+        rule === kAtRuleNoUnknown && rxVarsLessDecl.test(msg) ||
+      mode === 'stylus' &&
+        /^Invalid selector.*[&/~^\\]|^Cannot parse selector.*[&/~^()[\]]/.test(msg) ||
+      (rule === kDeclValue || rule === kGradientDir) && (
+        rxVendorPrefix.test(m) ||
+        rule === kDeclValue && mode === 'css' && (v = m.node) &&
+        (v = v.value.trim() || getRawValue(code, v, b)) &&
+        v.includes('/*[[')
+      )
+    ) continue;
+    const isImport = msg.includes('at-rule "@import"');
+    /** @namespace LintAnnotation */
+    messages[len++] = {
+      message: isImport ? '@import prevents parallel downloads and may be blocked by CSP.' : msg,
+      from: {line: L - 1, ch: C - 1, offset: a},
+      to: {line: L2 - 1, ch: C2 - 1, offset: b},
+      rule: isImport ? '' : rule,
+      severity: isImport ? 'warning' : m.severity,
+    };
+    prev = msg; pL = L; pC = C; pL2 = L2; pC2 = C2;
+  }
+  messages.length = len;
+};
+
+export default LintWorkerAPI;

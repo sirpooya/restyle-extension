@@ -1,0 +1,46 @@
+@import 'vars.css';
+
+.usercss .CodeMirror-focused {
+  box-shadow: none;
+}
+
+.sectioned .usercss-only,
+.usercss .sectioned-only {
+  display: none !important; /* hide during page init */
+}
+
+.single-editor {
+  position: relative;
+  height: 100%;
+  .CodeMirror {
+  /* WARNING! If you change this or .single-editor make sure editor opens huge styles like GitHub Dark instantly */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: auto;
+    border: none;
+    outline: none;
+  }
+}
+
+.usercss .applies-to {
+  border-width: 1px 0;
+  margin: 0 0 $pad025;
+  padding: $targetGapY calc($pad025 + var(--cm-bar-width, 0)) 0 $pad075;
+  font-family: var(--family);
+  > label,
+  li[data-type] option[value=""],
+  li:not([data-type]) option:not([value=""]) {
+    display: none;
+  }
+  li:not([data-type]) {
+    margin-left: 0.2rem;
+  }
+  > label::before {
+    content: attr(data-index) ":";
+    margin-right: $pad025;
+    font-size: var(--font-size);
+  }
+}

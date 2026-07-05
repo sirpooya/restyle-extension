@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html id="stylus" class="normal-layout">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <%= htmlWebpackPlugin.tags.headTags %>
+
+  <%= require('./edit/global-search.html').default %>
+  <%= require('./edit/sections-editor.html').default %>
+  <template data-id="appliesTo"><%= require('./edit/applies-to.html').default %></template>
+  <template data-id="keymapHelp"><%= require('./edit/keymap-help.html').default %></template>
+  <template data-id="editorSettings"><%= require('./edit/editor-settings.html').default %></template>
+  <template data-id="styleSettings"><%= require('./edit/style-settings.html').default %></template>
+  <template data-id="linterReport"><%= require('./edit/linter/report.html').default %></template>
+
+  <template data-id="jumpToLine">
+    <span i18n="editGotoLine">: <input class="CodeMirror-jump-field" type="text"></span>
+  </template>
+
+  <template data-id="regexpTestPartial">
+    <a target="_blank" href="https://github.com/stylish-userstyles/stylish/wiki/Applying-styles-to-specific-sites#advanced-matching-with-regular-expressions"><i class=i-info></i></a>
+  </template>
+
+  <template data-id="resizeGrip">
+    <div class="resize-grip" i18n="title:cm_resizeGripHint"></div>
+  </template>
+
+  <template data-id="body"><!-- https://crbug.com/1288447 -->
+    <div id="header" class="dvh100">
+      <section id="basic-info">
+        <h1 class="ellipsis hide-if-compact"></h1>
+        <a id="url" target="_blank" class="icon" i18n="title:externalHomepage">
+          <i class=i-external></i>
+        </a>
+        <a class="icon" target="_blank" i18n="title:linkStylusWiki"
+           href="https://github.com/openstyles/stylus/wiki/Writing-styles">
+          <i class=i-info></i>
+        </a>
+        <a class="usercss-only icon" target="_blank" id="usercss-docs"
+           href="https://github.com/openstyles/stylus/wiki/Writing-UserCSS"
+           i18n="title:externalUsercssDocument">
+          <i class=i-usercss style="font-size: 16px"></i>
+        </a>
+        <a class="icon" id="preview-error" target="_blank" hidden>
+          <i class="i-caution red1"></i>
+        </a>
+        <div id="basic-info-name">
+          <input id="name" spellcheck="false">
+          <a id="reset-name" i18n="title:customNameResetHint" tabindex="0" hidden>
+            <i class=i-close></i>
+          </a>
+        </div>
+      </section>
+      <section id="actions">
+        <div class="split-btn">
+          <button id="save-button" i18n="styleSaveLabel" data-hotkey-tooltip="save" disabled></button
+          ><button class="split-btn-pedal usercss-only" i18n="menu-tpl:saveAsTemplate"></button>
+        </div>
+        <button id="beautify" i18n="styleBeautify" class="hide-if-sticky"></button>
+        <button id="testRE" i18n="+genericTest, title:appliesRegexpOption" hidden></button>
+        <a id="cancel-button" i18n="title:styleCancelEditLabel" tabindex="0">
+          <i class=i-undo></i>
+        </a>
+        <a tabindex="0" id="from-mozilla" i18n="title:importLabel" class="sectioned-only hide-if-sticky">
+          <i class="i-import"></i>
+        </a>
+        <a tabindex="0" id="to-mozilla" i18n="title:exportLabel" class="sectioned-only hide-if-sticky">
+          <i class="i-export"></i>
+        </a>
+        <a tabindex="0" data-cmd="note" i18n="title:styleToMozillaFormatHelp" class="sectioned-only hide-if-sticky">
+          <i class=i-info></i>
+        </a>
+      </section>
+      <div id="details-wrapper">
+        <details id="general" class="ignore-pref-if-compact"
+                 data-pref="editor.general.expanded">
+          <summary><h2 i18n="general" data-icon="‖"></h2></summary>
+          <main>
+            <label id="enabled-label"
+                   i18n="+styleEnabledLabel, title:toggleStyle"
+                   data-hotkey-tooltip="toggleStyle">
+              <input type="checkbox" id="enabled">
+            </label>
+            <span class="hide-if-new">
+              <label i18n="+previewLabel, title:previewTooltip">
+                <input type="checkbox" id="editor.livePreview">
+              </label>
+              <input id="editor.livePreview.delay" type="number" min="0" max="9" step="0.1">s
+            </span>
+            <label id="new-as" class="flex">
+              <input type="checkbox" id="newStyleAsUsercss">
+              <span i18n="newStyleAsUserCSS"></span>
+              <a class=icon tabindex="0" data-cmd="note" style="margin-top: -2px"
+                 i18n="title:newStyleAsUserCSSHint">
+                <i class=i-info></i>
+              </a>
+            </label>
+            <label id="disableAll-label"
+                   i18n="data-on:disableAllStyles, data-off:disableAllStylesOff">
+              <input id="disableAll" type="checkbox">
+            </label>
+            <div>
+              <label id="linter-label" i18n="+cm_linter">
+                <input type="checkbox" id="editor.linter.on">
+              </label>
+              <select id="editor.linter" show-if="editor.linter.on">
+                <option value="csslint" selected>CSSLint-mod</option>
+                <option value="stylelint">Stylelint</option>
+              </select>
+              <a id="linter-settings" class=icon i18n="title:linterConfigTooltip" tabindex="0">
+                <i class=i-config-lite></i>
+              </a>
+            </div>
+          </main>
+        </details>
+        <details id="options" class="settings ignore-pref-if-compact"
+                 data-pref="editor.options.expanded">
+          <summary><h2 i18n="editorSettings" data-icon="s"></h2></summary>
+        </details>
+        <details id="styleOpts" class="settings ignore-pref-if-compact"
+                 data-pref="editor.options.style.expanded">
+          <summary><h2 i18n="styleSettings" data-icon="S"></h2></summary>
+        </details>
+        <details id="publish" data-pref="editor.publish.expanded"
+                 class="ignore-pref-if-compact hide-if-new">
+          <summary><h2 i18n="publish" data-icon="@"></h2></summary>
+          <main>
+            <a id="usw-url" href="https://userstyles.world" target="_blank">&nbsp;</a>
+            <p>
+              <button id="usw-publish-style"
+                      i18n="data-publish:publishStyle, data-push:publishPush"></button>
+              <button id="usw-disconnect" i18n="optionsSyncDisconnect"></button>
+              <span id="usw-progress"></span>
+            </p>
+            <section id="usw-data" class="aligned"></section>
+          </main>
+        </details>
+        <details id="sections-list" data-pref="editor.toc.expanded" class="ignore-pref-if-compact">
+          <summary><h2 id="toc-title" i18n="sections"></h2></summary>
+          <ol id="toc" i18n="data-empty:appliesToEverything"></ol>
+        </details>
+        <details id="lint" data-pref="editor.lint.expanded" class="ignore-pref-if-compact" hidden>
+          <summary>
+            <h2><span i18n="linterIssues"></span><span id="issue-count"></span>
+              <a id="lint-help" class="icon ml2" tabindex="0"
+                 show-if="editor.linter.on">
+                <i class=i-info></i>
+              </a>
+              <a class="icon config ml2" i18n="title:linterConfigTooltip" tabindex="0"
+                 show-if="editor.linter.on">
+                <i class=i-config-lite></i>
+              </a>
+            </h2>
+          </summary>
+          <div class="lint-report-container"></div>
+        </details>
+      </div>
+      <div id="header-resizer" i18n="title:headerResizerHint"></div>
+    </div>
+    <section id="sections"></section>
+  </template>
+</head>
+
+<body id="stylus-edit" class="dvh100">
+  <%= htmlWebpackPlugin.tags.bodyTags %>
+</body>
+</html>

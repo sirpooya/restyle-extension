@@ -1,0 +1,167 @@
+import '@/js/dom-init';
+import {kAboutBlank, kPopup, pPopupTogglerExpanded} from '@/js/consts';
+import {$create} from '@/js/dom';
+import {setupLivePrefs} from '@/js/dom-prefs';
+import {template} from '@/js/localization';
+import {API} from '@/js/msg-api';
+import {swController} from '@/js/msg-init';
+import * as prefs from '@/js/prefs';
+import {isDark, onDarkChanged} from '@/js/themer';
+import {CHROME, FIREFOX, MAC, MOBILE, OPERA} from '@/js/ua';
+import {clamp, isSidebar, sleep0, t, urlParams} from '@/js/util';
+import {getActiveTab, ignoreChromeError} from '@/js/util-webext';
+import {openStyleFinder, pSideFinder, selUnstylable} from './events';
+import {initHotkeys} from './hotkeys';
+import {createWriterElement, showStyles, updateStateIcon} from './render';
+import '@/css/onoffswitch.css';
+import './popup.css';
+import '@/css/theme-modern.css';
+
+const WRITE_FRAME_SEL = '.match:not([data-frame-id="0"]):not(.dupe)';
+const UNREACHABLE = 'unreachable';
+const isFullscreenPopup = MOBILE
+  && innerWidth > screen.availWidth - 200
+  && innerHeight > screen.availHeight - 200;
+export let tabId;
+export let tabUrl;
+export let tabUrlSupported;
+export let windowId;
+export let isBlocked;
+let prevHeight = Math.max(innerHeight, 150);
+
+if (!isFullscreenPopup)
+  window.on('resize', onWindowResize);
+
+(async function init(data, port) {
+  data ??= (__.MV3 && swController ? prefs.clientData : await prefs.clientData)[kPopup] || {};
+  initPopup(data);
+  showStyles(data);
+  initHotkeys(data);
+  if (port) // re-entry from connectPort()
+    return;
+  if (urlParams.has(pSideFinder)) openStyleFinder();
+  (function connectPort() {
+    ignoreChromeError();
+    port = chrome.runtime.connect({name: kPopup + ':' + tabId});
+    port.onMessage.addListener(init);
+    port.onDisconnect.addListener(connectPort);
+  })();
+})();
+
+updateStateIcon(isDark);
+onDarkChanged.add(val => updateStateIcon(val, null));
+
+prefs.subscribe('popup.stylesFirst', (key, stylesFirst) => {
+  $rootCL.toggle('styles-first', stylesFirst);
+  $rootCL.toggle('styles-last', !stylesFirst);
+}, true);
+prefs.subscribe('disableAll', (key, val) => {
+  updateStateIcon(null, val);
+  $id('disableAll-label').title = t('masterSwitch') + ':\n' +
+    t(val ? 'disableAllStylesOff' : 'genericEnabledLabel');
+}, true);
+
+function onWindowResize() {
+  const h = innerHeight;
+  if (h > prevHeight
+  && document.body.clientHeight > h + 1/*rounding errors in CSS*/) {
+    window.off('resize', onWindowResize);
+    // -1px for old Chrome which leaves empty space in place of scrollbar that we hide here
+    document.body.style.maxHeight = h - (CHROME < 125) + 'px';
+  }
+  prevHeight = h;
+}
+
+/** @param {PopupData} data */
+async function initPopup({frames, ping0, tab, urlSupported}) {
+  let el;
+  if (tabUrl) {
+    blockPopup(false);
+    $rootCL.remove(UNREACHABLE, 'search-results-shown');
+    $('#write-style').textContent = '';
+  } else {
+    if (isFullscreenPopup || isSidebar) {
+      $rootCL.add('maximized');
+    } else {
+      const kPopupWidth = 'popupWidth';
+      prefs.subscribe([kPopupWidth, 'popupWidthMax'], (key, val) => {
+        document.body.style[`${key === kPopupWidth ? 'min' : 'max'}-width`] =
+          clamp(val, 200, 800) + 'px';
+      }, true);
+    }
+    setupLivePrefs();
+    if (prefs.__values[pPopupTogglerExpanded])
+      $('#toggler details').open = true;
+    el = $$('#toggler label')[1];
+    el.title = el.title.replace('<', MAC ? '<⌥' : '<Alt-');
+
+    for (el of $$('link[media=print]')) {
+      el.removeAttribute('media');
+    }
+  }
+  tabId = tab.id;
+  tabUrl = frames[0].url;
+  tabUrlSupported = urlSupported;
+  windowId = tab.windowId;
+  frames.forEach(createWriterElement);
+
+  if ($('.match .match:not(.dupe),' + WRITE_FRAME_SEL)) {
+    $id('write-style').append(Object.assign(template.writeForFrames, {
+      onclick() {
+        this.remove();
+        $id('write-style').classList.add('expanded');
+      },
+    }));
+  }
+
+  if (ping0) return;
+
+  const isStore =
+    __.B_FIREFOX || __.B_ANY && FIREFOX ? tabUrl.startsWith('https://addons.mozilla.org/') :
+      OPERA ? tabUrl.startsWith('https://addons.opera.com/') :
+        tabUrl.startsWith('https://chrome.google.com/webstore/') ||
+        tabUrl.startsWith('https://chromewebstore.google.com/');
+  blockPopup();
+  if ((__.B_CHROME || __.B_ANY && CHROME) && isStore || !urlSupported) {
+    return;
+  }
+
+  for (let t2 = performance.now() + 1000; performance.now() < t2;) {
+    if (await API.pingTab(tabId)) {
+      blockPopup(false);
+      return;
+    }
+    if (tab.status === 'complete'
+    && (__.B_CHROME || __.B_ANY && CHROME || tab.url !== kAboutBlank)) {
+      break;
+    }
+    // FF and some Chrome forks (e.g. CentBrowser) implement tab-on-demand
+    // so we'll wait a bit to handle popup being invoked right after switching
+    await sleep0();
+    tab = await getActiveTab();
+  }
+
+  let info;
+  if (__.B_CHROME || __.B_ANY && CHROME) {
+    info = template.unreachableInfo;
+  } else if (__.B_FIREFOX || __.B_ANY && FIREFOX) {
+    info = $(selUnstylable);
+    info.$('a').title = [
+      !isStore && t('unreachableCSP', t('optionsAdvancedPatchCsp')),
+      isStore && t(FIREFOX >= 59 ? 'unreachableAMOHint' : 'unreachableMozSiteHintOldFF'),
+      FIREFOX >= 60 && t('unreachableMozSiteHint'),
+    ].filter(Boolean).join('\n');
+    info.$('span').textContent = t('unreachableAMO');
+  }
+  // Chrome "Allow access to file URLs" in chrome://extensions message
+  if ((el = tabUrl.startsWith('file:') ? 'unreachableFileHint' : OPERA && 'unreachableOpera')) {
+    info.append($create('div', t(el)));
+  }
+  $rootCL.add(UNREACHABLE);
+  $('.blocked-info').replaceWith(info);
+}
+
+function blockPopup(val = true) {
+  isBlocked = val;
+  $rootCL.toggle('blocked', isBlocked);
+}

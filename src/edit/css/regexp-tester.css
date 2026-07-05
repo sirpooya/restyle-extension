@@ -1,0 +1,81 @@
+.regexp-report {
+  &#help-popup {
+    max-width: 50vw;
+  }
+  & h3 {
+    margin-top: 0;
+    margin-left: calc(-1 * var(--pad));
+    &::after {
+      content: " (" attr(data-num) ")";
+    }
+  }
+  & h4 {
+    cursor: default;
+    counter-increment: rx;
+    margin: var(--pad) 0 var(--pad05) calc(-1 * var(--pad05));
+  }
+  & details > a::before,
+  & h4::before {
+    content: counter(rx) ". ";
+  }
+  & mark {
+    background-color: rgba(255, 255, 0, .5);
+  }
+  & summary {
+    margin-left: calc(-2ch - var(--pad));
+  }
+  & details {
+    word-break: break-all;
+    overflow-wrap: break-word;
+    margin-bottom: var(--pad);
+    padding-left: var(--pad);
+    counter-reset: rx;
+    &[data-type="full"] {
+      color: var(--accent-1);
+    }
+    &[data-type="partial"] {
+      color: var(--c65);
+    }
+    &[data-type="invalid"] {
+      color: var(--red1);
+    }
+    & h3 {
+      display: inline-block;
+      margin: 0 0 var(--pad05) 0;
+    }
+    & > a {
+      counter-increment: rx;
+    }
+  }
+  & article {
+    padding-left: var(--pad05);
+  }
+  & a {
+    color: inherit;
+    cursor: default;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: block;
+    & img {
+      width: 16px;
+      height: 16px;
+      margin-right: .25em;
+      object-fit: contain;
+      vertical-align: text-bottom;
+    }
+  }
+  & :is(h4, a):hover {
+    text-decoration: underline;
+  }
+}
+.regexp-report-note {
+  color: var(--c60);
+  min-width: fit-content;
+  width: 0;
+  hyphens: auto;
+  & code {
+    white-space: nowrap;
+    font-weight: bold;
+  }
+}

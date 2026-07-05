@@ -1,0 +1,311 @@
+import {kStyleIdPrefix, UCD} from '@/js/consts';
+import {$toggleDataset} from '@/js/dom';
+import {animateElement, scrollElementIntoView} from '@/js/dom-util';
+import {breakWord, template} from '@/js/localization';
+import * as prefs from '@/js/prefs';
+import {TO_CSS} from '@/js/style-util';
+import {renderTargetIcons} from '@/js/target-icons';
+import {FIREFOX} from '@/js/ua';
+import {sessionStore, t} from '@/js/util';
+import {filterAndAppend} from './filters';
+import * as sorter from './sorter';
+import {installed, isColumnable, styleToDummyEntry, UI} from './util';
+
+const AGES = [
+  [24, 'h', t('dateAbbrHour', '\x01')],
+  [30, 'd', t('dateAbbrDay', '\x01')],
+  [12, 'm', t('dateAbbrMonth', '\x01')],
+  [Infinity, 'y', t('dateAbbrYear', '\x01')],
+];
+const canRenderAll = CSS.supports('content-visibility', 'auto');
+const groupThousands = num => `${num}`.replace(/\d(?=(\d{3})+$)/g, '$&\xA0');
+const renderSize = size => groupThousands(Math.round(size / 1024)) + 'k';
+const nameLengths = new Map();
+const partEditHrefBase = 'edit.html?id=';
+const partDecorations = {
+  urlPrefixesAfter: '*',
+  regexpsBefore: '/',
+  regexpsAfter: '/',
+};
+/** Hiding date-like version as it's too long and is already shown in the age column */
+const rxIsDateVer = /^20\d{4,6}(?:\.\d\d?){2}$/;
+const rxNonCJK = /[^\u3000-\uFE00]+/g;
+
+let elLinks, elLinksPrev;
+let numStyles = 0;
+export let favsBusy;
+export let partEntry;
+let partChecker,
+  partEditLink,
+  partEntryClassBase,
+  partHomepage,
+  partInfoAge,
+  partInfoSize,
+  partInfoVer,
+  partNameLink,
+  partNewUI,
+  partOldCheckUpdate,
+  partOldConfigure,
+  partTargets;
+let tplConfigureIcon, tplEverything, tplExtra, tplSep, tplTarget, tplUpdaterIcons;
+
+function createAgeText(el, style) {
+  let val = style.updateDate || style.installDate;
+  if (val) {
+    val = (Date.now() - val) / 3600e3; // age in hours
+    for (const [max, unit, text] of AGES) {
+      const rounded = Math.round(val);
+      if (rounded < max) {
+        el.textContent = text.replace('\x01', rounded);
+        // Padding allows styling "bigness" of a value via amount of spaces at the beginning
+        el.dataset.value = `${Math.round(rounded)}`.padStart(2) + unit;
+        break;
+      }
+      val /= max;
+    }
+  } else if (el.firstChild) {
+    el.textContent = '';
+    delete el.dataset.value;
+  }
+}
+
+/** Performance booster: query the sub-elements just once, then reuse the references */
+function createParts(isNew) {
+  partNewUI = isNew;
+  partEntry = template[isNew ? 'styleNewUI' : 'style'].cloneNode(true);
+  partEntryClassBase = partEntry.className;
+  partChecker = partEntry.$('input') || {};
+  partNameLink = partEntry.$('.style-name-link');
+  partEditLink = partEntry.$('.style-edit-link') || {};
+  partHomepage = partEntry.$('.homepage');
+  partInfoAge = partEntry.$('[data-type=age]');
+  partInfoSize = partEntry.$('[data-type=size]');
+  partInfoVer = partEntry.$('[data-type=version]');
+  partTargets = partEntry.$('.targets');
+  partOldConfigure = !isNew && partEntry.$('.configure-usercss');
+  partOldCheckUpdate = !isNew && partEntry.$('.check-update');
+  return partEntry;
+}
+
+export function createStyleElement({styleMeta: style, styleNameLC: nameLC, styleSize: size}) {
+  const ud = style[UCD];
+  const {updateUrl} = style;
+  const configurable = !!ud?.vars;
+  const name = style.customName || style.name;
+  const version = ud ? ud.version : '';
+  const isTable = UI.tableView;
+  if (isTable !== partNewUI) createParts(isTable);
+  partChecker.checked = style.enabled;
+  // Remember checker state on history back/forward when number of shown styles change
+  partChecker.name = 'c' + style.id;
+  partNameLink.firstChild.textContent = breakWord(name);
+  partNameLink.href = partEditLink.href = partEditHrefBase + style.id;
+  partHomepage.href = partHomepage.title = style.url || '';
+  partInfoVer.textContent = version;
+  partInfoVer.dataset.value = version;
+  // USO-raw and USO-archive version is a date for which we show the Age column
+  $toggleDataset(partInfoVer, 'isDate', version.length >= 8 && rxIsDateVer.test(version));
+  createAgeText(partInfoAge, style);
+  partInfoSize.dataset.value = Math.log10(size || 1) >> 0; // for CSS to target big/small styles
+  partInfoSize.textContent = renderSize(size);
+  partInfoSize.title = `${t('genericSize')}: ${groupThousands(size)} B`;
+  if (!isTable) {
+    partOldConfigure.classList.toggle('hidden', !configurable);
+    partOldCheckUpdate.classList.toggle('hidden', !updateUrl);
+  }
+  // Now that we assigned the parts, we can clone the element
+  const entry = partEntry.cloneNode(true);
+  entry.id = kStyleIdPrefix + style.id;
+  entry.styleId = style.id;
+  entry.styleNameLC = nameLC;
+  entry.styleMeta = style;
+  entry.styleSize = size;
+  entry.className = partEntryClassBase + ' ' +
+    (style.enabled ? 'enabled' : 'disabled') +
+    (updateUrl ? ' updatable' : '') +
+    (ud ? ' usercss' : '');
+  if (isTable && (updateUrl || configurable)) {
+    entry.$('.actions').append(...[
+      updateUrl && (tplUpdaterIcons ??= template.updaterIcons).cloneNode(true),
+      configurable && (tplConfigureIcon ??= template.configureIcon).cloneNode(true),
+    ].filter(Boolean));
+  }
+  createTargetsElement({entry, style});
+  return entry;
+}
+
+export function createTargetsElement({entry, expanded, style = entry.styleMeta}) {
+  const maxTargets = expanded ? 1000 : UI.targets;
+  if (!maxTargets) {
+    entry._numTargets = 0;
+    return;
+  }
+  const displayed = new Set();
+  const entryTargets = entry.$('.targets');
+  const expanderCls = entry.$('.applies-to').classList;
+  const targets = partTargets.cloneNode(true);
+  const toAppend = [];
+  let container = targets;
+  let el = entryTargets.firstElementChild;
+  let numTargets = 0;
+  let allTargetsRendered = true;
+  for (const type in TO_CSS) {
+    const cssType = TO_CSS[type];
+    for (const section of style.sections) {
+      for (const targetValue of section[type] || []) {
+        if (displayed.has(targetValue)) {
+          continue;
+        }
+        if (++numTargets > maxTargets) {
+          allTargetsRendered = expanded;
+          break;
+        }
+        displayed.add(targetValue);
+        const text =
+          (partDecorations[type + 'Before'] || '') +
+          targetValue +
+          (partDecorations[type + 'After'] || '');
+        if (el && el.dataset.type === cssType && el.lastChild.textContent === text) {
+          const next = el.nextElementSibling;
+          // TODO: collect all in a fragment and use a single container.append()
+          toAppend.push(el);
+          el = next;
+          continue;
+        }
+        const element = (tplTarget ??= template.appliesToTarget).cloneNode(true);
+        if (!UI.tableView) {
+          if (numTargets === maxTargets) {
+            const extra = (tplExtra ??= template.extraAppliesTo).cloneNode(true);
+            toAppend.push(extra);
+            container.append(...toAppend);
+            container = extra;
+            toAppend.length = 0;
+          } else if (numTargets > 1) {
+            toAppend.push((tplSep ??= template.appliesToSeparator).cloneNode(true));
+          }
+        }
+        element.dataset.type = cssType;
+        element.append(text);
+        toAppend.push(element);
+      }
+    }
+  }
+  container.append(...toAppend);
+  if (UI.tableView && numTargets > UI.targets) {
+    expanderCls.add('has-more');
+  }
+  if (numTargets) {
+    entryTargets.parentElement.replaceChild(targets, entryTargets);
+  } else if (
+    !entry.classList.contains('global') ||
+    !entryTargets.firstElementChild
+  ) {
+    if (entryTargets.firstElementChild) {
+      entryTargets.textContent = '';
+    }
+    entryTargets.appendChild((tplEverything ??= template.appliesToEverything).cloneNode(true));
+  }
+  entry.classList.toggle('global', !numTargets);
+  entry._allTargetsRendered = allTargetsRendered;
+  entry._numTargets = numTargets;
+  if (UI.tableView) entry.style.setProperty('--num-targets', Math.min(numTargets, UI.targets));
+}
+
+function highlightEditedStyle() {
+  if (!sessionStore.justEditedStyleId) return;
+  const entry = $id(kStyleIdPrefix + sessionStore.justEditedStyleId);
+  delete sessionStore.justEditedStyleId;
+  if (entry) {
+    scrollElementIntoView(entry);
+    setTimeout(animateElement, 0, entry);
+  }
+}
+
+export function fitNameColumn(styles, style) {
+  if (style) calcNameLenKey(style);
+  styles = styles ? styles.map(calcNameLenKey) : [...nameLengths.values()];
+  const pick = sorter.columns > 1 ? .8 : .95; // quotient of entries in single line
+  const extras = 5; // average for optional extras like " UC ", "v1.0.0"
+  const res = nameLengths.res = styles.sort()[nameLengths.size * pick | 0] + extras - 1e9;
+  $root.style.setProperty('--name-width', res + 'ch');
+}
+
+function calcNameLenKey(style) {
+  const name = style.displayName || style.name || '';
+  const len = 1e9 + // aligning the key for sort() which uses string comparison
+    (style.enabled ? 1.05/*bold factor*/ : 1) *
+    (name.length + name.replace(rxNonCJK, '').length/*CJK glyph is 2x wide*/) | 0;
+  nameLengths.set(style.id, len);
+  return len;
+}
+
+export function fitSizeColumn(entries = installed.children, entry) {
+  let res = entry && renderSize(entry.styleSize).length || 0;
+  if (!res) {
+    for (const e of entries) res = Math.max(res, e.styleSize);
+    res = renderSize(res).length;
+  } else if (res <= parseInt($root.style.getPropertyValue('--size-width'))) {
+    return;
+  }
+  $root.style.setProperty('--size-width', res + 'ch');
+}
+
+export async function showStyles(styles, matchUrlIds) {
+  const num = styles.length;
+  const dummies = styles.map(styleToDummyEntry);
+  const sorted = sorter.sort(dummies);
+  const scrollY = history.state?.scrollY;
+  const shouldRenderAll = scrollY > window.innerHeight
+    || sessionStore.justEditedStyleId
+    || canRenderAll;
+  // Some Firefox versions effectively freeze performance.now() over a very long span of time
+  const perfSource = !shouldRenderAll && (__.B_FIREFOX || __.B_ANY && FIREFOX ? Date : performance);
+  const t0 = perfSource && perfSource.now();
+  const renderBin = document.createDocumentFragment();
+  if (isColumnable) {
+    fitNameColumn(styles);
+    fitSizeColumn(dummies);
+  }
+  updateTotal(num);
+  let numIconized; // keeping it undefined so the comparison is false if favicons are disabled
+  if (num) for (let i = 0, entry, done; ; i++) {
+    entry = createStyleElement(sorted[i]);
+    if (matchUrlIds && !matchUrlIds.includes(entry.styleMeta.id))
+      entry.classList.add('not-matching', 'hidden');
+    renderBin.appendChild(entry);
+    done = i === num - 1;
+    if (!done && (shouldRenderAll || (i & 7) < 7 || perfSource.now() - t0 < 50))
+      continue;
+    if (!numIconized && UI.favicons) {
+      numIconized = i;
+      renderTargetIcons(renderBin);
+    }
+    filterAndAppend({container: renderBin}, matchUrlIds)
+      .then(sorter.updateStripes);
+    if (done)
+      break;
+    await new Promise(requestAnimationFrame);
+  }
+  if (scrollY >= 0)
+    window.scrollY = scrollY;
+  if (sessionStore.justEditedStyleId)
+    setTimeout(highlightEditedStyle);
+  if (numIconized < numStyles)
+    requestIdleCallback(() => renderTargetIcons(installed));
+}
+
+export function updateTotal(delta) {
+  numStyles += delta;
+  if (+installed.dataset.total === numStyles) {
+    return;
+  }
+  installed.dataset.total = numStyles;
+  elLinksPrev ??= (elLinks = $('#links')).previousSibling;
+  const det = elLinks.$('details');
+  const prefId = 'manage.links.expanded';
+  $toggleDataset(det, 'pref', numStyles && prefId);
+  det.open = !numStyles || prefs.__values[prefId];
+  if (!numStyles) installed.after(elLinks);
+  else elLinksPrev.after(elLinks);
+  $rootCL.toggle('empty', !numStyles);
+}

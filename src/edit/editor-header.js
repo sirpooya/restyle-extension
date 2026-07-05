@@ -1,0 +1,88 @@
+import {CodeMirror, extraKeys} from '@/cm';
+import {pKeyMap} from '@/js/consts';
+import {setupConditionalPrefs, setupLiveDetails, setupLivePrefs} from '@/js/dom-prefs';
+import {setInputValue} from '@/js/dom-util';
+import * as prefs from '@/js/prefs';
+import {sleep, t} from '@/js/util';
+import {initBeautifyButton} from './beautify';
+import editor from './editor';
+
+export default function EditorHeader() {
+  initBeautifyButton($id('beautify'));
+  initNameArea();
+  setupLiveDetails();
+  setupLivePrefs();
+  setupConditionalPrefs();
+  window.on('load', () => {
+    prefs.subscribe(pKeyMap, showHotkeyInTooltip, true);
+    window.on('showHotkeyInTooltip', showHotkeyInTooltip);
+  }, {once: true});
+  for (const el of $$('#header summary')) {
+    el.on('contextmenu', peekDetails);
+  }
+}
+
+function findKeyForCommand(command, map) {
+  if (typeof map === 'string') map = CodeMirror.keyMap[map];
+  let key = Object.keys(map).find(k => map[k] === command);
+  if (key) {
+    return key;
+  }
+  for (const ft of Array.isArray(map.fallthrough) ? map.fallthrough : [map.fallthrough]) {
+    key = ft && findKeyForCommand(command, ft);
+    if (key) {
+      return key;
+    }
+  }
+  return '';
+}
+
+function initNameArea() {
+  const nameEl = $id('name');
+  const resetEl = $id('reset-name');
+  const isCustomName = editor.style.updateUrl || editor.isUsercss;
+  editor.nameTarget = isCustomName ? 'customName' : 'name';
+  nameEl.placeholder = t(editor.isUsercss ? 'usercssEditorNamePlaceholder' : 'styleMissingName');
+  nameEl.title = isCustomName ? t('customNameHint') : '';
+  nameEl.on('input', () => {
+    editor.updateName(true);
+    resetEl.hidden = !editor.style.customName;
+  });
+  resetEl.hidden = !editor.style.customName;
+  resetEl.onclick = () => {
+    setInputValue(nameEl, editor.style.name);
+    editor.style.customName = null; // to delete it from db
+    resetEl.hidden = true;
+  };
+  const enabledEl = $id('enabled');
+  enabledEl.onchange = () => editor.updateEnabledness(enabledEl.checked);
+}
+
+async function peekDetails(evt) {
+  evt.preventDefault();
+  const el = this.parentElement;
+  if (!(el.open = !el.open) || 'peek' in el.dataset)
+    return;
+  el.dataset.peek = ''; // also provides a way to style such temporarily open element
+  while (el.open && el.matches(':hover, :active')) {
+    await new Promise(cb => el.on('mouseleave', cb, {once: true}));
+    await sleep(1000);
+  }
+  el.open = false;
+  delete el.dataset.peek;
+}
+
+function showHotkeyInTooltip(_, mapName = prefs.__values[pKeyMap]) {
+  for (const el of $$('[data-hotkey-tooltip]')) {
+    if (el._hotkeyTooltipKeyMap !== mapName) {
+      el._hotkeyTooltipKeyMap = mapName;
+      const title = el._hotkeyTooltipTitle = el._hotkeyTooltipTitle || el.title;
+      const cmd = el.dataset.hotkeyTooltip;
+      const key = cmd[0] === '=' ? cmd.slice(1) :
+        findKeyForCommand(cmd, mapName) ||
+        findKeyForCommand(cmd, extraKeys);
+      const newTitle = title + (title && key ? '\n' : '') + (key || '');
+      if (el.title !== newTitle) el.title = newTitle;
+    }
+  }
+}

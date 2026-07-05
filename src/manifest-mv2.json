@@ -1,0 +1,13 @@
+{
+  "minimum_chrome_version": "86",
+  "manifest_version": 2,
+  "permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "page": "background.html"
+  },
+  "commands": {
+    "_execute_browser_action": {}
+  }
+}

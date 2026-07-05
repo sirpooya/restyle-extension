@@ -1,0 +1,594 @@
+/* postcss-simple-vars */
+@supports not (accent-color: red) {
+  /* This suppresses a bug in all? browsers: they apply transitions during page load.
+   * It was fixed by crrev.com/886802 in Chrome 93, which we detect via `accent-color`.
+   * Using an increased specificity to override sane selectors in user styles.
+   * Using \1 to simplify js code because \0 is converted to \xFFFD per spec. */
+  html#stylus #header *:not(#\1transition-suppressor) {
+    transition: none !important;
+  }
+}
+:root {
+  --family: Arial, "Helvetica Neue", Helvetica, system-ui, sans-serif;
+  --font-size: 12px;
+  --font: normal var(--font-size) var(--family);
+  --icon-font-size: 20px;
+  --input-height: 24px;
+  --cmin: hsl(0, 0%, 00%);
+  --c00: hsl(0, 0%, 00%);
+  --c10: hsl(0, 0%, 10%);
+  --c20: hsl(0, 0%, 20%);
+  --c30: hsl(0, 0%, 30%);
+  --c35: hsl(0, 0%, 35%);
+  --c40: hsl(0, 0%, 40%);
+  --c45: hsl(0, 0%, 45%);
+  --c50: hsl(0, 0%, 50%);
+  --c60: hsl(0, 0%, 60%);
+  --c65: hsl(0, 0%, 65%);
+  --c70: hsl(0, 0%, 70%);
+  --c75: hsl(0, 0%, 75%);
+  --c80: hsl(0, 0%, 80%);
+  --c85: hsl(0, 0%, 85%);
+  --c90: hsl(0, 0%, 90%);
+  --c95: hsl(0, 0%, 95%);
+  --c97: hsl(0, 0%, 97%);
+  --c98: hsl(0, 0%, 98%);
+  --c99: hsl(0, 0%, 99%);
+  --c100: hsl(0, 0%, 100%);
+  --cmax: hsl(0, 0%, 100%);
+  --bg: var(--c100);
+  --fg: var(--c00);
+  --accent-1: hsl(180, 100%, 19%);
+  --accent-2: hsl(180, 50%, 40%);
+  --accent-3: hsl(180, 40%, 69%);
+  --accent-4: hsl(180, 32%, 77%);
+  --accent-5: hsl(180, 20%, 85%);
+  --gold1: gold;
+  --red1: hsl(0, 70%, 45%);
+  --zebra: hsla(0, 0%, 50%, 0.05);
+  --100dvh: 100dvh;
+  @supports not (height: 1dvh) {
+    --100dvh: 100vh;
+  }
+}
+body {
+  font: var(--font);
+  background-color: var(--bg);
+  color: var(--fg);
+  margin: 0;
+  hyphens: auto;
+  .mobile > & {
+    max-height: var(--100dvh);
+  }
+  &:lang(ja) {
+    font-family: Arial, 'Meiryo UI', 'MS Gothic', system-ui, sans-serif;
+  }
+  &:lang(zh-CN) {
+    font-family: Arial, 'Microsoft YaHei UI', 'Microsoft YaHei', system-ui, sans-serif;
+  }
+  &:lang(zh-TW),
+  &:lang(zh-HK) {
+    font-family: Arial, 'Microsoft JhengHei UI', 'Microsoft JhengHei', system-ui, sans-serif;
+  }
+}
+.dvh100 {
+  height: var(--100dvh);
+  box-sizing: border-box;
+}
+a {
+  color: var(--fg);
+  transition: color .1s;
+  &:hover, &[href]:hover i {
+    color: var(--accent-1);
+  }
+  &.icon { text-decoration: none; }
+  &:is([title][tabindex="0"]):has(>.i-info) {
+    cursor: help;
+  }
+}
+
+button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  user-select: none;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 3px 7px 2px;
+  border: 1px solid var(--c70);
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.2;
+  color: var(--fg);
+  background: linear-gradient(var(--c95), var(--c90));
+  transition: background-color .1s, border-color .1s;
+  &:not(:disabled):hover {
+    background-color: var(--c95);
+    border-color: var(--c50);
+  }
+  &:disabled {
+    border-color: var(--c85);
+  }
+  &:active {
+    background-color: var(--c95);
+    border-color: var(--c50);
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAeCAYAAADtlXTHAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QwJARIWJNZvuQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAMElEQVQI12NoaGgIZmJgYPjLxMDA8I+JgYHhP5z1Dy7xH5X7jxQCzWQ0A9DEILYBABm5HtJk2jPHAAAAAElFTkSuQmCC');
+    background-repeat: repeat-x;
+    background-size: 100% 100%;
+  }
+  i {
+    cursor: auto;
+  }
+}
+[data-ui-theme="light"] button i {
+  color: #333;
+}
+
+/* For some odd reason these hovers appear lighter than all other button hovers in every browser */
+#message-box-buttons button:not(:disabled):hover {
+  background-color: var(--c90);
+  border-color: var(--c50);
+}
+
+#unhandledError:not(:hover) {
+  opacity: .5;
+}
+
+input {
+  font: inherit;
+  border: 1px solid var(--c65);
+  transition: border-color .1s, box-shadow .1s;
+  color: inherit;
+  &:not([type]), &[type=text], &[type=number], &[type=search], &[type=url] {
+    background: var(--bg);
+    color: var(--fg);
+    height: var(--input-height);
+    min-height: var(--input-height)!important;
+    line-height: var(--input-height);
+    box-sizing: border-box;
+    padding: 0 3px;
+    border: 1px solid var(--c65);
+  }
+  &:invalid {
+    background-color: rgba(255, 0, 0, 0.1);
+    color: darkred;
+  }
+}
+
+i {
+  a[href] > & {
+    cursor: pointer;
+  }
+  vertical-align: middle;
+  font: var(--icon-font-size)/1 icons;
+  .icon:hover > &,
+  &:hover {
+    color: var(--accent-1);
+  }
+}
+.i-export,
+.i-import,
+.i-info,
+.i-caution,
+.i-config {
+  font-size: 16px;
+}
+
+input[type="range"] {
+  accent-color: hsl(180, 45%, 40%);
+}
+
+input[type="checkbox"]:not(.slider) {
+  &:checked::after {
+    content: '☑';
+    height: 8px;
+    font: 8px/1 icons;
+    color: inherit;
+    pointer-events: none;
+  }
+  & {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 1px solid var(--c45);
+    height: 12px;
+    width: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+    background-color: hsla(0, 0%, 0%, .1);
+    margin: 0 .3rem 0 0;
+    transition: background-color .1s, border-color .1s;
+    flex: 0 0 12px;
+    vertical-align: text-top;
+  }
+  &:hover {
+    border-color: var(--c30);
+    background-color: var(--c80);
+  }
+  &:disabled {
+    background-color: transparent;
+    border-color: var(--c50);
+    &:checked::after {
+      color: var(--c50);
+    }
+    & + span {
+      color: var(--c50);
+    }
+  }
+}
+
+code {
+  background: var(--zebra);
+  padding: 0 .25ex;
+  border-radius: .5ex;
+  border: 1px solid var(--c85);
+}
+
+label {
+  transition: color .1s;
+}
+
+.select-wrapper > select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  height: var(--input-height);
+  padding: 0 20px 0 6px;
+  transition: color .1s;
+}
+
+select {
+  font: inherit;
+  color: var(--fg);
+  background-color: var(--bg);
+  border: 1px solid var(--c65);
+  field-sizing: content;
+}
+
+.select-wrapper {
+  display: inline-flex!important;
+  cursor: default;
+  position: relative;
+  &::after {
+    content: '▼';
+    font: 14px/1 icons;
+    pointer-events: none;
+    cursor: default;
+    color: var(--fg);
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    transition: color .1s;
+  }
+}
+
+input[type="radio"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: var(--c90);
+  border-radius: 50%;
+  border: 1px solid var(--c60);
+  cursor: default;
+  height: 13px;
+  width: 13px;
+  position: relative;
+  margin: 0 4px 1px 0;
+  &::after {
+    content: '';
+    background-color: transparent;
+    transform: scale(0);
+    transform-origin: 50% 50%;
+    transition: background-color .1s, transform .1s;
+    border-radius: 50%;
+    height: 7px;
+    width: 7px;
+    left: 2px;
+    top: 2px;
+    position: absolute;
+  }
+  &:checked::after {
+    background-color: var(--c30);
+    transform: scale(1);
+  }
+}
+
+.radio-wrapper {
+  display: flex;
+  align-items: center;
+  line-height: 1.5;
+}
+
+/* restore disabled state dimming */
+:is(button, select, option):disabled {
+  color: graytext;
+}
+
+summary {
+  user-select: none;
+  &:hover {
+    color: var(--accent-1);
+  }
+}
+
+.hollow-gear {
+  cursor: default;
+  height: var(--icon-font-size);
+  font: normal var(--icon-font-size) icons;
+  fill: transparent;
+  stroke: currentColor;
+  vertical-align: middle;
+}
+
+/* global stuff we use everywhere */
+.hidden {
+  display: none !important;
+}
+.rel {
+  position: relative;
+}
+.abs {
+  position: absolute;
+}
+.flex {
+  display: flex;
+}
+.center-items {
+  align-items: center;
+}
+.ml1 {
+  margin-left: .25rem;
+}
+.ml2 {
+  margin-left: .5rem;
+}
+.wrap {
+  flex-wrap: wrap;
+}
+.w100 {
+  width: 100%;
+}
+.no-stretch {
+  /* reuse the current width of the parent flexbox */
+  width: 0;
+  flex: auto;
+}
+.ws-nowrap {
+  white-space: nowrap;
+}
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.red1 {
+  color: var(--red1);
+}
+[data-after]::after {
+  content: attr(data-after);
+}
+
+html:not(.all-disabled) {
+  & body:not(#stylus-popup) #disableAll-label:not([data-persist]) {
+    display: none;
+  }
+  & #disableAll-label::after {
+    content: attr(data-on);
+  }
+}
+#disableAll-label {
+  display: inline-flex;
+}
+.all-disabled {
+  #disableAll-label {
+    font-weight: bold;
+    color: var(--red1);
+    &::after {
+      content: attr(data-off);
+    }
+    & i {
+      color: var(--red1);
+    }
+  }
+  #disableAll {
+    border-color: var(--red1);
+  }
+}
+
+:focus,
+.CodeMirror-focused,
+/* Allowing click outline on text/search inputs and textareas */
+:is(
+  textarea,
+  input:not([type]), /* same as "text" */
+  input[type="text"],
+  input[type="url"],
+  input[type="search"],
+  input[type="number"]
+)[data-focused-via-click]:focus {
+    /* Using box-shadow instead of the ugly outline in new Chrome */
+    outline: none;
+    box-shadow: var(--focus-shadow);
+    --focus-color1: hsl(180, 100%, 38%);
+    --focus-color2: hsla(180, 100%, 60%, .5);
+    --focus-shadow: 0 0 0 1px var(--focus-color1), 0 0 3px var(--focus-color2);
+  }
+
+[data-focused-via-click] {
+  &:focus, & *:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+#header {
+  overflow-wrap: break-word;
+  background-color: var(--c97);
+  box-shadow: 0 0 10px rgba(0, 0, 0, .25);
+}
+
+/* header resizer */
+:root {
+  --header-width: 280px;
+  --header-resizer-width: 8px;
+}
+#header-resizer {
+  position: fixed;
+  left: var(--header-width);
+  top: 0;
+  bottom: 0;
+  width: var(--header-resizer-width);
+  box-sizing: border-box;
+  cursor: col-resize;
+  border-width: 0 1px;
+  border-style: solid;
+  color: var(--c80);
+  background: var(--bg);
+  border-color: currentColor;
+  pointer-events: auto;
+  z-index: 10000000;
+  &:active {
+    border-color: var(--c50);
+  }
+  &::before {
+    $HRExtra: 5px;
+    content: '';
+    position: absolute;
+    left: -$HRExtra;
+    right: -$HRExtra;
+    height: 100%;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    border-right: 2px dotted currentColor;
+    left: 2px;
+    width: 0;
+    height: 100%;
+  }
+}
+body {
+  &.resizing-h {
+    cursor: e-resize;
+  }
+  &.resizing-v {
+    cursor: n-resize;
+  }
+  :is(&.resizing-h, &.resizing-v) > * {
+    pointer-events: none;
+    user-select: none;
+  }
+}
+/* header resizer - end */
+
+.split-btn {
+  position: relative;
+  white-space: nowrap;
+  --menu-pad: .5em;
+  > :first-child:hover {
+    position: relative;
+  }
+}
+.split-btn-pedal {
+  margin-left: -1px !important;
+  padding-left: .25em !important;
+  padding-right: .25em !important;
+  overflow: visible !important;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  &::after {
+    --side: 4px;
+    content: '';
+    border: var(--side) solid transparent;
+    display: inline-block;
+    border-top: calc(var(--side) * 1.3) solid currentColor;
+    vertical-align: text-bottom;
+  }
+  .split-btn.active & {
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, .2);
+  }
+}
+.split-btn-menu {
+  background: var(--bg);
+  position: absolute;
+  box-shadow: 2px 3px 7px rgba(0, 0, 0, .5);
+  border: 1px solid hsl(180deg, 50%, 50%);
+  white-space: nowrap;
+  cursor: pointer;
+  padding: .25em 0;
+  z-index: 1000;
+  & > * {
+    padding: var(--menu-pad) 1em;
+    display: block;
+  }
+  & > :hover {
+    background-color: hsla(180deg, 50%, 50%, .25);
+    color: var(--fg);
+  }
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+}
+@keyframes fadeout {
+  to { opacity: 0; }
+}
+
+@supports (-moz-appearance: none) {
+  button {
+    padding-top: 2.5px;
+  }
+  .firefox input[type="number"]:not(:hover):not(:focus) {
+    -moz-appearance: textfield;
+    padding-right: 1.5em;
+  }
+}
+
+@media screen and (max-width: 850px), compact {
+  #header-resizer {
+    display: none !important;
+  }
+}
+
+@font-face {
+  font-family: 'icons';
+  src: url(icons.woff2) format('truetype');
+  unicode-range: /*AUTO-GENERATED-ICON-RANGE*/ U+20,U+2016,U+21,U+2195,U+2197,U+21b2,U+21b6,U+222a,U+2298,U+22c1,U+22ee,U+2398,U+24d8,U+25bc,U+25f4,U+2611,U+2699,U+26c8,U+26ed,U+270f,U+2713,U+2714,U+2716,U+2795,U+2796,U+27f3,U+290a,U+290b,U+29ec,U+2b4d,U+40,U+50,U+53,U+6d,U+70,U+73,U+d83e;
+}
+
+/*AUTO-GENERATED-ICON*/ .i-attention::after { content: "!"; }
+/*AUTO-GENERATED-ICON*/ .i-caution::after { content: "⭍"; }
+/*AUTO-GENERATED-ICON*/ .i-check1::after { content: "✓"; }
+/*AUTO-GENERATED-ICON*/ .i-check2::after { content: "✔"; }
+/*AUTO-GENERATED-ICON*/ .i-checked::after { content: "☑"; }
+/*AUTO-GENERATED-ICON*/ .i-close::after { content: "✖"; }
+/*AUTO-GENERATED-ICON*/ .i-cloud::after { content: "⛈"; }
+/*AUTO-GENERATED-ICON*/ .i-config-lite::after { content: "⛭"; }
+/*AUTO-GENERATED-ICON*/ .i-config::after { content: "⚙"; }
+/*AUTO-GENERATED-ICON*/ .i-copy::after { content: "⎘"; }
+/*AUTO-GENERATED-ICON*/ .i-dashboard::after { content: "‖"; }
+/*AUTO-GENERATED-ICON*/ .i-edit::after { content: "✏"; }
+/*AUTO-GENERATED-ICON*/ .i-empty::after { content: "⊘"; }
+/*AUTO-GENERATED-ICON*/ .i-export::after { content: "⤋"; }
+/*AUTO-GENERATED-ICON*/ .i-external::after { content: "↗"; }
+/*AUTO-GENERATED-ICON*/ .i-import::after { content: "⤊"; }
+/*AUTO-GENERATED-ICON*/ .i-info::after { content: "ⓘ"; }
+/*AUTO-GENERATED-ICON*/ .i-install::after { content: "↲"; }
+/*AUTO-GENERATED-ICON*/ .i-log::after { content: "◴"; }
+/*AUTO-GENERATED-ICON*/ .i-manage::after { content: "m"; }
+/*AUTO-GENERATED-ICON*/ .i-menu::after { content: "⋮"; }
+/*AUTO-GENERATED-ICON*/ .i-minus::after { content: "➖"; }
+/*AUTO-GENERATED-ICON*/ .i-pin::after { content: "p"; }
+/*AUTO-GENERATED-ICON*/ .i-pinned::after { content: "P"; }
+/*AUTO-GENERATED-ICON*/ .i-plus::after { content: "➕"; }
+/*AUTO-GENERATED-ICON*/ .i-reorder::after { content: "↕"; }
+/*AUTO-GENERATED-ICON*/ .i-search::after { content: "⧬"; }
+/*AUTO-GENERATED-ICON*/ .i-select-arrow::after { content: "▼"; }
+/*AUTO-GENERATED-ICON*/ .i-settings::after { content: "s"; }
+/*AUTO-GENERATED-ICON*/ .i-settings2::after { content: "S"; }
+/*AUTO-GENERATED-ICON*/ .i-share::after { content: "@"; }
+/*AUTO-GENERATED-ICON*/ .i-sort-down::after { content: "🠇"; }
+/*AUTO-GENERATED-ICON*/ .i-undo::after { content: "↶"; }
+/*AUTO-GENERATED-ICON*/ .i-update-check::after { content: "⟳"; }
+/*AUTO-GENERATED-ICON*/ .i-usercss::after { content: "∪"; }
+/*AUTO-GENERATED-ICON*/ .i-v::after { content: "⋁"; }

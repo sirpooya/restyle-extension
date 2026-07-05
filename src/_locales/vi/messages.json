@@ -1,0 +1,403 @@
+{
+  "addStyleLabel": {
+    "message": "Viết bảng định kiểu mới"
+  },
+  "addStyleTitle": {
+    "message": "Thêm bảng định kiểu"
+  },
+  "alphaChannel": {
+    "message": "Độ mờ"
+  },
+  "appliesAdd": {
+    "message": "Thêm"
+  },
+  "appliesDisplay": {
+    "message": "Áp dụng với: $applies$",
+    "placeholders": {
+      "applies": {
+        "content": "$1"
+      }
+    }
+  },
+  "appliesDisplayTruncatedSuffix": {
+    "message": "và một số khác"
+  },
+  "appliesDomainOption": {
+    "message": "Các địa chỉ thuộc tên miền này"
+  },
+  "appliesHelp": {
+    "message": "Dùng tuỳ chọn \"Áp dụng với\" để giới hạn các địa chỉ cho đoạn mã này"
+  },
+  "appliesLabel": {
+    "message": "Áp dụng với"
+  },
+  "appliesLineWidgetLabel": {
+    "message": "Hiển thị thông tin \"Áp dụng với\""
+  },
+  "appliesLineWidgetWarning": {
+    "message": "Không hoạt động với CSS tối giản"
+  },
+  "appliesRegexpOption": {
+    "message": "URL khớp với biểu thức chính quy"
+  },
+  "appliesRemove": {
+    "message": "Xoá"
+  },
+  "appliesRemoveError": {
+    "message": "Không thể xoá mục \"Áp dụng với\" cuối cùng"
+  },
+  "appliesToEverything": {
+    "message": "Tất cả"
+  },
+  "appliesUrlPrefixOption": {
+    "message": "URL bắt đầu bằng"
+  },
+  "applyAllUpdates": {
+    "message": "Áp dụng tất cả các bản cập nhật"
+  },
+  "author": {
+    "message": "Tác giả"
+  },
+  "backup": {
+    "message": "Sao lưu"
+  },
+  "backupReminder": {
+    "message": "<b>Kiểu có thể bị mất</b> do mất điện, lỗi trong trình duyệt, lỗi cá nhân. <hr><b>Sao lưu dữ liệu của bạn:</b> định cấu hình \"Đồng bộ hóa với đám mây\" trong tùy chọn hoặc nhấp vào nút xuất theo cách thủ công bất cứ khi nào bạn thực hiện các thay đổi quan trọng hoặc tốt nhất là thiết lập sao lưu tự động tất cả dữ liệu của bạn bằng ứng dụng chuyên dụng."
+  },
+  "checkAllUpdates": {
+    "message": "Kiểm tra tất cả các kiểu để cập nhật"
+  },
+  "checkAllUpdatesForce": {
+    "message": "Kiểm tra lại, tôi không chỉnh sửa bất kỳ kiểu nào!"
+  },
+  "checkForUpdate": {
+    "message": "Kiểm tra bản cập nhật mới"
+  },
+  "checkingForUpdate": {
+    "message": "Đang kiểm tra..."
+  },
+  "clickToUninstall": {
+    "message": "Nhấp để huỷ kích hoạt"
+  },
+  "cm_arrowKeysTraverse": {
+    "message": "Phím mũi tên ↑↓ mặt cắt ngang"
+  },
+  "cm_autoCloseBrackets": {
+    "message": "Tự động đóng ngoặc và nháy"
+  },
+  "cm_autoCloseBracketsTooltip": {
+    "message": "Tự động thêm dấu đóng tương ứng khi nhập một trong các dấu (, [, {, ' và \"."
+  },
+  "cm_autocompleteOnTyping": {
+    "message": "Tự động hoàn thành"
+  },
+  "cm_colorpicker": {
+    "message": "Bộ chọn màu cho màu CSS"
+  },
+  "cm_indentWithTabs": {
+    "message": "Lùi đầu dòng thông minh bằng tab"
+  },
+  "cm_keyMap": {
+    "message": "Sơ đồ bàn phím"
+  },
+  "cm_lineWrapping": {
+    "message": "Gập dòng dài"
+  },
+  "cm_matchHighlight": {
+    "message": "Làm nổi"
+  },
+  "cm_matchHighlightSelection": {
+    "message": "Chỉ vùng được chọn"
+  },
+  "cm_matchHighlightToken": {
+    "message": "Token nằm dưới con trỏ văn bản"
+  },
+  "cm_resizeGripHint": {
+    "message": "Nhấp đúp để tối đa hóa/khôi phục chiều cao"
+  },
+  "cm_selectByTokens": {
+    "message": "Nhấp đúp để chọn token"
+  },
+  "cm_selectByTokensTooltip": {
+    "message": "Ví dụ về token: .foo-bar-2 #aabbcc 0.32 !important\nKhi tắt: Chọn từ (phân tách bằng dấu câu)."
+  },
+  "cm_smartIndent": {
+    "message": "Lùi đầu dòng thông minh"
+  },
+  "cm_tabSize": {
+    "message": "Chiều rộng tab"
+  },
+  "cm_theme": {
+    "message": "Chủ đề"
+  },
+  "colorpickerPaletteHint": {
+    "message": "Nhấp chuột phải vào một mẫu màu để duyệt qua các dòng nguồn của nó"
+  },
+  "colorpickerSwitchFormatTooltip": {
+    "message": "Đổi định dạng: HEX → RGB → HSL.\nNhấn giữ phím Shift khi nhấp để đảo thứ tự.\nPhím tắt: PgUp và PgDn."
+  },
+  "colorpickerTooltip": {
+    "message": "Mở bộ chọn màu"
+  },
+  "configOnChange": {
+    "message": "khi thay đổi"
+  },
+  "configOnChangeTooltip": {
+    "message": "Tự động lưu và áp dụng"
+  },
+  "configureStyle": {
+    "message": "Thiết lập"
+  },
+  "configureStyleOnHomepage": {
+    "message": "Thiết lập trên trang chủ"
+  },
+  "confirmCancel": {
+    "message": "Huỷ"
+  },
+  "confirmClose": {
+    "message": "Đóng"
+  },
+  "confirmDefault": {
+    "message": "Dùng mặc định"
+  },
+  "confirmDelete": {
+    "message": "Xoá"
+  },
+  "confirmDiscardChanges": {
+    "message": "Huỷ thay đổi?"
+  },
+  "confirmNo": {
+    "message": "Không"
+  },
+  "confirmSave": {
+    "message": "Lưu"
+  },
+  "confirmStop": {
+    "message": "Dừng"
+  },
+  "confirmYes": {
+    "message": "Có"
+  },
+  "copy": {
+    "message": "Chép vào khay nhớ tạm"
+  },
+  "customNameHint": {
+    "message": "Nhập tên tùy chỉnh vào đây để đổi tên kiểu trong giao diện người dùng mà không làm hỏng các bản cập nhật của nó"
+  },
+  "customNameResetHint": {
+    "message": "Dừng sử dụng tên tùy chỉnh, chuyển sang tên riêng của kiểu"
+  },
+  "dateAbbrDay": {
+    "message": "$value$ ngày",
+    "placeholders": {
+      "value": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateAbbrHour": {
+    "message": "$value$ giờ",
+    "placeholders": {
+      "value": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateAbbrMonth": {
+    "message": "$value$ tháng",
+    "placeholders": {
+      "value": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateAbbrYear": {
+    "message": "$value$ năm",
+    "placeholders": {
+      "value": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateInstalled": {
+    "message": "Ngày cài đặt"
+  },
+  "dateUpdated": {
+    "message": "Ngày cập nhật"
+  },
+  "dbError": {
+    "message": "Đã xảy ra lỗi khi sử dụng cơ sở dữ liệu Stylus. Bạn có muốn truy cập một trang web với các giải pháp khả thi không?"
+  },
+  "defaultTheme": {
+    "message": "mặc định"
+  },
+  "deleteStyleConfirm": {
+    "message": "Bạn có chắc chắn muốn xoá bảng định kiểu này không?"
+  },
+  "deleteStyleLabel": {
+    "message": "Xoá"
+  },
+  "description": {
+    "message": "Thiết kế lại trang web bằng Stylus, trình quản lý kiểu người dùng. Stylus cho phép bạn dễ dàng cài đặt các chủ đề và giao diện cho nhiều trang web phổ biến."
+  },
+  "disableAllStyles": {
+    "message": "Tắt tất cả bảng định kiểu"
+  },
+  "disableAllStylesOff": {
+    "message": "Bật tất cả bảng định kiểu"
+  },
+  "disableStyleLabel": {
+    "message": "Vô hiệu hoá"
+  },
+  "draftAction": {
+    "message": "Chọn \"Có\" để tải bản nháp hoặc \"Không\" để xoá nó đi."
+  },
+  "draftTitle": {
+    "message": "Khôi phục bản nháp, đã tạo $date$",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      }
+    }
+  },
+  "dragDropMessage": {
+    "message": "Thả tệp sao lưu của bạn vào bất cứ đâu trên trang này để nhập."
+  },
+  "dragDropUsercssTabstrip": {
+    "message": "Để cài đặt tệp, hãy thả tệp đó vào dải tab (khu vực hiển thị tiêu đề tab)."
+  },
+  "editDeleteText": {
+    "message": "Xoá"
+  },
+  "editGotoLine": {
+    "message": "Đi đến dòng (hoặc dòng:cột)"
+  },
+  "editStyleHeading": {
+    "message": "Sửa bảng định kiểu"
+  },
+  "editStyleLabel": {
+    "message": "Sửa"
+  },
+  "editTargetsFirst": {
+    "message": "Hiển thị mục tiêu trước code"
+  },
+  "editorSettings": {
+    "message": "Cài đặt trình soạn thảo"
+  },
+  "emptyCode": {
+    "message": "Phần kiểu cho URL này trống"
+  },
+  "enableStyleLabel": {
+    "message": "Kích hoạt"
+  },
+  "exportCompatible": {
+    "message": "Xuất (chế độ tương thích)"
+  },
+  "exportLabel": {
+    "message": "Xuất"
+  },
+  "exportStyles": {
+    "message": "Xuất bảng định kiểu"
+  },
+  "externalFeedback": {
+    "message": "Phản hồi"
+  },
+  "externalHomepage": {
+    "message": "Trang chủ"
+  },
+  "externalLink": {
+    "message": "Liên kết ngoài"
+  },
+  "externalSupport": {
+    "message": "Ủng hộ"
+  },
+  "genericAdd": {
+    "message": "Thêm"
+  },
+  "genericDescription": {
+    "message": "Mô tả"
+  },
+  "genericDisabledLabel": {
+    "message": "Vô hiệu hoá"
+  },
+  "genericEnabledLabel": {
+    "message": "Kích hoạt"
+  },
+  "genericError": {
+    "message": "Lỗi"
+  },
+  "genericHistoryLabel": {
+    "message": "Lịch sử"
+  },
+  "genericNext": {
+    "message": "Sau"
+  },
+  "genericPrevious": {
+    "message": "Trước"
+  },
+  "genericResetLabel": {
+    "message": "Đặt lại"
+  },
+  "genericTest": {
+    "message": "Thứ"
+  },
+  "genericTitle": {
+    "message": "Tiêu đề"
+  },
+  "genericUnknown": {
+    "message": "Không xác định"
+  },
+  "helpAlt": {
+    "message": "Trợ giúp"
+  },
+  "importLabel": {
+    "message": "Nhập"
+  },
+  "importReportLegendAdded": {
+    "message": "đã thêm"
+  },
+  "importReportLegendIdentical": {
+    "message": "Đã bỏ qua các tệp trùng lặp"
+  },
+  "importReportLegendInvalid": {
+    "message": "Đã bỏ qua các tệp không hợp lệ"
+  },
+  "importReportLegendUpdatedBoth": {
+    "message": "đã cập nhật siêu thông tin và mã"
+  },
+  "importReportLegendUpdatedCode": {
+    "message": "đã cập nhật mã"
+  },
+  "importReportLegendUpdatedMeta": {
+    "message": "đã cập nhật siêu thông tin"
+  },
+  "importReportTitle": {
+    "message": "Đã nhập xong"
+  },
+  "installUpdateFromLabel": {
+    "message": "Kiểm tra bản cập nhật mới"
+  },
+  "license": {
+    "message": "Giấy phép"
+  },
+  "linterCSSLintIncompatible": {
+    "message": "CSSLint không hỗ trợ bộ tiền xử lý $preprocessorname$",
+    "placeholders": {
+      "preprocessorname": {
+        "content": "$1"
+      }
+    }
+  },
+  "linterJSONError": {
+    "message": "Định dạng JSON không hợp lệ"
+  },
+  "saved": {
+    "message": "Đã lưu"
+  },
+  "styleEnabledLabel": {
+    "message": "Kích hoạt"
+  },
+  "styleSaveLabel": {
+    "message": "Lưu"
+  }
+}

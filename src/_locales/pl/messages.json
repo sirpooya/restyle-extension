@@ -1,0 +1,1682 @@
+{
+  "addStyleLabel": {
+    "message": "Napisz nowy styl"
+  },
+  "addStyleTitle": {
+    "message": "Dodaj styl"
+  },
+  "alphaChannel": {
+    "message": "Nieprzezroczystość"
+  },
+  "appliesAdd": {
+    "message": "Dodaj"
+  },
+  "appliesDisplay": {
+    "message": "Dotyczy: $applies$",
+    "placeholders": {
+      "applies": {
+        "content": "$1"
+      }
+    }
+  },
+  "appliesDisplayTruncatedSuffix": {
+    "message": "i więcej"
+  },
+  "appliesDomainOption": {
+    "message": "Adresy URL w domenie"
+  },
+  "appliesHelp": {
+    "message": "Użyj przycisków „Dotyczy”, aby ograniczyć adresy URL, których dotyczy kod w tej sekcji."
+  },
+  "appliesLabel": {
+    "message": "Dotyczy"
+  },
+  "appliesLineWidgetLabel": {
+    "message": "Wyświetl informacje 'Dotyczy'"
+  },
+  "appliesLineWidgetWarning": {
+    "message": "Nie działa ze zminifikowanym CSS"
+  },
+  "appliesRegexpOption": {
+    "message": "Adresy URL pasujące do regexp"
+  },
+  "appliesRemove": {
+    "message": "Usuń"
+  },
+  "appliesRemoveError": {
+    "message": "Nie można usunąć ostatniego wpisu 'dotyczy'"
+  },
+  "appliesToEverything": {
+    "message": "Wszystkie"
+  },
+  "appliesUrlOption": {
+    "message": "Adres URL"
+  },
+  "appliesUrlPrefixOption": {
+    "message": "Adresy URL zaczynające się od"
+  },
+  "applyAllUpdates": {
+    "message": "Zastosuj wszystkie aktualizacje"
+  },
+  "author": {
+    "message": "Autor"
+  },
+  "backup": {
+    "message": "Kopia zapasowa"
+  },
+  "backupReminder": {
+    "message": "<b>Style mogą zostać utracone</b> z powodu awarii zasilania, błędów w przeglądarce lub pomyłek.<hr><b>Utwórz kopię zapasową swoich danych:</b> skonfiguruj opcję „Synchronizuj z chmurą” w opcjach lub ręcznie kliknij przycisk eksportu za każdym razem, gdy wprowadzisz istotne zmiany, lub — co jest lepsze — skonfiguruj automatyczne tworzenie kopii zapasowych wszystkich Twoich danych za pomocą dedykowanej aplikacji."
+  },
+  "checkAllUpdates": {
+    "message": "Sprawdź aktualizacje wszystkich stylów"
+  },
+  "checkAllUpdatesForce": {
+    "message": "Sprawdź ponownie, nie edytowałem żadnych stylów!"
+  },
+  "checkForUpdate": {
+    "message": "Sprawdź aktualizacje"
+  },
+  "checkingForUpdate": {
+    "message": "Sprawdzanie..."
+  },
+  "clickToUninstall": {
+    "message": "Kliknij, aby odinstalować"
+  },
+  "cm_arrowKeysTraverse": {
+    "message": "Klawisze strzałek ↑↓ przemierzają sekcje"
+  },
+  "cm_autoCloseBrackets": {
+    "message": "Automatyczne zamykanie nawiasów i cytatów"
+  },
+  "cm_autoCloseBracketsTooltip": {
+    "message": "Automatycznie dodawaj zamknięcie pary podczas pisania jednego z otwarcia ()[]{}''\"\""
+  },
+  "cm_autocompleteOnTyping": {
+    "message": "Autouzupełnianie podczas pisania"
+  },
+  "cm_colorpicker": {
+    "message": "Próbniki kolorów CSS"
+  },
+  "cm_indentWithTabs": {
+    "message": "Użyj tabulacji z inteligentnym wcięciem"
+  },
+  "cm_keyMap": {
+    "message": "Mapa klawiszy"
+  },
+  "cm_lineWrapping": {
+    "message": "Zawijanie tekstu"
+  },
+  "cm_linter": {
+    "message": "Sprawdź poprawność CSS"
+  },
+  "cm_matchHighlight": {
+    "message": "Wyróżnienie"
+  },
+  "cm_matchHighlightSelection": {
+    "message": "Tylko zaznaczenie"
+  },
+  "cm_matchHighlightToken": {
+    "message": "Token pod kursorem"
+  },
+  "cm_resizeGripHint": {
+    "message": "Kliknij dwukrotnie, aby zmaksymalizować lub przywrócić wysokość"
+  },
+  "cm_selectByTokens": {
+    "message": "Dwukrotne kliknięcie wybiera tokeny"
+  },
+  "cm_selectByTokensTooltip": {
+    "message": "Przykłady tokenów: .foo-bar-2 #aabbcc 0.32 !important\nPo wyłączeniu: wyrazy rozdzielone przecinkami są wybrane."
+  },
+  "cm_smartIndent": {
+    "message": "Użyj inteligentnego wcięcia"
+  },
+  "cm_tabSize": {
+    "message": "Szerokość tabulacji"
+  },
+  "cm_theme": {
+    "message": "Motyw"
+  },
+  "colorpickerPaletteHint": {
+    "message": "Kliknij prawym przyciskiem myszy próbkę, aby przejść przez jej wiersze kodu"
+  },
+  "colorpickerSwitchFormatTooltip": {
+    "message": "Zmiana formatu: HEX -> RGB -> HSL.\nShift i kliknięcie do odwrócenia kierunku.\nTakże klawiszami PgUp (PageUp), PgDn (PageDown)."
+  },
+  "colorpickerTooltip": {
+    "message": "Otwórz próbnik kolorów"
+  },
+  "configOnChange": {
+    "message": "przy zmianie"
+  },
+  "configOnChangeTooltip": {
+    "message": "Autozapisuj i stosuj zmiany automatycznie"
+  },
+  "configureStyle": {
+    "message": "Skonfiguruj"
+  },
+  "configureStyleOnHomepage": {
+    "message": "Skonfiguruj na stronie głównej"
+  },
+  "confirmCancel": {
+    "message": "Anuluj"
+  },
+  "confirmClose": {
+    "message": "Zamknij"
+  },
+  "confirmDefault": {
+    "message": "Użyj domyślnych"
+  },
+  "confirmDelete": {
+    "message": "Usuń"
+  },
+  "confirmDiscardChanges": {
+    "message": "Odrzucić zmiany?"
+  },
+  "confirmNo": {
+    "message": "Nie"
+  },
+  "confirmSave": {
+    "message": "Zapisz"
+  },
+  "confirmStop": {
+    "message": "Zatrzymaj"
+  },
+  "confirmYes": {
+    "message": "Tak"
+  },
+  "copy": {
+    "message": "Skopiuj do schowka"
+  },
+  "customNameHint": {
+    "message": "Podaj tutaj niestandardową nazwę, aby zmienić nazwę stylu w interfejsie użytkownika bez przerywania jego aktualizacji"
+  },
+  "customNameResetHint": {
+    "message": "Przestań używać niestandardowej nazwy, przełącz na własną nazwę stylu"
+  },
+  "dateAbbrDay": {
+    "message": "$value$d.",
+    "placeholders": {
+      "value": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateAbbrHour": {
+    "message": "$value$g.",
+    "placeholders": {
+      "value": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateAbbrMonth": {
+    "message": "$value$m.",
+    "placeholders": {
+      "value": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateAbbrYear": {
+    "message": "$value$r.",
+    "placeholders": {
+      "value": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateInstalled": {
+    "message": "Data zainstalowania"
+  },
+  "dateUpdated": {
+    "message": "Data aktualizacji"
+  },
+  "dbError": {
+    "message": "Podczas używania bazy danych Stylus wystąpił błąd. Czy chcesz odwiedzić stronę internetową z możliwymi rozwiązaniami?"
+  },
+  "defaultTheme": {
+    "message": "domyślny"
+  },
+  "deleteStyleConfirm": {
+    "message": "Czy na pewno chcesz usunąć ten styl?"
+  },
+  "deleteStyleLabel": {
+    "message": "Usuń"
+  },
+  "description": {
+    "message": "Przeprojektuj sieć za pomocą Stylusa – menedżera stylów użytkownika. Stylus umożliwia łatwe instalowanie motywów i skórek dla wielu popularnych witryn."
+  },
+  "disableAllStyles": {
+    "message": "Wyłącz wszystkie style"
+  },
+  "disableAllStylesOff": {
+    "message": "Style są wyłączone"
+  },
+  "disableStyleLabel": {
+    "message": "Wyłącz"
+  },
+  "draftAction": {
+    "message": "Wybierz 'Tak', aby załadować tę wersję roboczą lub 'Nie', aby ją odrzucić."
+  },
+  "draftTitle": {
+    "message": "Odzyskiwanie wersji roboczej, utworzonej $date$",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      }
+    }
+  },
+  "dragDropMessage": {
+    "message": "Upuść twój plik kopii zapasowej gdziekolwiek na tej stronie, aby zaimportować."
+  },
+  "dragDropUsercssTabstrip": {
+    "message": "Aby zainstalować plik, upuść go na pasku kart (obszar, w którym wyświetlane są tytuły kart)."
+  },
+  "editDeleteText": {
+    "message": "Usuń"
+  },
+  "editGotoLine": {
+    "message": "Przejdź do wiersza (lub wiersz:kol)"
+  },
+  "editStyleHeading": {
+    "message": "Edytuj styl"
+  },
+  "editStyleLabel": {
+    "message": "Edytuj"
+  },
+  "editTargetsFirst": {
+    "message": "Pokaż cele przed kodem"
+  },
+  "editorSettings": {
+    "message": "Ustawienia edytora"
+  },
+  "emptyCode": {
+    "message": "Sekcje stylu dla tego adresu URL są puste"
+  },
+  "emptyStyle": {
+    "message": "Styl jest pusty"
+  },
+  "enableStyleLabel": {
+    "message": "Włącz"
+  },
+  "exclude": {
+    "message": "Wyklucz"
+  },
+  "exportCompatible": {
+    "message": "Eksportuj (tryb kompatybilny)"
+  },
+  "exportLabel": {
+    "message": "Eksportuj"
+  },
+  "exportStyles": {
+    "message": "Eksportuj style"
+  },
+  "externalFeedback": {
+    "message": "Prześlij opinię"
+  },
+  "externalHomepage": {
+    "message": "Strona główna"
+  },
+  "externalLink": {
+    "message": "Link zewnętrzny"
+  },
+  "externalSupport": {
+    "message": "Wsparcie"
+  },
+  "externalUsercssDocument": {
+    "message": "Dokumentacja UserCSS"
+  },
+  "filteredStyles": {
+    "message": "Pokazano $numShown$ z sumy $numTotal$",
+    "placeholders": {
+      "numShown": {
+        "content": "$1"
+      },
+      "numTotal": {
+        "content": "$2"
+      }
+    }
+  },
+  "filteredStylesAllHidden": {
+    "message": "Aktualnie stosowane filtry nie pasują do żadnego stylu"
+  },
+  "find": {
+    "message": "Znajdź"
+  },
+  "findStyles": {
+    "message": "Znajdź style"
+  },
+  "findStylesOnline": {
+    "message": "Kliknij, aby znaleźć style online."
+  },
+  "general": {
+    "message": "Ogólne"
+  },
+  "genericAdd": {
+    "message": "Dodaj"
+  },
+  "genericClone": {
+    "message": "Sklonuj"
+  },
+  "genericDescription": {
+    "message": "Opis"
+  },
+  "genericDisabledLabel": {
+    "message": "Wyłączone"
+  },
+  "genericEnabledLabel": {
+    "message": "Włączone"
+  },
+  "genericError": {
+    "message": "Błąd"
+  },
+  "genericHistoryLabel": {
+    "message": "Historia"
+  },
+  "genericMaximum": {
+    "message": "maksimum"
+  },
+  "genericNext": {
+    "message": "Dalej"
+  },
+  "genericPrevious": {
+    "message": "Wstecz"
+  },
+  "genericResetLabel": {
+    "message": "Resetuj"
+  },
+  "genericSize": {
+    "message": "Rozmiar"
+  },
+  "genericTest": {
+    "message": "Testuj"
+  },
+  "genericTitle": {
+    "message": "Tytuł"
+  },
+  "genericUnknown": {
+    "message": "Nieznane"
+  },
+  "gettingStyles": {
+    "message": "Uzyskiwanie wszystkich stylów..."
+  },
+  "headerResizerHint": {
+    "message": "Przytrzymaj Shift, aby zmienić rozmiar tylko w tego typu interfejsie, tj. edytorze, menedżerze, instalatorze"
+  },
+  "helpAlt": {
+    "message": "Pomoc"
+  },
+  "helpKeyMapCommand": {
+    "message": "Wpisz nazwę polecenia"
+  },
+  "helpKeyMapHotkey": {
+    "message": "Naciśnij klawisz skrótu"
+  },
+  "importAppendLabel": {
+    "message": "Dołącz do stylu"
+  },
+  "importAppendTooltip": {
+    "message": "Dołącz importowany styl do bieżącego stylu"
+  },
+  "importLabel": {
+    "message": "Importuj"
+  },
+  "importPreprocessor": {
+    "message": "Styl z <@preprocessor> nie będzie działać w trybie klasycznym. Możesz przełączyć edytor w tryb UserCSS: 1) otwórz menedżer stylów, 2) zaznacz pole wyboru „jako UserCSS”, 3) kliknij „Napisz nowy styl”\n\nCzy mimo to zaimportować teraz?"
+  },
+  "importPreprocessorTitle": {
+    "message": "Potencjalny problem związany z @preprocessor"
+  },
+  "importReplaceLabel": {
+    "message": "Nadpisz styl"
+  },
+  "importReplaceTooltip": {
+    "message": "Odrzuć zawartość bieżącego stylu i nadpisz go przy użyciu importowanego stylu"
+  },
+  "importReportLegendAdded": {
+    "message": "dodano"
+  },
+  "importReportLegendIdentical": {
+    "message": "identyczne pominięte"
+  },
+  "importReportLegendInvalid": {
+    "message": "nieprawidłowe pominięte"
+  },
+  "importReportLegendOrphans": {
+    "message": "zainstalowane style nie znajdują się w kopii zapasowej"
+  },
+  "importReportLegendUpdatedBoth": {
+    "message": "zaktualizowano meta info i kod"
+  },
+  "importReportLegendUpdatedCode": {
+    "message": "zaktualizowany kod"
+  },
+  "importReportLegendUpdatedMeta": {
+    "message": "zaktualizowano meta info"
+  },
+  "importReportTitle": {
+    "message": "Ukończono importowanie stylów"
+  },
+  "importReportUnchanged": {
+    "message": "Nic nie zostało zmienione."
+  },
+  "importReportUndone": {
+    "message": "style zostały przywrócone"
+  },
+  "importReportUndoneTitle": {
+    "message": "Importowanie zostało cofnięte"
+  },
+  "importStyles": {
+    "message": "Importuj style"
+  },
+  "include": {
+    "message": "Uwzględnij"
+  },
+  "installButton": {
+    "message": "Zainstaluj styl"
+  },
+  "installButtonInstalled": {
+    "message": "Styl jest zainstalowany"
+  },
+  "installButtonReinstall": {
+    "message": "Przeinstaluj styl"
+  },
+  "installButtonUpdate": {
+    "message": "Zaktualizuj styl"
+  },
+  "installUpdate": {
+    "message": "Zainstaluj aktualizację"
+  },
+  "installUpdateFrom": {
+    "message": "Obecnie styl jest aktualizowany z $url$",
+    "placeholders": {
+      "url": {
+        "content": "$1"
+      }
+    }
+  },
+  "installUpdateFromLabel": {
+    "message": "Sprawdź aktualizacje"
+  },
+  "license": {
+    "message": "Licencja"
+  },
+  "linkGetHelp": {
+    "message": "Uzyskaj pomoc"
+  },
+  "linkGetShareStyles": {
+    "message": "Pobieraj i udostępniaj style"
+  },
+  "linkGetStyles": {
+    "message": "Pobierz style"
+  },
+  "linkTranslate": {
+    "message": "Tłumacz"
+  },
+  "linterCSSLintIncompatible": {
+    "message": "CSSLint nie obsługuje preprocesora $preprocessorname$",
+    "placeholders": {
+      "preprocessorname": {
+        "content": "$1"
+      }
+    }
+  },
+  "linterCSSLintSettings": {
+    "message": "(Ustaw regułę jako: 0 = wyłączone; 1 = ostrzeżenie; 2 = błąd)"
+  },
+  "linterConfigPopupTitle": {
+    "message": "Ustaw konfigurację reguł $linter$",
+    "placeholders": {
+      "linter": {
+        "content": "$1"
+      }
+    }
+  },
+  "linterConfigTooltip": {
+    "message": "Kliknij, aby skonfigurować ten linter"
+  },
+  "linterIssues": {
+    "message": "Problemy"
+  },
+  "linterIssuesHelp": {
+    "message": "Te problemy zostały znalezione przez $link$:",
+    "placeholders": {
+      "link": {
+        "content": "$1"
+      }
+    }
+  },
+  "linterJSONError": {
+    "message": "Nieprawidłowy format JSON"
+  },
+  "linterResetMessage": {
+    "message": "Aby cofnąć przypadkowe zresetowanie, w polu tekstowym naciśnij Ctrl-Z (lub Cmd-Z)"
+  },
+  "linterRulesLink": {
+    "message": "Zobacz pełną listę reguł"
+  },
+  "liveReloadAfterInstall": {
+    "message": "Przeładowanie na żywo po instalacji"
+  },
+  "liveReloadError": {
+    "message": "Wystąpił błąd podczas oglądania pliku"
+  },
+  "liveReloadInstallHint": {
+    "message": "Pozostaw tę kartę otwartą, aby automatycznie aktualizować styl w przypadku zmian zewnętrznych."
+  },
+  "liveReloadInstallHintFF": {
+    "message": "Pozostaw zarówno tę kartę, jak i kartę pierwotną otwarte, aby automatycznie aktualizować styl w przypadku zmian zewnętrznych."
+  },
+  "liveReloadLabel": {
+    "message": "Przeładuj na żywo"
+  },
+  "manageFaviconsGray": {
+    "message": "Wyszarzone"
+  },
+  "manageFilters": {
+    "message": "Filtry"
+  },
+  "manageMinColumnWidth": {
+    "message": "Minimalna szerokość kolumny (w pikselach; 9999 wyłącza tryb wielokolumnowy)"
+  },
+  "manageNewUI": {
+    "message": "Układ tabeli"
+  },
+  "manageOnlyDisabled": {
+    "message": "Tylko wyłączone style"
+  },
+  "manageOnlyEnabled": {
+    "message": "Tylko włączone style"
+  },
+  "manageOnlyExternal": {
+    "message": "Tylko zewnętrzne style"
+  },
+  "manageOnlyLocal": {
+    "message": "Tylko style stworzone lokalnie"
+  },
+  "manageOnlyLocalTooltip": {
+    "message": "(style nie zainstalowane poprzez stronę userstyles.org)"
+  },
+  "manageOnlyNonUsercss": {
+    "message": "Tylko style nie-UserCSS"
+  },
+  "manageOnlyUpdates": {
+    "message": "Tylko z aktualizacjami lub problemami"
+  },
+  "manageOnlyUsercss": {
+    "message": "Tylko style UserCSS"
+  },
+  "manageStyles": {
+    "message": "Zarządzaj stylami"
+  },
+  "masterSwitch": {
+    "message": "Przełącznik główny"
+  },
+  "menuShowBadge": {
+    "message": "Pokaż liczbę aktywnych stylów"
+  },
+  "meta_invalidCheckboxDefault": {
+    "message": "Nieprawidłowe pole wyboru @var: wartość musi wynosić 0 lub 1"
+  },
+  "meta_invalidColor": {
+    "message": "Nieprawidłowy kolor @var: $color$ nie jest kolorem",
+    "placeholders": {
+      "color": {
+        "content": "$1"
+      }
+    }
+  },
+  "meta_invalidNumber": {
+    "message": "Spodziewana liczba"
+  },
+  "meta_invalidRange": {
+    "message": "Nieprawidłowa @var $type$: wartość musi być liczbą lub tablicą",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "meta_invalidRangeDefault": {
+    "message": "Nieprawidłowa @var $type$: wartość domyślna jest wartością null",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "meta_invalidRangeMax": {
+    "message": "Nieprawidłowa @var $type$: domyślna wartość jest większa niż maksymalna",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "meta_invalidRangeMin": {
+    "message": "Nieprawidłowa @var $type$: wartość domyślna jest niższa niż minimalna",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "meta_invalidRangeMultipleUnits": {
+    "message": "Nieprawidłowa @var $type$: określono wiele jednostek",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "meta_invalidRangeStep": {
+    "message": "Nieprawidłowa @var $type$: wartość nie jest wielokrotnością kroku",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "meta_invalidRangeTooManyValues": {
+    "message": "Nieprawidłowa @var $type$: tablica zawiera zbyt wiele elementów",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "meta_invalidRangeUnits": {
+    "message": "Nieprawidłowa @var $type$: '$units$' nie jest prawidłową jednostką",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      },
+      "units": {
+        "content": "$2"
+      }
+    }
+  },
+  "meta_invalidRangeValue": {
+    "message": "Nieprawidłowa @var $type$: elementy w tablicy muszą być liczbą, łańcuchem lub wartością null",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "meta_invalidSelect": {
+    "message": "Nieprawidłowa @var select: domyślną wartością musi być tablica lub obiekt"
+  },
+  "meta_invalidSelectEmptyOptions": {
+    "message": "Nieprawidłowa @var select: lista opcji jest pusta"
+  },
+  "meta_invalidSelectLabel": {
+    "message": "Nieprawidłowa @var select: etykieta opcji jest pusta"
+  },
+  "meta_invalidSelectMultipleDefaults": {
+    "message": "Nieprawidłowa @var select: określono wiele domyślnych opcji"
+  },
+  "meta_invalidSelectNameDuplicated": {
+    "message": "Nieprawidłowa @var select: nazwa opcji jest zduplikowana"
+  },
+  "meta_invalidSelectValue": {
+    "message": "Nieprawidłowa @var select: wartości wewnątrz tablicy/obiektu muszą być ciągami"
+  },
+  "meta_invalidSelectValueMismatch": {
+    "message": "Nieprawidłowa @var select: wartość nie istnieje na liście opcji"
+  },
+  "meta_invalidString": {
+    "message": "Spodziewany cytowany ciąg"
+  },
+  "meta_invalidURLProtocol": {
+    "message": "Nieprawidłowy protokół URL. Dozwolone są tylko http i https: $protocol$",
+    "placeholders": {
+      "protocol": {
+        "content": "$1"
+      }
+    }
+  },
+  "meta_invalidVersion": {
+    "message": "Nieprawidłowy numer wersji"
+  },
+  "meta_invalidWord": {
+    "message": "Spodziewane słowo"
+  },
+  "meta_missingChar": {
+    "message": "Spodziewane znaki: $chars$",
+    "placeholders": {
+      "chars": {
+        "content": "$1"
+      }
+    }
+  },
+  "meta_missingEOT": {
+    "message": "Spodziewane dane EOT"
+  },
+  "meta_missingMandatory": {
+    "message": "Brakujące obowiązkowe metadane: $keys$",
+    "placeholders": {
+      "keys": {
+        "content": "$1"
+      }
+    }
+  },
+  "meta_unknownJSONLiteral": {
+    "message": "Nieprawidłowy JSON: $literal$ nie jest prawidłowym literałem JSON",
+    "placeholders": {
+      "literal": {
+        "content": "$1"
+      }
+    }
+  },
+  "meta_unknownMeta": {
+    "message": "Nieznane metadane: $key$",
+    "placeholders": {
+      "key": {
+        "content": "$1"
+      }
+    }
+  },
+  "meta_unknownMetaTypo": {
+    "message": "Może @$keyOk$? Nieznane metadane: @$keyErr$",
+    "placeholders": {
+      "keyErr": {
+        "content": "$1"
+      },
+      "keyOk": {
+        "content": "$2"
+      }
+    }
+  },
+  "meta_unknownPreprocessor": {
+    "message": "Nieznany @preprocessor: $preprocessor$",
+    "placeholders": {
+      "preprocessor": {
+        "content": "$1"
+      }
+    }
+  },
+  "meta_unknownVarType": {
+    "message": "Nieznany typ @$varkey$: $vartype$",
+    "placeholders": {
+      "varkey": {
+        "content": "$1"
+      },
+      "vartype": {
+        "content": "$2"
+      }
+    }
+  },
+  "newStyleAsUserCSS": {
+    "message": "Napisz nowy styl jako UserCSS"
+  },
+  "newStyleAsUserCSSHint": {
+    "message": "Przełączenie tej opcji powoduje również zmianę bieżącego stylu w edytorze, jeżeli jest on nowy, tzn. dopiero co utworzony i nie był jeszcze edytowany lub zapisany."
+  },
+  "noStylesForSite": {
+    "message": "Nie ma zainstalownych stylów dla tej witryny."
+  },
+  "numberedLine": {
+    "message": "Wiersz:"
+  },
+  "openAsPopupWindow": {
+    "message": "...bez pasków narzędzi i kart"
+  },
+  "openManage": {
+    "message": "Zarządzaj"
+  },
+  "openOptions": {
+    "message": "Opcje"
+  },
+  "optionCompactWidth": {
+    "message": "Maksymalna szerokość okna dla kompaktowego układu interfejsu użytkownika (w pikselach)"
+  },
+  "optionConfigSidePanel": {
+    "message": "Konfiguracja UserCSS"
+  },
+  "optionFOUC": {
+    "message": "Style zastosowane zbyt późno?"
+  },
+  "optionFOUCMV2": {
+    "message": "Rozważ włączenie „$optInst$”.",
+    "placeholders": {
+      "optInst": {
+        "content": "$1"
+      }
+    }
+  },
+  "optionFOUCMV3": {
+    "message": "Rozważ włączenie „$optInst$” i zwiększenie „$optCache$”.",
+    "placeholders": {
+      "optInst": {
+        "content": "$1"
+      },
+      "optCache": {
+        "content": "$2"
+      }
+    }
+  },
+  "optionKeepAlive": {
+    "message": "Czas trwania pamięci podręcznej stylu"
+  },
+  "optionKeepAlive2": {
+    "message": "(w minutach, -1 = brak limitu)"
+  },
+  "optionKeepAliveIdle": {
+    "message": "...nawet jeśli przeglądarka jest nieaktywna"
+  },
+  "optionKeepAliveNote": {
+    "message": "Zwiększ ją, jeśli napotkasz miganie niestylizowanej zawartości (FOUC) podczas otwierania strony po pewnym czasie niekorzystania z przeglądarki.\n\n-1 = domyślne zachowanie ManifestV2 (bez ograniczeń).\n0 = domyślne zachowanie ManifestV3 (pół minuty).\n\nPamięć podręczna zajmuje 30 MB lub więcej pamięci RAM, ale jej odbudowa może zająć zbyt dużo czasu i spowodować FOUC w zależności od witryny, szybkości sieci, liczby stylów, rozmiaru pamięci RAM i wydajności procesora."
+  },
+  "optionSidePanelActions": {
+    "message": "Panel boczny dla wyskakującego okienka czynności"
+  },
+  "optionSidePanelActionsHint": {
+    "message": "Czynności otwierane w panelu bocznym podczas korzystania z wyskakującego okienka w trybie standardowym (opcja „$optPopup$” nie jest włączona). Możesz również kliknąć prawym przyciskiem myszy lub nacisnąć i przytrzymać odpowiedni przycisk w wyskakującym okienku.",
+    "placeholders": {
+      "optPopup": {
+        "content": "$1"
+      }
+    }
+  },
+  "optionSidePanelNumberHint": {
+    "message": "1..99: minimalna liczba elementów, 0: zawsze panel boczny, -1: zawsze wyskakujące okienko."
+  },
+  "optionSidePanelPopup": {
+    "message": "Otwórz wyskakujące okienko w panelu bocznym"
+  },
+  "optionTargetIcons": {
+    "message": "Ikony witryn docelowych"
+  },
+  "optionTargetIconsNote": {
+    "message": "Stylus korzysta z usługi zewnętrznej $SRV$",
+    "placeholders": {
+      "SRV": {
+        "content": "$1"
+      }
+    }
+  },
+  "optionTargetNum": {
+    "message": "Liczba witryn docelowych"
+  },
+  "optionsAdvanced": {
+    "message": "Zaawansowane"
+  },
+  "optionsAdvancedAutoSwitchSchemeBySystem": {
+    "message": "Według preferencji systemowych"
+  },
+  "optionsAdvancedAutoSwitchSchemeByTime": {
+    "message": "W nocy:"
+  },
+  "optionsAdvancedAutoSwitchSchemeNever": {
+    "message": "Wyłączone. Ustawienie ciemny/jasny w stylach jest ignorowane."
+  },
+  "optionsAdvancedContextDelete": {
+    "message": "Dodaj 'Usuń' do menu kontekstowego edytora"
+  },
+  "optionsAdvancedExposeIframes": {
+    "message": "Odsłoń ramki pływające za pomocą <html[stylus-iframe]>"
+  },
+  "optionsAdvancedExposeIframesNote": {
+    "message": "Odsłania domenę najwyższego poziomu w każdym elemencie iframe.\nWłącza pisanie CSS specyficznych dla iframe w taki sposób:\nhtml[stylus-iframe$$=\"twitter.com\"] h1 { display:none }"
+  },
+  "optionsAdvancedExposeStyleName": {
+    "message": "Eksponuj nazwę stylu"
+  },
+  "optionsAdvancedExposeStyleNameNote": {
+    "message": "Eksponuje nazwę stylu na stronie, aby ułatwić debugowanie stylów w narzędziach dla twórców witryn. Załaduj ponownie kartę(-y), aby zastosować nowe ustawienie."
+  },
+  "optionsAdvancedPatchCsp": {
+    "message": "Załataj <CSP>, aby zezwolić na zasoby stylu"
+  },
+  "optionsAdvancedPatchCspNote": {
+    "message": "Włącz tę opcję, jeśli style zawierają obrazy lub czcionki, które nie ładują się w witrynach ze ścisłym<CSP> (<Content-Security-Policy>).\n\nWłączenie tego ustawienia złagodzi ograniczenia <CSP>, umożliwiając załadowanie podstawowej zawartości stylu. Ta opcja jest przeznaczona tylko dla zaawansowanych użytkowników, którzy rozumieją potencjalne konsekwencje dla bezpieczeństwa i przyjmują odpowiedzialność za monitorowanie treści, na które zezwalają. Przeczytaj o atakach opartych na CSS, aby uzyskać więcej informacji.\n\nNależy również pamiętać, że to szczególne ustawienie nie jest gwarantowane, jeśli inne zainstalowane rozszerzenie zmodyfikuje najpierw odpowiedź sieci."
+  },
+  "optionsAdvancedSites": {
+    "message": "...tylko na dopasownych witrynach"
+  },
+  "optionsAdvancedSitesNote": {
+    "message": "<abc.com> jedna witryna.\n<*.abc.com> witryna + subdomeny.\n<-m.abc.com> wykluczenie za pomocą prefiksu \"-\".\n<*> wszystkie witryny (przydatne w przypadku wykluczeń).\n<#abc.com> ignorowane z powodu nieprawidłowego znaku.\n<*://abc.*/xyz> prosty wzorzec glob.\n<https://abc.com/xyz> pełny adres URL.\nWpisy są rozdzielone spacją lub nową linią. Tekst jest automatycznie zapisywany po naciśnięciu Ctrl+S lub ⌘S w polu wprowadzania, kliknięciu poza polem wprowadzania lub zamknięciu opcji."
+  },
+  "optionsAdvancedStyleViaASS": {
+    "message": "Obejdź <style-src> <CSP> za pomocą <adoptedStyleSheets>"
+  },
+  "optionsAdvancedStyleViaXhr": {
+    "message": "Tryb natychmiastowego wstrzyknięcia"
+  },
+  "optionsAdvancedStyleViaXhrNote": {
+    "message": "Włącz tę opcję, jeśli podczas przeglądania napotkasz migającą zawartość bez stylu (FOUC), co jest szczególnie zauważalne w przypadku ciemnych motywów podczas otwierania strony.\n\nTa opcja wykorzystuje „przestarzałe” synchroniczne żądanie XMLHttpRequest wykonywane wewnętrznie w celu pobrania pamięci podręcznej tła rozszerzenia, tj. nie jest to żądanie sieciowe, więc wpływ na wydajność jest znikomy."
+  },
+  "optionsBadgeDisabled": {
+    "message": "Kolor tła po wyłączeniu"
+  },
+  "optionsBadgeNormal": {
+    "message": "Kolor tła"
+  },
+  "optionsCustomizeBadge": {
+    "message": "Emblemat na ikonie paska narzędzi"
+  },
+  "optionsCustomizeIcon": {
+    "message": "Ikona paska narzędzi"
+  },
+  "optionsCustomizePopup": {
+    "message": "Okno podręczne"
+  },
+  "optionsCustomizeSync": {
+    "message": "Synchronizuj z chmurą"
+  },
+  "optionsCustomizeUpdate": {
+    "message": "Aktualizacje"
+  },
+  "optionsHeading": {
+    "message": "Opcje"
+  },
+  "optionsIconAuto": {
+    "message": "Dopasuj tryb ciemny/jasny"
+  },
+  "optionsIconDark": {
+    "message": "Ciemne motywy przeglądarki"
+  },
+  "optionsIconLight": {
+    "message": "Jasne motywy przeglądarki"
+  },
+  "optionsPopupWidth": {
+    "message": "Szerokość okna (w pikselach)"
+  },
+  "optionsReset": {
+    "message": "Zresetuj opcje do wartości domyślnych"
+  },
+  "optionsResetButton": {
+    "message": "Resetuj opcje"
+  },
+  "optionsStylusThemes": {
+    "message": "Kliknij ikonę Stylusa na pasku narzędzi przeglądarki na dowolnej stronie Stylusa, w tym tej, a następnie kliknij 'Znajdź style'"
+  },
+  "optionsSyncConnect": {
+    "message": "Połącz"
+  },
+  "optionsSyncDisconnect": {
+    "message": "Rozłącz"
+  },
+  "optionsSyncLogin": {
+    "message": "Logowanie"
+  },
+  "optionsSyncNone": {
+    "message": "Brak"
+  },
+  "optionsSyncPassword": {
+    "message": "Hasło"
+  },
+  "optionsSyncStatusConnected": {
+    "message": "Połączono"
+  },
+  "optionsSyncStatusConnecting": {
+    "message": "Łączenie..."
+  },
+  "optionsSyncStatusDisconnected": {
+    "message": "Rozłączono"
+  },
+  "optionsSyncStatusDisconnecting": {
+    "message": "Rozłączanie..."
+  },
+  "optionsSyncStatusPull": {
+    "message": "Przyciąganie stylu $loaded$ z $total$",
+    "placeholders": {
+      "loaded": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
+  },
+  "optionsSyncStatusPush": {
+    "message": "Dostarczanie stylu $loaded$ z $total$",
+    "placeholders": {
+      "loaded": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
+  },
+  "optionsSyncStatusRelogin": {
+    "message": "Sesja wygasła, proszę zalogować się ponownie."
+  },
+  "optionsSyncStatusSyncing": {
+    "message": "Synchronizowanie..."
+  },
+  "optionsSyncSyncNow": {
+    "message": "Synchronizuj teraz"
+  },
+  "optionsSyncUrl": {
+    "message": "Adres URL"
+  },
+  "optionsSyncUsername": {
+    "message": "Nazwa użytkownika"
+  },
+  "optionsUpdateInterval": {
+    "message": "Interwał automatycznej aktualizacji stylu w godzinach (podaj 0, aby wyłączyć)"
+  },
+  "optionsUrlInstaller": {
+    "message": "Otwórz instalator podczas przechodzenia do adresu URL .user.css"
+  },
+  "optionsUrlInstallerNote": {
+    "message": "Włącz tę opcję, aby zainstalować styl z dowolnej witryny, jeśli spełnione są następujące warunki:\n1) adres URL kończy się ciągiem <code>.user.css</code>, <code>.user.less</code> lub <code>.user.styl</code>,\n2) adres URL wskazuje na zawartość stylu w postaci zwykłego tekstu (zwykle nazywanego „surowym”), tj. nie na stronę internetową w formacie HTML.\n\nWyłącz tę opcję, aby ograniczyć instalacje do dedykowanych galerii stylów:\n$LIST$.",
+    "placeholders": {
+      "LIST": {
+        "content": "$1"
+      }
+    }
+  },
+  "overwriteFileExport": {
+    "message": "Czy chcesz zastąpić istniejący plik?"
+  },
+  "paginationCurrent": {
+    "message": "Bieżąca strona"
+  },
+  "paginationEstimated": {
+    "message": "Szacowana liczba stron"
+  },
+  "paginationNext": {
+    "message": "Następna strona"
+  },
+  "paginationPrevious": {
+    "message": "Poprzednia strona"
+  },
+  "paginationTotal": {
+    "message": "Wszystkie strony"
+  },
+  "parseUsercssError": {
+    "message": "Stylusowi nie udało się sparsować UserCSS:"
+  },
+  "popupAutoResort": {
+    "message": "Przesortuj style w oknie podręcznym po przełączeniu"
+  },
+  "popupBorders": {
+    "message": "Dodaj białe obramowania po bokach"
+  },
+  "popupBordersTooltip": {
+    "message": "Przydaje się do ciemnych motywów w nowym Chrome, ponieważ nie maluje już bocznych krawędzi"
+  },
+  "popupHotkeysInfo": {
+    "message": "<1>-<9>, <0>, również na klawiaturze numerycznej - przełącza n-ty styl (0 to 10)\n<A>-<Z> przełącza pierwszy styl z nazwą zaczynającą się na literę\n<Shift> otwiera edytor zamiast przełączać\n<+> włącza wymienione style\n<–> wyłącza wymienione style\n<*> oraz <`> (grawis) - przełącza początkowo włączone style; nie ma zastosowania do później włączonych stylów, podczas gdy okienko podręczne jest otwarte, więc możesz przywrócić początkowy wybór po przetestowaniu: po prostu wyłącz wszystkie, a następnie przełącz, np. <–> <*>\nWięcej informacji na wiki"
+  },
+  "popupHotkeysInfoMenu": {
+    "message": "Przytrzymaj <Enter> (lub <▤>) i naciśnij cyfrę, aby otworzyć menu odpowiedniego stylu."
+  },
+  "popupHotkeysInfoSide": {
+    "message": "Kliknij prawym przyciskiem myszy lub naciśnij i przytrzymaj przycisk czynności, aby wymusić otwarcie w panelu bocznym. Domyślne zachowanie możesz zmienić w opcjach 🞂 $side$.",
+    "placeholders": {
+      "side": {
+        "content": "$1"
+      }
+    }
+  },
+  "popupHotkeysInfoTab": {
+    "message": "Możesz przełączać style tylko dla bieżącej karty, (1) klikając prawym przyciskiem myszy lub naciskając długo pole wyboru stylu albo (2) klikając nazwę stylu, przytrzymując klawisz <Alt>, albo (3) używając klawiatury, np. <Alt-1> dla stylu nr 1, liczby są wyświetlane przy prawej krawędzi."
+  },
+  "popupHotkeysTooltip": {
+    "message": "Kliknij, aby zobaczyć dostępne skróty klawiszowe"
+  },
+  "popupManageSiteStyles": {
+    "message": "Zarządzaj stylami witryny"
+  },
+  "popupMenuButtonTooltip": {
+    "message": "Menu czynności"
+  },
+  "popupOpenEditInWindow": {
+    "message": "Otwórz edytor w nowym oknie"
+  },
+  "popupOpenEditInWindowTooltip": {
+    "message": "Także włączone przez odłączenie karty edytora od okna przeglądarki,\nwyłączone przez dołączenie pojedynczej karty edytora do innego okna."
+  },
+  "popupSidePanelOpenHint": {
+    "message": "Kliknij prawym przyciskiem myszy: w panelu bocznym"
+  },
+  "popupStylesFirst": {
+    "message": "Style przed poleceniami"
+  },
+  "prefShowBadge": {
+    "message": "Liczba aktywnych stylów dla bieżącej witryny"
+  },
+  "preferScheme": {
+    "message": "Preferencje trybu ciemnego/jasnego"
+  },
+  "preferSchemeAlways": {
+    "message": "Obecnie ignorowane (styl zawsze obowiązuje), ponieważ globalny tryb ciemny/jasny jest wyłączony"
+  },
+  "preferSchemeDark": {
+    "message": "Ciemny"
+  },
+  "preferSchemeLight": {
+    "message": "Jasny"
+  },
+  "preferSchemeNone": {
+    "message": "Brak (zawsze stosowane)"
+  },
+  "previewLabel": {
+    "message": "Podgląd na żywo"
+  },
+  "previewTooltip": {
+    "message": "Tymczasowo stosuje zmiany bez zapisywania.\nZapisz styl, aby zmiany stały się trwałe."
+  },
+  "publish": {
+    "message": "Opublikuj"
+  },
+  "publishPush": {
+    "message": "Prześlij aktualizację"
+  },
+  "publishReconnect": {
+    "message": "Spróbuj się rozłączyć, a następnie opublikuj ponownie"
+  },
+  "publishRetry": {
+    "message": "Stylus nadal próbuje opublikować ten styl, ale możesz spróbować ponownie, jeśli nie widzisz żadnych działań związanych z uwierzytelnianiem ani wyskakujących okienek. Ponowić teraz?"
+  },
+  "publishStyle": {
+    "message": "Opublikuj styl"
+  },
+  "publishUsw": {
+    "message": "Używanie <userstyles.world>"
+  },
+  "reload": {
+    "message": "Przeładuj"
+  },
+  "replace": {
+    "message": "Zamień"
+  },
+  "replaceAll": {
+    "message": "Zamień wszystkie"
+  },
+  "replaceWith": {
+    "message": "Zamień na"
+  },
+  "reportBug": {
+    "message": "Zgłoś błąd"
+  },
+  "restoreTemplate": {
+    "message": "Przywróć szablon domyślny.\n\n(Aktualnie otwarte strony edytora nie ulegną zmianie.)"
+  },
+  "saveAsTemplate": {
+    "message": "Zapisz jako szablon"
+  },
+  "saved": {
+    "message": "Zapisano"
+  },
+  "search": {
+    "message": "Szukaj"
+  },
+  "searchCaseSensitive": {
+    "message": "Rozróżnianie wielkości liter"
+  },
+  "searchGlobalStyles": {
+    "message": "Przeszukuj także style globalne"
+  },
+  "searchGlobalStylesHint": {
+    "message": "Uwzględnia style, które są stosowane do wszystkich witryn, jeśli nazwa zawiera tekst wyszukiwania lub bieżącą witrynę"
+  },
+  "searchLooseSpaces": {
+    "message": "Spacja pasuje do dowolnej liczby spacji"
+  },
+  "searchNumberOfResults": {
+    "message": "Liczba dopasowań"
+  },
+  "searchNumberOfResults2": {
+    "message": "Liczba dopasowań w kodzie oraz dotyczących wartości"
+  },
+  "searchRegexp": {
+    "message": "Użyj składni /re/ dla wyszukiwania regexp"
+  },
+  "searchResultInstallCount": {
+    "message": "Całkowita liczba instalacji"
+  },
+  "searchResultNoneFound": {
+    "message": "Nie znaleziono stylów dla tej witryny."
+  },
+  "searchResultNotMatching": {
+    "message": "Styl jest zainstalowany, ale nie ma zastosowania do bieżącego adresu URL witryny."
+  },
+  "searchResultNotMatchingNote": {
+    "message": "Poproś autora tego stylu użytkownika o dodanie adresu URL.\n\nMożesz także otworzyć styl w menedżerze stylów i samodzielnie go edytować,\nale pamiętaj, że wyłącza to automatyczne aktualizacje tego stylu."
+  },
+  "searchResultRating": {
+    "message": "Ocena"
+  },
+  "searchResultUpdated": {
+    "message": "Zaktualizowano"
+  },
+  "searchResultWeeklyCount": {
+    "message": "Tygodniowa liczba instalacji"
+  },
+  "searchStyleQueryHint": {
+    "message": "Szukaj nazwy stylów (z uwzględnieniem wielkości liter, jeśli używana jest wielka litera):\njakieś słowa – wszystkie te słowa w dowolnej kolejności\n\"jakaś fraza\" – ta fraza bez cudzysłowów\n/foo.*bar/i – wyrażenie regularne bez spacji (zamiast tego użyj \\s)"
+  },
+  "searchStylesAll": {
+    "message": "Wszystkie"
+  },
+  "searchStylesCode": {
+    "message": "Kod CSS"
+  },
+  "searchStylesHelp": {
+    "message": "Klawisz </> lub <Ctrl-F> uaktywnia pole wyszukiwania.\nTryb domyślny to wyszukiwanie zwykłego tekstu dla wszystkich terminów oddzielonych spacjami w dowolnej kolejności.\nDokładne słowa: zawiń zapytanie w podwójne cudzysłowy, np. <\".header ~ div\">\nWyrażenia regularne: uwzględnij ukośniki i flagi, np. </body.*?\\ba\\b/i>\n„Według adresu URL\" w selektorze zakresu: znajduje style, które mają zastosowanie do w pełni określonego adresu URL, np. https://www.example.org/\n„Metadane” w selektorze zakresu: wyszukuje w nazwach, specyfikatorach „dotyczy”, adresie URL instalacji, adresie URL aktualizacji i całym bloku metadanych dla stylów UserCSS."
+  },
+  "searchStylesMatchUrl": {
+    "message": "Według adresu URL"
+  },
+  "searchStylesMeta": {
+    "message": "Metadane"
+  },
+  "searchStylesName": {
+    "message": "Nazwa"
+  },
+  "sectionAdd": {
+    "message": "Dodaj następną sekcję"
+  },
+  "sectionCode": {
+    "message": "Kod"
+  },
+  "sectionRemove": {
+    "message": "Usuń sekcję"
+  },
+  "sectionRestore": {
+    "message": "Przywróć usuniętą sekcję"
+  },
+  "sectionUserCSS": {
+    "message": "Edytor sekcji nie obsługuje składni UserCSS. Możesz użyć go w nowym stylu: 1. Kliknij przycisk Eksportuj w tym edytorze, skopiuj tekst. 2. Utwórz nowy styl w menedżerze stylów lub w wyskakującym okienku. 3. Włącz „[x] $optUserCSS$”. 4. Wklej skopiowany tekst, nadpisując domyślny szablon. 5. Zapisz nowy styl, wyłącz lub usuń stary styl.",
+    "placeholders": {
+      "optUserCSS": {
+        "content": "$1"
+      }
+    }
+  },
+  "sections": {
+    "message": "Sekcje"
+  },
+  "settings": {
+    "message": "Ustawienia"
+  },
+  "shortcuts": {
+    "message": "Skróty"
+  },
+  "shortcutsNote": {
+    "message": "Zdefiniuj skróty klawiaturowe"
+  },
+  "shortcutsNoteFF": {
+    "message": "W przeglądarce Firefox 66+ możesz ręcznie otworzyć interfejs wbudowanych skrótów:\n1) kliknij prawym przyciskiem myszy ikonę Stylusa na pasku narzędzi i wybierz 'Zarządzaj'\n(alternatywnie otwórz about:addon z menu głównego lub Ctrl-Shift-A),\n2) na stronie, która się otworzy, kliknij ikonę koła zębatego w prawym górnym rogu,\n3) wybierz 'Zarządzaj skrótami rozszerzeń'.\n\nMożesz także dostosować skróty tutaj."
+  },
+  "sitesNoteRe": {
+    "message": "Wyrażenie regularne </\\w+://(abc|def)\\.com/(?!xyz).*/> musi uwzględniać cały adres URL, np. w przykładzie <\\w://> dla <https://> i <.*> dla ścieżki po domenie. 2) Nie ma potrzeby stosowania znaku ucieczki </> w żadnym miejscu. 3) Nie ma potrzeby zakotwiczania wyrażenia, ponieważ odbywa się to wewnętrznie za pomocą <^(abc)$$>."
+  },
+  "sortDateNewestFirst": {
+    "message": "najpierw najnowsze"
+  },
+  "sortDateOldestFirst": {
+    "message": "najpierw najstarsze"
+  },
+  "sortLabel": {
+    "message": "Wybierz sortowanie do zastosowania w zainstalowanych stylach"
+  },
+  "sortLabelTitleAsc": {
+    "message": "Tytuł rosnąco"
+  },
+  "sortLabelTitleDesc": {
+    "message": "Tytuł malejąco"
+  },
+  "sortStylesHelp": {
+    "message": "Wybierz rodzaj sortowania, który zostanie zastosowany do zainstalowanych wpisów z listy sortowania. Ustawienie domyślne stosuje sortowanie rosnące (od A do Z) do tytułów wpisów. Sortowania w grupie „Tytuł malejąco” zastosują sortowanie malejące (od Z do A) do tytułu.\nIstnieją inne ustawienia, które umożliwiają sortowanie wpisów według wielu kryteriów. Pomyśl o tym jako o sortowaniu tabeli z wieloma kolumnami, a każda kategoria w zaznaczeniu (między znakami plus) reprezentuje kolumnę lub grupę.\nNa przykład, jeśli ustawienie ma wartość „Włączone (pierwsze) + tytuł”, wpisy zostaną uporządkowane, tak aby wszystkie włączone pozycje zostały posortowane na początek listy, a następnie do każdego z nich zostanie dodane oddzielnie sortowanie tytułu rosnąco (od A do Z) włączonych i wyłączonych wpisów."
+  },
+  "sortStylesHelpTitle": {
+    "message": "Sortuj zawartość"
+  },
+  "styleAssetsCSP": {
+    "message": "Poniższe zasoby stylów zostały zablokowane przez stronę internetową. Aby je załadować, możesz włączyć opcję „$CSP$”.",
+    "placeholders": {
+      "CSP": {
+        "content": "$1"
+      }
+    }
+  },
+  "styleBadRegexp": {
+    "message": "Regexp jest nieprawidłowe."
+  },
+  "styleBeautify": {
+    "message": "Upiększ"
+  },
+  "styleBeautifyHint": {
+    "message": "Wskazówka: kliknij prawym przyciskiem myszy przycisk “Upiększ” lub użyj zdefiniowanego poniżej skrótu klawiaturowego, aby upiększyć bez pokazywania tego panelu"
+  },
+  "styleBeautifyIndentConditional": {
+    "message": "Wcięcie @media, @supports"
+  },
+  "styleBeautifyPreserveNewlines": {
+    "message": "Zachowaj nowe wiersze"
+  },
+  "styleCancelEditLabel": {
+    "message": "Powrót do menedżera stylów"
+  },
+  "styleChangesNotSaved": {
+    "message": "Wprowadzono zmiany w tym stylu bez zapisywania."
+  },
+  "styleEditor": {
+    "message": "Edytor stylów"
+  },
+  "styleEnabledLabel": {
+    "message": "Włączony"
+  },
+  "styleForceApplied": {
+    "message": "Wymuszono za pomocą „$INC$” w ustawieniach stylu",
+    "placeholders": {
+      "INC": {
+        "content": "$1"
+      }
+    }
+  },
+  "styleForceAppliedTab": {
+    "message": "Wymuszone zastosowanie dla bieżącej karty w menu stylu"
+  },
+  "styleForceTab": {
+    "message": "Tylko bieżąca karta"
+  },
+  "styleFromMozillaFormatError": {
+    "message": "Nie udało się zaimportować z formatu Mozilla"
+  },
+  "styleFromMozillaFormatPrompt": {
+    "message": "Wprowadź kod w formacie Mozilla"
+  },
+  "styleInjectionImportance": {
+    "message": "Przełącz ważność stylu"
+  },
+  "styleInjectionOrder": {
+    "message": "Kolejność wstrzykiwania stylów"
+  },
+  "styleInjectionOrderHint": {
+    "message": "Przeciągnij i upuść styl, aby zmienić jego pozycję. Style są wstrzykiwane sekwencyjnie w kolejności pokazanej poniżej, dzięki czemu styl znajdujący się dalej na liście może zastąpić wcześniejsze style."
+  },
+  "styleInjectionOrderHint_prio": {
+    "message": "Ważne style wymienione poniżej są zawsze wstrzykiwane jako ostatnie, dzięki czemu mogą zastąpić nowo zainstalowane style. Kliknij oznaczenie stylu, aby zmienić jego ważność."
+  },
+  "styleInstallFailed": {
+    "message": "Nie udało się zainstalować stylu!\n$error$",
+    "placeholders": {
+      "error": {
+        "content": "$1"
+      }
+    }
+  },
+  "styleInstallOverwrite": {
+    "message": "'$stylename$' jest już zainstalowany. Zastąpić?\nWersja: $oldVersion$ -> $newVersion$",
+    "placeholders": {
+      "stylename": {
+        "content": "$1"
+      },
+      "oldVersion": {
+        "content": "$2"
+      },
+      "newVersion": {
+        "content": "$3"
+      }
+    }
+  },
+  "styleManager": {
+    "message": "Menedżer stylów"
+  },
+  "styleMissingName": {
+    "message": "Wpisz nazwę"
+  },
+  "styleName": {
+    "message": "Nazwa stylu"
+  },
+  "styleNotAppliedExcluded": {
+    "message": "Wykluczono za pomocą „$EXC$” w ustawieniach stylu",
+    "placeholders": {
+      "EXC": {
+        "content": "$1"
+      }
+    }
+  },
+  "styleNotAppliedExcludedTab": {
+    "message": "Wykluczono z bieżącej karty w menu stylów"
+  },
+  "styleNotAppliedOverridden": {
+    "message": "Twoje ustawienia stylu „$INC$” zastępują oryginalne witryny stylu",
+    "placeholders": {
+      "INC": {
+        "content": "$1"
+      }
+    }
+  },
+  "styleNotAppliedRegexpProblemTooltip": {
+    "message": "Styl nie został zastosowany z powodu nieprawidłowego użycia 'regexp()'"
+  },
+  "styleNotAppliedSchemeDark": {
+    "message": "Ten styl jest stosowany tylko w trybie ciemnym"
+  },
+  "styleNotAppliedSchemeLight": {
+    "message": "Ten styl jest stosowany tylko w trybie jasnym"
+  },
+  "stylePreferSchemeLabel": {
+    "message": "Tryb ciemny/jasny"
+  },
+  "styleRegexpInvalidExplanation": {
+    "message": "Niektóre reguły 'regexp()', których nie można było w ogóle skompilować."
+  },
+  "styleRegexpPartialExplanation": {
+    "message": "Ten styl wykorzystuje częściowo dopasowane regexpy z naruszeniem <a>specyfikacji CSS4 @document</a>, która wymaga pełnego dopasowania adresów URL. Dotyczących sekcji CSS nie zastosowano do strony. Ten styl prawdopodobnie powstał w Stylish-dla-Chrome, który nieprawidłowo sprawdza reguły  'regexp()' od pierwszej wersji (znany błąd)."
+  },
+  "styleRegexpProblemTooltip": {
+    "message": "Liczba sekcji, które nie zostały zastosowane z powodu nieprawidłowego użycia 'regexp()'"
+  },
+  "styleRegexpTestFull": {
+    "message": "Dopasowane karty"
+  },
+  "styleRegexpTestInvalid": {
+    "message": "Nieprawidłowe regexpy pominięto"
+  },
+  "styleRegexpTestNone": {
+    "message": "Brak dopasowanych kart"
+  },
+  "styleRegexpTestNote": {
+    "message": "Uwaga: w polu wejściowym regexp użyj pojedynczego \\ jako znaku ucieczki, który zgodnie ze specyfikacją dla cudzysłowów w CSS zostanie automatycznie zamieniony na \\\\ w kodzie stylu."
+  },
+  "styleRegexpTestNoteStar": {
+    "message": "Dodaj <.*> na końcu, jeśli wzorzec ma pasować jako prefiks, na przykład  <https?://(www\\.)?foo\\.com/(jeden|dwa).*>"
+  },
+  "styleRegexpTestPartial": {
+    "message": "Niedopasowane zupełnie, więc pominięte"
+  },
+  "styleRegexpTestTitle": {
+    "message": "Lista dopasowanych otwartych kart (kliknij URL, aby ustawić kartę)"
+  },
+  "styleSaveLabel": {
+    "message": "Zapisz"
+  },
+  "styleSettings": {
+    "message": "Ustawienia stylu"
+  },
+  "styleSitesExclude": {
+    "message": "Osobiste wykluczone witryny"
+  },
+  "styleSitesInclude": {
+    "message": "Osobiste uwzględnione witryny"
+  },
+  "styleSitesIncludeNote": {
+    "message": "Witryny, w których ten styl jest włączony na Twoim urządzeniu osobistym, dodane do witryn zdefiniowanych przez styl lub używane zamiast nich, w zależności od zaznaczonego pola wyboru. Przydatne w przypadku stylów zewnętrznych, których nie należy edytować, aby zapewnić ich automatyczną aktualizację. Należy pamiętać, że w stylach wielosekcyjnych wszystkie sekcje są włączone dla dodanej witryny, nawet te przeznaczone dla konkretnych stron oryginalnej witryny."
+  },
+  "styleSitesIncludeOvr": {
+    "message": "zastąp styl"
+  },
+  "styleSitesMatchingRules": {
+    "message": "Twoje osobiste zasady witryny, które odpowiadają bieżącemu adresowi URL.\nPrefiks „+” oznacza uwzględnienia.\nPrefiks „-” oznacza wykluczenia."
+  },
+  "styleSitesPopupEdit": {
+    "message": "Edytuj pełną listę witryn osobistych w „Ustawieniach stylu” w edytorze"
+  },
+  "styleSitesPopupHeading": {
+    "message": "Uwzględnij (i <br>) lub wyklucz styl podczas odwiedzania:"
+  },
+  "styleToMozillaFormatHelp": {
+    "message": "Kod w formacie Mozilla może być przesłany do userstyles.org i użyty z klasycznym dodatkiem Stylish dla Firefoksa"
+  },
+  "styleToMozillaFormatTitle": {
+    "message": "Styl w formacie Mozilla"
+  },
+  "styleUpdateDiscardChanges": {
+    "message": "Styl zmieniono poza edytorem. Czy chcesz przeładować styl?"
+  },
+  "styleUpdateUrlLabel": {
+    "message": "Adres URL aktualizacji"
+  },
+  "stylusUnavailableForURL": {
+    "message": "Stylus nie działa na takich stronach."
+  },
+  "stylusUnavailableForURLdetails": {
+    "message": "Ze względów bezpieczeństwa przeglądarka nie zezwala, aby rozszerzenia wpływały na wbudowane strony (np. chrome://version, standardowa strona nowej karty od Chrome 61, about:addons itd.), a także na inne strony rozszerzeń. Każda przeglądarka ogranicza również dostęp do własnej galerii rozszerzeń (np. Chrome Web Store lub AMO)."
+  },
+  "syncError": {
+    "message": "Synchronizacja nie powiodła się"
+  },
+  "syncErrorLock": {
+    "message": "Baza danych jest już w użyciu. Blokada wygaśnie o $TIME$",
+    "placeholders": {
+      "time": {
+        "content": "$1"
+      }
+    }
+  },
+  "syncErrorRelogin": {
+    "message": "Synchronizacja nie powiodła się. Wylogowano.\nSpróbuj ponownie zalogować się w opcjach Stylusa."
+  },
+  "syncStorageErrorSaving": {
+    "message": "Nie można zapisać wartości. Spróbuj zmniejszyć ilość tekstu."
+  },
+  "toggleCurrentTab": {
+    "message": "Przełącz bieżącą kartę"
+  },
+  "toggleStyle": {
+    "message": "Przełącz styl"
+  },
+  "toggleStylesHeading": {
+    "message": "Przełącz style"
+  },
+  "toggleStylesHint": {
+    "message": "Przełącz początkowo włączone style, tak samo jak <✱>"
+  },
+  "toggleStylesPerm": {
+    "message": "na stałe"
+  },
+  "toggleStylesTab": {
+    "message": "tylko na tej karcie"
+  },
+  "undo": {
+    "message": "Cofnij"
+  },
+  "undoGlobal": {
+    "message": "Cofnij we wszystkich sekcjach"
+  },
+  "unreachableAMO": {
+    "message": "Firefox zabrania dostępu do witryny."
+  },
+  "unreachableAMOHint": {
+    "message": "Aby umożliwić dostęp, otwórz <about:config>, kliknij listę prawym przyciskiem myszy, kliknij 'Dodaj ustawienie typu', następnie 'Wartość logiczna (Boolean)', wklej <privacy.resistFingerprinting.block_mozAddonManager> i kliknij OK, <true>, OK, przeładuj stronę <addons.mozilla.org>."
+  },
+  "unreachableCSP": {
+    "message": "Spróbuj włączyć „$optCSP$” w opcjach Stylusa.",
+    "placeholders": {
+      "optCSP": {
+        "content": "$1"
+      }
+    }
+  },
+  "unreachableContentScript": {
+    "message": "Nie można połączyć się ze stroną. Spróbuj przeładować kartę."
+  },
+  "unreachableFileHint": {
+    "message": "Stylus może uzyskać dostęp do adresów URL file:// tylko po włączeniu odpowiedniego pola wyboru rozszerzenia Stylus na stronie chrome://extensions."
+  },
+  "unreachableMozSiteHint": {
+    "message": "W Firefox 60 i nowszych musisz usunąć tę domenę z <extensions.webextensions.restrictedDomains> w <about:config>."
+  },
+  "unreachableMozSiteHintOldFF": {
+    "message": "Tylko Firefox 59 i nowsze mogą być skonfigurowane tak, aby zezwalały WebExtensions na dodawanie elementów stylu w witrynach chronionych przez <CSP>, takich jak ta."
+  },
+  "unreachableOpera": {
+    "message": "Użytkownicy przeglądarki Opera: jeśli to jest Twoja strona wyszukiwania, włącz opcję „[x] Zezwalaj na dostęp do wyników wyszukiwania” w menu ⭕ 🞂 Rozszerzenia 🞂 Rozszerzenia 🞂 Stylus."
+  },
+  "updateAllCheckSucceededNoUpdate": {
+    "message": "Nie znaleziono aktualizacji."
+  },
+  "updateAllCheckSucceededSomeEdited": {
+    "message": "Niektóre, nadające się do aktualizacji, style nie były sprawdzone, aby uniknąć ewentualnej utraty lokalnych zmian. Aktualizacje mogą być wymuszone przez sprawdzanie pojedynczo lub przez uruchomienie innego sprawdzenia wszystkich stylów (lokalne zmiany zostaną nadpisane)."
+  },
+  "updateCheckFailBadResponseCode": {
+    "message": "Aktualizacja się nie powiodła: serwer odpowiedział kodem $code$.",
+    "placeholders": {
+      "code": {
+        "content": "$1"
+      }
+    }
+  },
+  "updateCheckFailServerUnreachable": {
+    "message": "Aktualizacja się nie powiodła: serwer nieosiągalny."
+  },
+  "updateCheckHistory": {
+    "message": "Historia sprawdzania aktualizacji"
+  },
+  "updateCheckManualUpdateForce": {
+    "message": "Zainstaluj aktualizację (lokalne zmiany zostaną nadpisane)"
+  },
+  "updateCheckManualUpdateHint": {
+    "message": "Wymuszenie aktualizacji spowoduje nadpisanie wszelkich lokalnych zmian."
+  },
+  "updateCheckSkippedLocallyEdited": {
+    "message": "Ten styl był edytowany lokalnie."
+  },
+  "updateCheckSkippedMaybeLocallyEdited": {
+    "message": "Ten styl mógł być edytowany lokalnie."
+  },
+  "updateCheckSucceededNoUpdate": {
+    "message": "Styl jest aktualny."
+  },
+  "updateCompleted": {
+    "message": "Aktualizacja zakończona."
+  },
+  "usercssAvoidOverwriting": {
+    "message": "Proszę zmienić wartość @name lub @namespace, aby uniknąć nadpisania istniejącego stylu."
+  },
+  "usercssConfigIncomplete": {
+    "message": "Styl został zaktualizowany lub usunięty po wyświetleniu okna dialogowego konfiguracji. Te zmienne nie zostały zapisane, aby uniknąć uszkodzenia metadanych stylu:"
+  },
+  "usercssEditorNamePlaceholder": {
+    "message": "Określ @name w kodzie"
+  },
+  "usercssReplaceTemplateConfirmation": {
+    "message": "Zastąpić domyślny szablon dla nowych stylów UserCSS aktualnym kodem?"
+  },
+  "usercssReplaceTemplateSectionBody": {
+    "message": "Wstaw kod tutaj..."
+  },
+  "versionInvalidOlder": {
+    "message": "Wersja jest starsza niż zainstalowany styl."
+  },
+  "webRequestBlockingMV3Note": {
+    "message": "Wymaga uprawnienia webRequestBlocking, które można włączyć w ManifestV3 za pomocą jednej z następujących metod:\n\n1) Wyeksportuj kopię zapasową, skonfiguruj zasady $policyName$ dla identyfikatora tego rozszerzenia „$id$”, uruchom ponownie przeglądarkę, poczekaj na zainstalowanie rozszerzenia, zaimportuj kopię zapasową w menedżerze stylów i opcjonalnie przypnij ikonę do paska narzędzi.\n\n2) Zmodyfikuj wiersz poleceń w ikonie przeglądarki lub programie uruchamiającym: dodaj spację i $cmd$",
+    "placeholders": {
+      "policyName": {
+        "content": "$1"
+      },
+      "id": {
+        "content": "$2"
+      },
+      "cmd": {
+        "content": "$3"
+      }
+    }
+  },
+  "writeStyleFor": {
+    "message": "Napisz styl dla:"
+  },
+  "writeStyleForURL": {
+    "message": "tego adresu URL"
+  }
+}

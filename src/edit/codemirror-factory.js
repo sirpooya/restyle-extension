@@ -1,0 +1,421 @@
+import {CodeMirror, loadCmTheme, THEME_KEY} from '@/cm';
+import {getStyleAtPos, rxUniBody} from '@/cm/util';
+import {kCodeMirror} from '@/js/consts';
+import {swController} from '@/js/msg-init';
+import * as prefs from '@/js/prefs';
+import {styleJSONseemsValid, styleToCss} from '@/js/style-util';
+import {tryJSONparse} from '@/js/util';
+import editor from './editor';
+import {rerouteHotkeys} from './util';
+
+/*
+  All cm instances created by this module are collected so we can broadcast prefs
+  settings to them. You should `cmFactory.destroy(cm)` to unregister the listener
+  when the instance is not used anymore.
+*/
+
+//#region Factory
+
+const cms = new Set();
+const cmDefaults = CodeMirror.defaults;
+const cmFactory = {
+
+  /**
+   * @param {HTMLElement | ((host: HTMLElement) => void)} place
+   * @param {CodeMirror.EditorConfiguration} [options]
+   * @param {(CM) => any} [finishInit]
+   * @return {CM}
+   */
+  create(place, options, finishInit) {
+    if (finishInit)
+      (options ??= {}).finishInit = finishInit;
+    const cm = CodeMirror(place, options);
+    cm.display.lineDiv.on('mousewheel', plusMinusOnWheel.bind(cm), true);
+    cm.lastActive = 0;
+    // Re-allow resetModeState (see wp-patch-codemirror.js) and free up memory
+    cm.options.value = '';
+    cms.add(cm);
+    return cm;
+  },
+
+  destroy(cm) {
+    cms.delete(cm);
+  },
+
+  globalSetOption(key, value) {
+    cmDefaults[key] = value;
+    if (cms.size > 4 && lazyOpt.names.includes(key)) {
+      lazyOpt.set(key, value);
+    } else {
+      cms.forEach(cm => cm.setOption(key, value));
+    }
+  },
+};
+
+// focus and blur
+
+const kLineWrapping = 'lineWrapping';
+const onCmFocus = cm => {
+  rerouteHotkeys.toggle(false);
+  cm.display.wrapper.classList.add('CodeMirror-active');
+  cm.lastActive = Date.now();
+};
+const onCmBlur = cm => {
+  setTimeout(() => {
+    /* Delaying to next tick to avoid double-processing of the currently processed keyboard event
+     * when it bubbles up from CodeMirror to `document` where the rerouter listens */
+    rerouteHotkeys.toggle(true);
+    const {wrapper} = cm.display;
+    wrapper.classList.toggle('CodeMirror-active', wrapper.contains(document.activeElement));
+  });
+};
+const onCmBeforeChange = (cm, {text}) => {
+  const max = Math.max(cm.options.maxHighlightLength, 100e3);
+  for (const line of text) {
+    if (line.length > max) {
+      const el = $('#lineWrapping-label + a');
+      el.hidden = false;
+      el.title = (line.length / 1000 | 0) + 'k long line detected, text wrapping was disabled ' +
+        "to ensure the browser doesn't crash or hang";
+      el.parentElement.on('change', evt => !evt.target.checked && (el.hidden = true), {once: true});
+      cm.setOption(kLineWrapping, false);
+      break;
+    }
+  }
+};
+const onCmOption = (cm, name) => {
+  if (name === kLineWrapping) {
+    cm[cm.options[name] ? 'on' : 'off']('beforeChange', onCmBeforeChange);
+  }
+};
+const maybeImportOnPaste = (cm, evt) => {
+  let v, ucText;
+  let text = evt.clipboardData.getData('text') || '';
+  if (!/^\s*{\s*"doc"\s*:\s*{\s*"/.test(text)
+  || !(v = tryJSONparse(text))
+  || !styleJSONseemsValid(v = v.doc)) {
+    v = null;
+  } else if (!(ucText = v.sourceCode)) {
+    text = styleToCss(v);
+  }
+  if (!editor.isUsercss) {
+    editor.importOnPaste(cm, evt, ucText || text, !ucText && v?.sections);
+  } else if (v) {
+    evt.preventDefault();
+    cm.setValue(ucText || text);
+  }
+};
+CodeMirror.defineInitHook(cm => {
+  cm.on('focus', onCmFocus);
+  cm.on('blur', onCmBlur);
+  cm.on('optionChange', onCmOption);
+  cm.on('paste', maybeImportOnPaste);
+  if (cm.options[kLineWrapping]) cm.on('beforeChange', onCmBeforeChange);
+});
+
+// propagated preferences
+
+const prefToCmOpt = k =>
+  k.startsWith('editor.') &&
+  k.slice('editor.'.length);
+const prefKeys = prefs.knownKeys.filter(k =>
+  k !== 'editor.colorpicker' && // handled in colorpicker-helper.js
+  k !== 'editor.arrowKeysTraverse' && // handled in sections-editor.js
+  prefToCmOpt(k) in CodeMirror.defaults);
+const {insertTab, insertSoftTab} = CodeMirror.commands;
+(async () => {
+  if (!__.MV3 || !swController)
+    await prefs.ready;
+  for (const key of prefKeys) {
+    cmDefaults[prefToCmOpt(key)] = prefs.__values[key];
+  }
+  for (const [key, fn] of Object.entries({
+    'editor.tabSize'(cm, value) {
+      cm.setOption('indentUnit', Number(value));
+    },
+    'editor.indentWithTabs'(cm, value) {
+      CodeMirror.commands.insertTab = value ? insertTab : insertSoftTab;
+    },
+    'editor.matchHighlight'(cm, value) {
+      const showToken = value === 'token' && /[#.\-\w]/;
+      const opt = (showToken || value === 'selection') && {
+        showToken,
+        annotateScrollbar: true,
+        delay: 0,
+        onUpdate: updateMatchHighlightCount,
+      };
+      cm.setOption('highlightSelectionMatches', opt || null);
+    },
+    'editor.selectByTokens'(cm, value) {
+      cm.setOption('configureMouse', value ? configureMouseFn : null);
+    },
+  })) {
+    CodeMirror.defineOption(prefToCmOpt(key), prefs.__values[key], fn);
+    prefKeys.push(key);
+  }
+})();
+
+prefs.subscribe(prefKeys, async (key, val) => {
+  if (key === THEME_KEY) await loadCmTheme(val);
+  cmFactory.globalSetOption(prefToCmOpt(key), val);
+});
+
+// lazy propagation
+
+const lazyOpt = {
+  names: ['theme', kLineWrapping],
+  set(key, value) {
+    const {observer, queue} = lazyOpt;
+    for (const cm of cms) {
+      let opts = queue.get(cm);
+      if (!opts) queue.set(cm, opts = {});
+      opts[key] = value;
+      observer.observe(cm.display.wrapper);
+    }
+  },
+  setNow({cm, data}) {
+    cm.operation(() => data.forEach(kv => cm.setOption(...kv)));
+  },
+  onView(entries) {
+    const {queue, observer} = lazyOpt;
+    const delayed = [];
+    for (const e of entries) {
+      const r = e.intersectionRatio && e.intersectionRect;
+      if (!r) continue;
+      const cm = e.target[kCodeMirror];
+      const data = Object.entries(queue.get(cm) || {});
+      queue.delete(cm);
+      observer.unobserve(e.target);
+      if (!data.every(([key, val]) => cm.getOption(key) === val)) {
+        if (r.bottom > 0 && r.top < window.innerHeight) {
+          lazyOpt.setNow({cm, data});
+        } else {
+          delayed.push({cm, data});
+        }
+      }
+    }
+    if (delayed.length) {
+      setTimeout(() => delayed.forEach(lazyOpt.setNow));
+    }
+  },
+  get observer() {
+    if (!lazyOpt._observer) {
+      // must exceed refreshOnView's 100%
+      lazyOpt._observer = new IntersectionObserver(lazyOpt.onView, {rootMargin: '150%'});
+      lazyOpt.queue = new WeakMap();
+    }
+    return lazyOpt._observer;
+  },
+};
+
+//#endregion
+//#region Commands
+
+Object.assign(CodeMirror.commands, {
+  commentSelection(cm) {
+    cm.blockComment(cm.getCursor('from'), cm.getCursor('to'), {fullLines: false});
+  },
+  minus1: plusMinus.bind(null, -1),
+  minus10: plusMinus.bind(null, -10),
+  minus100: plusMinus.bind(null, -100),
+  plus1: plusMinus.bind(null, 1),
+  plus10: plusMinus.bind(null, 10),
+  plus100: plusMinus.bind(null, 100),
+  toggleEditorFocus(cm) {
+    if (!cm) return;
+    if (cm.hasFocus()) {
+      setTimeout(() => cm.display.input.blur());
+    } else {
+      cm.focus();
+    }
+  },
+});
+for (const cmd of [
+  'nextEditor',
+  'prevEditor',
+  'save',
+  'toggleStyle',
+]) {
+  CodeMirror.commands[cmd] = (...args) => editor[cmd](...args);
+}
+
+function plusMinusOne(delta, cm, pos = cm.getCursor(), inOp) {
+  const {line, ch} = pos;
+  const {text} = cm.getLineHandle(line);
+  let m = /[-+\d.%a-z]/iy;
+  let i = m.lastIndex = ch;
+  if (!m.test(text)) i += !i || (m.lastIndex = i - 1, m.test(text)) ? -1 : 1;
+  // find where the number+unit starts
+  do m.lastIndex = i;
+  while (i > ch - 20 && (m.test(text) ? --i >= 0 : (++i, false)));
+  // get the number
+  m = /[-+]?(\d*\.)?(\d+)/y;
+  m.lastIndex = i;
+  m = m.exec(text);
+  if (!m) return;
+  if (m[0].includes('.')) delta /= 10;
+  inOp = inOp && (cm.curOp || (cm.startOperation(), true));
+  cm.replaceRange((+m[0] + delta).toFixed(m[1] ? m[2].length : 0),
+    {line, ch: i},
+    {line, ch: i + m[0].length},
+    '*incdec' + line + ':' + i);
+  return inOp;
+}
+
+function plusMinus(delta, cm) {
+  let op;
+  for (const /**@type{CodeMirror.Range}*/sel of cm.doc.sel.ranges) {
+    if (plusMinusOne(delta, cm, sel.head, !op))
+      op = true;
+  }
+  if (op === true)
+    cm.endOperation();
+}
+
+function plusMinusOnWheel(e) {
+  if (e.altKey) {
+    e.preventDefault();
+    plusMinusOne((e.ctrlKey ? 100 : e.shiftKey ? 10 : 1) * (e.wheelDeltaY > 0 ? 1 : -1), this,
+      this.coordsChar({left: e.clientX, top: e.clientY}, 'window'));
+  }
+}
+
+//#endregion
+//#region CM option handlers
+
+function updateMatchHighlightCount(cm, state) {
+  cm.display.wrapper.dataset.matchHighlightCount = state.matchesonscroll.matches.length;
+}
+
+function configureMouseFn(cm, repeat) {
+  return repeat === 'double' ?
+    {unit: selectTokenOnDoubleclick} :
+    {};
+}
+
+/** @type {RegExp} */
+let rxNonIdent1, rxNonIdentMany, rxQualifier, rxWord, rxWordDashed, rxsrcUniBody;
+
+function selectTokenOnDoubleclick(cm, {ch, line}) {
+  const {styles, text} = cm.getLineHandle(line);
+  const getB = () => (rxUniBody.lastIndex = ch) + rxUniBody.exec(text)[0].length;
+  let [style, i] = ch ? getStyleAtPos(styles, ch) : [styles[2], 2];
+  let a = ch;
+  let b, rx;
+  rxsrcUniBody ??= rxUniBody.source;
+  while (style && !(style = style.split('overlay ', 1)[0].trim()) && i > 2)
+    style = styles[(i -= 2) + 1];
+  if (!style || style && (rx = /^(?:comment|string|(uso-variable))/.exec(style))) {
+    rx = rx?.[1] // uso var can have "-", otherwise make a dashless copy of rxUniBody
+      ? rxWordDashed ??= RegExp(rxsrcUniBody.slice(0, -1), 'yu')
+      : rxWord ??= RegExp('[' + rxsrcUniBody.slice(2, -1), 'yu');
+    while (a && (rx.lastIndex = a - 1, rx.test(text)))
+      --a;
+    b = getB();
+    // if not at a word, let's select the non-word span
+    for (let retry = 0; a === ch && b === ch && retry < 2; ++retry) {
+      // pass #2: if at a space, select the entire space span
+      rx = retry ? /\s/y : rxNonIdent1 ??= RegExp(`[^${rxsrcUniBody.slice(2, -2)}\\s]`, 'yu');
+      while (a && (rx.lastIndex = a - 1, rx.test(text)))
+        --a;
+      rx = retry ? /\s*/y : rxNonIdentMany ??= RegExp(rxNonIdent1.source + '*', 'yu');
+      rx.lastIndex = ch;
+      b += rx.exec(text)[0].length;
+    }
+    // include common prefixes: @ for mentions or @var in UserCSS, # for tags and hex colors
+    if (a && /[#@]/.test(text[a - 1]))
+      --a;
+  } else {
+    // .foo.bar or #a#b will be split later below, otherwise select the entire style span
+    if (!/^(?:qualifier|builtin)/.test(style))
+      b = styles[i];
+    // recombine to the left if split by overlays
+    while ((i -= 2) > 1 && (styles[i + 1] || '').startsWith(style)) {/**/}
+    a = i > 0 ? styles[i] : 0;
+    if (!b)
+      a += text.slice(a, b = getB()).search(rxQualifier ??= RegExp(`[#.]?${rxsrcUniBody}%?$`, 'u'));
+    // include : or :: for a pseudo if not a property declaration
+    if (a && !styles[i + 1] && text[a - 1] === ':' && /callee|variable-3/.test(style)
+    && !/^prop/.test(styles[i - 1]))
+      a -= text[a - 2] === ':' ? 2 : 1;
+  }
+  return {
+    from: {line, ch: a},
+    to: {line, ch: b},
+  };
+}
+
+//#endregion
+//#region Bookmarks
+
+const BM_CLS = 'gutter-bookmark';
+const BM_BRAND = 'sublimeBookmark';
+const BM_CLICKER = 'CodeMirror-linenumbers';
+const BM_DATA = Symbol('data');
+// TODO: revisit when https://github.com/codemirror/CodeMirror/issues/6716 is fixed
+const tmProto = CodeMirror.TextMarker.prototype;
+const tmProtoOvr = {};
+for (const k of ['clear', 'attachLine', 'detachLine']) {
+  tmProtoOvr[k] = function (line) {
+    const {cm} = this.doc;
+    const withOp = !cm.curOp;
+    if (withOp) cm.startOperation();
+    tmProto[k].apply(this, arguments);
+    cm.curOp.ownsGroup.delayedCallbacks.push(toggleMark.bind(this, this.lines[0], line));
+    if (withOp) cm.endOperation();
+  };
+}
+for (const name of ['prevBookmark', 'nextBookmark']) {
+  const cmdFn = CodeMirror.commands[name];
+  CodeMirror.commands[name] = cm => {
+    cm.setSelection = cm.jumpToPos;
+    cmdFn(cm);
+    delete cm.setSelection;
+  };
+}
+CodeMirror.defineInitHook(cm => {
+  cm.on('gutterClick', onGutterClick);
+  cm.on('gutterContextMenu', onGutterContextMenu);
+  cm.on('markerAdded', onMarkAdded);
+});
+// TODO: reimplement bookmarking so next/prev order is decided solely by the line numbers
+function onGutterClick(cm, line, name, e) {
+  switch (name === BM_CLICKER && e.button) {
+    case 0: {
+      // main button: toggle
+      const [mark] = cm.findMarks({line, ch: 0}, {line, ch: 1e9}, m => m[BM_BRAND]);
+      cm.setCursor(mark ? mark.find(-1) : {line, ch: 0});
+      cm.execCommand('toggleBookmark');
+      break;
+    }
+    case 1:
+      // middle button: select all marks
+      cm.execCommand('selectBookmarks');
+      break;
+  }
+}
+function onGutterContextMenu(cm, line, name, e) {
+  if (name === BM_CLICKER) {
+    cm.execCommand(e.ctrlKey ? 'prevBookmark' : 'nextBookmark');
+    e.preventDefault();
+  }
+}
+function onMarkAdded(cm, mark) {
+  if (mark[BM_BRAND]) {
+    // CM bug workaround to keep the mark at line start when the above line is removed
+    mark.inclusiveRight = true;
+    Object.assign(mark, tmProtoOvr);
+    toggleMark.call(mark, true, mark[BM_DATA] = mark.lines[0]);
+  }
+}
+function toggleMark(state, line = this[BM_DATA]) {
+  this.doc[state ? 'addLineClass' : 'removeLineClass'](line, 'gutter', BM_CLS);
+  if (state) {
+    const bms = this.doc.cm.state.sublimeBookmarks;
+    if (!bms.includes(this)) bms.push(this);
+  }
+}
+
+//#endregion
+
+export default cmFactory;

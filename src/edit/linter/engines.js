@@ -1,0 +1,63 @@
+import {getLZValue, LZ_KEY} from '@/js/chrome-sync';
+import {kRulesOvr, mimeLESS, pEditorLinter} from '@/js/consts';
+import {__defaults, onStorageChanged} from '@/js/prefs';
+import * as linterMan from '.';
+import editor from '../editor';
+import {worker} from '../util';
+import {DEFAULTS} from './defaults';
+import {linters, onLinterPref} from './store';
+
+export let curLinter;
+export let linterOn;
+export const overrideCurLinter = val => { curLinter = val; };
+
+const kAtRuleDisallowedList = 'at-rule-disallowed-list';
+const configs = new Map();
+const configHandlers = {
+  __proto__: null,
+  csslint: config => ({
+    ...config,
+    doc: !editor.isUsercss,
+  }),
+  stylelint: (config, mode) => {
+    const rules = {...config.rules};
+    const ats = rules[kAtRuleDisallowedList];
+    rules[kAtRuleDisallowedList] = ['import', ...Array.isArray(ats) ? ats : []];
+    Object.assign(rules, config[kRulesOvr + mode]);
+    return {rules};
+  },
+};
+
+const runLinter = async (text, _options, cm) => {
+  const mode = cm.options.mode.replace(mimeLESS, 'less');
+  const cfgBase = configs.get(curLinter) || await getConfig(curLinter);
+  const cfg = configHandlers[curLinter](cfgBase, mode);
+  return worker[curLinter](text, cfg, mode);
+};
+
+export const linterPrefSubscriber = (key, val) => {
+  if (key === pEditorLinter) {
+    curLinter = configHandlers[val] ? val : __defaults[key];
+  } else {
+    linterOn = val;
+    linters[val ? 'add' : 'delete'](runLinter);
+  }
+  for (const fn of onLinterPref)
+    fn();
+  linterMan.run();
+};
+
+onStorageChanged.add(changes => {
+  for (const name of Object.keys(configHandlers)) {
+    if (LZ_KEY[name] in changes) {
+      getConfig(name).then(linterMan.run);
+    }
+  }
+});
+
+async function getConfig(name) {
+  const rawCfg = await getLZValue(LZ_KEY[name]);
+  const cfg = {...DEFAULTS[name], ...rawCfg};
+  configs.set(name, cfg);
+  return cfg;
+}

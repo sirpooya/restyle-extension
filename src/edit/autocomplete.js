@@ -1,0 +1,326 @@
+/** Registers 'hint' helper and 'autocompleteOnTyping' option in CodeMirror */
+import {CodeMirror} from '@/cm';
+import {getStyleAtPos} from '@/cm/util';
+import {kCssPropSuffix, UCD} from '@/js/consts';
+import * as prefs from '@/js/prefs';
+import {hasOwn, stringAsRegExpStr, tryRegExp} from '@/js/util';
+import {
+  addSuffix, autocompleteOnTyping, Completion, execAt, findAllCssVars, getTokenState,
+  USO_INVALID_VAR, USO_VALID_VAR,
+} from './autocomplete-util';
+import cmFactory from './codemirror-factory';
+import editor from './editor';
+import {worker} from './util';
+import './autocomplete.css';
+
+const rxCmAnyProp = /^(prop(erty)?|variable-2|string-2)\b/;
+const rxCmProp = /prop/;
+const rxCmTopFunc = /^(top|documentTypes|atBlock)/;
+const rxCmVarTagColor = /^(variable|tag|error)/;
+const rxConsume = /([-\w]*\s*:\s?)?/yu;
+const rxCruftAtStart = /^[^\w\s]\s*/;
+const rxFilterable = /(--|[#.\w])\S*\s*$|@|!(i(m(p(o(r(t(a(nt?)?)?)?)?)?)?)?)?/i;
+const rxHexColor = /[0-9a-f]+\b|$|\s/yi;
+const rxMaybeProp1 = /^(prop(erty|\?)|atom|error|tag)/;
+const rxMaybeProp2 = /^(block|atBlock_parens|maybeprop)/;
+const rxNamedColors = /<color>$/;
+const rxNonSpace = /\S/;
+const rxNonWord = /[^-\w]/u;
+const rxNonWordEnd = /[^-\w]$/u;
+const rxPropOrEnd = /^([-a-z]*)(: ?|\()?$/i;
+const rxPropChars = /(\s*[-a-z(]+)?/yi;
+const rxPropChars1 = /[-a-z(!]/yi;
+const rxPropChars2 = /[-a-z(]*/yi;
+const rxPropEnd = /[\s:()]*/y;
+const rxSupports = /(^|[\s()])supports\(\s*$/i;
+const rxVarEnv = /(?:^|[^-.\w\u0080-\uFFFF])(?:var|(e)nv)\(-?/iyu;
+/** Using a string to avoid syntax error while loading this script in old browsers */
+const rxWordStart = __.MV3 ? /(?<![-\w]|#[0-9a-f]*)/
+  : tryRegExp('(?<![-\\w]|#[0-9a-f]*)');
+const rxWord = __.MV3 ? /(?<![-\w]|#[0-9a-f]*)[a-z][-a-z]+/gi
+  : rxWordStart ? tryRegExp('(?<![-\\w]|#[0-9a-f]*)[a-z][-a-z]+', 'gi')
+    : /\b[a-z][-a-z]+/gi;
+const cssMime = CodeMirror.mimeModes['text/css'];
+const docFuncs = addSuffix(cssMime.documentTypes, '(');
+const docFuncsStr = '\n' + docFuncs.join('\n');
+const {tokenHooks} = cssMime;
+const originalHelper = CodeMirror.hint.css || (() => ({list: []}));
+
+const AOT_ID = 'autocompleteOnTyping';
+const AOT_PREF_ID = 'editor.' + AOT_ID;
+const aot = prefs.__values[AOT_PREF_ID];
+
+let cssAts, cssColors, cssMedia, cssProps, cssPropsLC, cssPropNames;
+let /** @type {AutocompleteSpec} */ cssSpecData;
+let prevData, prevMatch, prevLine, prevCh;
+
+CodeMirror.defineOption(AOT_ID, aot, (cm, value) => {
+  cm[value ? 'on' : 'off']('changes', autocompleteOnTyping);
+});
+prefs.subscribe(AOT_PREF_ID, (key, val) => cmFactory.globalSetOption(AOT_ID, val), aot);
+CodeMirror.registerHelper('hint', 'css', helper);
+CodeMirror.registerHelper('hint', 'stylus', helper);
+tokenHooks.set(47/* / */, tokenizeUsoVariables);
+
+/** @param {CM} cm */
+async function helper(cm) {
+  const pos = cm.getCursor();
+  const {line, ch} = pos;
+  const {styles, text} = cm.getLineHandle(line);
+  let i, end, leftLC, list, prev, prop, state, str, type;
+  if (
+    prevData &&
+    prevLine === line &&
+    prevCh <= ch &&
+    (prev = prevData.from.ch) < ch &&
+    prevMatch === text.slice(prevCh - prevMatch.length, prevCh) &&
+    (i = text.slice(prevCh, ch).match(rxPropOrEnd)) &&
+    (prevMatch += i[1], !i[2])
+  ) {
+    list = prevData.list;
+    end = 0;
+    for (let a = 0, v; a < list.length; a++) {
+      v = list[a];
+      if ((v.text || v).indexOf(prevMatch) === v.i) {
+        if (end < a) list[end] = v;
+        end++;
+      }
+    }
+    list.length = end;
+    prevLine = line;
+    prevData.from.ch = prev += text.slice(prev, ch).match(/^\s*/)[0].length;
+    prevCh = prevData.to.ch = end !== 1 ? ch
+      : prev + (end && (i = list[0]).text || i).length;
+    prevData.len = prevMatch.length;
+    return prevData;
+  }
+  prev = prevData = null;
+  if (i) {
+    prop = prevMatch;
+    prev = end = ch;
+    str = leftLC = '';
+  } else {
+    const [style, styleIndex] = getStyleAtPos(styles, ch) || [];
+    type = style && style.split(' ', 1)[0] || 'prop?';
+    if (!type || type === 'comment' || type === 'string') {
+      return originalHelper(cm);
+    }
+    // not using getTokenAt until the need is unavoidable because it reparses text
+    // and runs a whole lot of complex calc inside which is slow on long lines
+    // especially if autocomplete is auto-shown on each keystroke
+    i = styleIndex;
+    prev = styleIndex > 2 ? styles[styleIndex - 2] : 0;
+    while (prev && (rxPropChars1.lastIndex = prev - 1, rxPropChars1.test(text)))
+      --prev;
+    if (text[prev] === '#' && (rxHexColor.lastIndex = prev + 1, rxHexColor.test(text))) {
+      return; // ignore #hex colors
+    }
+    end = styles[styleIndex];
+    rxPropChars2.lastIndex = end;
+    rxPropChars2.exec(text);
+    end = rxPropChars2.lastIndex;
+
+    rxFilterable.lastIndex = prev;
+    prev = Math.max(prev, text.slice(0, end).search(rxFilterable));
+    str = text.slice(prev, end);
+    const left = text.slice(prev, ch).trim();
+    const L = (leftLC = left.toLowerCase())[0];
+
+    // Using Allman style to have conceptually one block but with separate clauses
+    /*eslint-disable brace-style*/
+    if (L === '!')
+    {
+      list = '!important'.startsWith(leftLC) ? ['!important'] : [];
+    }
+    else if (L === '@')
+    {
+      list = cssAts || (await initCssProps(), cssAts);
+      if (cm.doc.mode.helperType === 'less') {
+        list = findAllCssVars(cm, left, '\\s*:').concat(list);
+      }
+    }
+    else if (L === '.' || L === '#') // classes, ids, hex colors
+    {
+      list = false;
+    }
+    else if (L === '-' /*--var*/ || L === '(' /*var()*/)
+    {
+      list = str.startsWith('--') ? findAllCssVars(cm, left) :
+        !(rxVarEnv.lastIndex = ch - 5 - left.endsWith('-'), rxVarEnv.test(text)) ? [] :
+          !RegExp.$1 ? findAllCssVars(cm, left) : ['preferred-text-scale',
+            'safe-area-inset-top', 'safe-area-inset-bottom', 'safe-area-inset-right',
+            'safe-area-inset-left', 'safe-area-max-inset-top', 'safe-area-max-inset-bottom',
+            'safe-area-max-inset-right', 'safe-area-max-inset-left', 'viewport-segment-width',
+            'viewport-segment-height', 'viewport-segment-top', 'viewport-segment-bottom',
+            'viewport-segment-left', 'viewport-segment-right',
+          ];
+      if (str.startsWith('(')) {
+        prev++;
+        leftLC = left.slice(1);
+      } else {
+        leftLC = left;
+      }
+    }
+    else if (L === '/') // USO vars
+    {
+      if (str.startsWith('/*[[') && str.endsWith(']]*/')) {
+        prev += 4;
+        end -= 4;
+        end -= text.slice(end - 4, end) === '-rgb' ? 4 : 0;
+        list = Object.keys(editor.style[UCD]?.vars || {}).sort();
+        leftLC = left.slice(4);
+      }
+    }
+    else if (L === 'u' /*url*/ || L === 'd' /*domain*/ || L === 'r' /*regexp*/)
+    {
+      if (rxCmVarTagColor.test(type) &&
+          docFuncsStr.includes('\n' + leftLC) &&
+          rxCmTopFunc.test(state ??= getTokenState(cm, pos, type))) {
+        end++;
+        list = docFuncs;
+      }
+    }
+  }
+  /*eslint-enable brace-style*/
+
+  if (list == null) {
+    // property values
+    if (!prop && (
+      cm.doc.mode.name === 'stylus' ||
+      rxCmProp.test(state ??= getTokenState(cm, pos, type))
+    )) {
+      while (i > 0 && !rxCmAnyProp.test(styles[i + 1])) i -= 2;
+      const propEnd = styles[i];
+      if (propEnd > text.lastIndexOf(';', ch - 1)) {
+        while (i > 0 && rxCmAnyProp.test(styles[i + 1])) i -= 2;
+        prop = (i < 2 || styles[i] < ch) &&
+          text.slice(styles[i] || 0, propEnd).toLowerCase().match(/([-\w]+)?$/u)[1];
+      }
+    }
+    if (prop) {
+      if (rxNonWord.test(leftLC)) {
+        prev += execAt(rxPropEnd, prev, text)[0].length;
+        leftLC = leftLC.replace(rxCruftAtStart, '');
+      }
+      if (prop.startsWith('--')) prop = 'color'; // assuming 90% of variables are colors
+      else if (leftLC && prop.startsWith(leftLC)) prop = '';
+    }
+    if (prop) {
+      if (!cssPropNames) await initCssProps();
+      list = cssProps[prop + kCssPropSuffix];
+      if (list != null) {
+        list = list ? list.replace(rxNamedColors, cssColors).split('\n') : [];
+        list.push(...cssSpecData.global);
+      }
+      end = prev + execAt(rxPropChars, prev, text)[0].length;
+    }
+    // properties and media features
+    if (!list
+    && rxMaybeProp1.test(type)
+    && rxMaybeProp2.test(state ??= getTokenState(cm, pos, type))) {
+      if (!cssPropNames) await initCssProps();
+      if (type === 'prop?') {
+        prev += leftLC.length;
+        leftLC = '';
+      }
+      list = state === 'atBlock_parens' && !rxSupports.test(text.slice(0, prev))
+        ? cssMedia : cssPropNames;
+      end -= rxNonWordEnd.test(str); // e.g. don't consume ) when inside ()
+      end += execAt(rxConsume, end, text)[0].length;
+    }
+  }
+  if (!list) {
+    const simple = cm.doc.mode.name === 'stylus'
+      ? CodeMirror.hint.fromList(cm, {words: CodeMirror.hintWords.stylus})
+      : originalHelper(cm);
+    const word = leftLC
+      ? RegExp(stringAsRegExpStr(leftLC) + '[-a-z]+', 'gi')
+      : rxWord;
+    const any = CodeMirror.hint.anyword(cm, {word}).list;
+    if (!cssColors) await initCssProps();
+    list = [...new Set([].concat(simple?.list || [], any, cssColors.split('\n')))];
+    list.sort();
+  }
+  const len = leftLC.length;
+  const names1 = new Map();
+  const names2 = new Map();
+  for (const v of list) {
+    i = leftLC ? v.toLowerCase().indexOf(leftLC) : 0;
+    if (i >= 0) (i ? names2 : names1).set(v, new Completion(i, v));
+  }
+  list = [...names1.values(), ...names2.values()];
+  if (!prop) {
+    const values1 = new Map();
+    const values2 = new Map();
+    if (!cssPropNames) await initCssProps();
+    for (const name of cssPropNames) {
+      if (leftLC === '-' && name.charCodeAt(0) !== 45/* - */)
+        continue;
+      i = 0;
+      for (let a, b, v, lc = cssPropsLC[name];
+        i >= 0 && (!leftLC || (i = lc.indexOf(leftLC, i)) >= 0);
+        i = leftLC ? b : b + 1 || b/*retain -1 to end the loop*/
+      ) {
+        a = leftLC ? lc.lastIndexOf('\n', i) + 1 : i;
+        b = lc.indexOf('\n', i + len);
+        v = cssProps[name].slice(a, b < 0 ? 1e9 : b);
+        (i === a ? values1 : values2).set(name + v, new Completion(i - a, name, v));
+      }
+    }
+    list.push(...values1.values(), ...values2.values());
+  }
+  i = str.search(rxNonSpace);
+  prev += i < 0 ? str.length : i;
+  if (end < prev) end = prev;
+  prevMatch = text.slice(prev, ch);
+  prevLine = line;
+  prevCh = ch;
+  /** @namespace CompletionData */
+  prevData = {
+    /** length of the highlight for the matched input */
+    len,
+    list,
+    from: {line, ch: prev},
+    to: {line, ch: end},
+  };
+  return prevData;
+}
+
+async function initCssProps() {
+  cssSpecData = await worker.getCssPropsValues();
+  cssAts = cssSpecData.ats;
+  cssColors = cssSpecData.colors;
+  cssProps = cssSpecData.all;
+  cssPropsLC = {}; for (const k in cssProps) cssPropsLC[k] = cssProps[k].toLowerCase();
+  cssPropNames = cssSpecData.keys;
+  cssMedia = [].concat(...Object.entries(cssMime).map(getMediaKeys).filter(Boolean)).sort();
+}
+
+function getMediaKeys([k, v]) {
+  return k === 'mediaFeatures' && addSuffix(v, kCssPropSuffix) ||
+    k.startsWith('media') && Object.keys(v);
+}
+
+/**
+ * @param {CodeMirror.StringStream} stream
+ * @param {CodeMirror.CSS.State} state
+ * @param {string} str
+ * @param {number} pos
+ */
+function tokenizeUsoVariables(stream, state, str, pos) {
+  let res;
+  if (str.charCodeAt(pos) === 42/* * */
+  && str.charCodeAt(pos + 1) === 91/* [ */
+  && str.charCodeAt(pos + 2) === 91/* [ */
+  && (pos = str.indexOf(']]*/', pos)) > 0) {
+    res = editor.style[UCD]?.vars;
+    res = res && hasOwn(res, str.slice(stream.start + 4, pos).replace(/-rgb$/, ''))
+      ? USO_VALID_VAR
+      : USO_INVALID_VAR;
+    res = [res, 'comment'];
+    stream.pos = pos + 4;
+  } else {
+    res = false;
+  }
+  return res;
+}

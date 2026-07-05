@@ -1,0 +1,129 @@
+{
+  "addStyleTitle": {
+    "message": "Pievienot stilu"
+  },
+  "appliesAdd": {
+    "message": "Pievienot"
+  },
+  "appliesRemove": {
+    "message": "Noņemt"
+  },
+  "author": {
+    "message": "Autors"
+  },
+  "checkingForUpdate": {
+    "message": "Pārbauda..."
+  },
+  "configureStyle": {
+    "message": "Konfigurēt"
+  },
+  "confirmCancel": {
+    "message": "Atcelt"
+  },
+  "confirmClose": {
+    "message": "Aizvērt"
+  },
+  "confirmDelete": {
+    "message": "Dzēst"
+  },
+  "confirmDiscardChanges": {
+    "message": "Atmest izmaiņas?"
+  },
+  "confirmSave": {
+    "message": "Saglabāt"
+  },
+  "copy": {
+    "message": "Kopēt starpliktuvē"
+  },
+  "dateAbbrHour": {
+    "message": "$value$s",
+    "placeholders": {
+      "value": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateAbbrYear": {
+    "message": "$value$g",
+    "placeholders": {
+      "value": {
+        "content": "$1"
+      }
+    }
+  },
+  "dateInstalled": {
+    "message": "Uzstādīšanas datums"
+  },
+  "dateUpdated": {
+    "message": "Atjaunināšanas datums"
+  },
+  "deleteStyleConfirm": {
+    "message": "Vai esiet pārliecināts, ka vēlaties izdzēst šo stilu?"
+  },
+  "deleteStyleLabel": {
+    "message": "Dzēst"
+  },
+  "disableStyleLabel": {
+    "message": "Atspējot"
+  },
+  "editDeleteText": {
+    "message": "Dzēst"
+  },
+  "editStyleLabel": {
+    "message": "Rediģēt"
+  },
+  "exportStyles": {
+    "message": "Eksportēt stilus"
+  },
+  "genericAdd": {
+    "message": "Pievienot"
+  },
+  "genericDescription": {
+    "message": "Apraksts"
+  },
+  "genericDisabledLabel": {
+    "message": "Atspējots"
+  },
+  "genericSize": {
+    "message": "Izmērs"
+  },
+  "genericTitle": {
+    "message": "Nosaukums"
+  },
+  "importStyles": {
+    "message": "Importēt stilus"
+  },
+  "linterJSONError": {
+    "message": "Nederīgs JSON formāts"
+  },
+  "optionsBadgeNormal": {
+    "message": "Fona krāsa"
+  },
+  "optionsSyncPassword": {
+    "message": "Parole"
+  },
+  "optionsSyncUsername": {
+    "message": "Lietotājvārds"
+  },
+  "saved": {
+    "message": "Saglabāts"
+  },
+  "search": {
+    "message": "Meklēt"
+  },
+  "sortDateNewestFirst": {
+    "message": "jaunākie vispirms"
+  },
+  "sortDateOldestFirst": {
+    "message": "vecākie vispirms"
+  },
+  "styleMissingName": {
+    "message": "Ievadiet nosaukumu"
+  },
+  "styleSaveLabel": {
+    "message": "Saglabāt"
+  },
+  "unreachableAMO": {
+    "message": "Firefox aizliedz piekļuvi tīmekļa vietnei."
+  }
+}
