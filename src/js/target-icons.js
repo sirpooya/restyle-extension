@@ -18,6 +18,13 @@ const queue = new Set();
 let badFavs;
 let detecting;
 
+/** Returns a favicon URL for a single target (type+value), or '' if none can be guessed. */
+export function faviconForTarget(type, val) {
+  val = guessSite(type, val);
+  if (!val) return '';
+  return val === MF_ICON ? MF_ICON : URLS.favicon(val);
+}
+
 function guessSite(type, val) {
   if (type === 'domain') {
     if (val === ownId)

@@ -702,7 +702,7 @@ a:hover i {
   > a {
     display: inline-flex;
     align-items: center;
-    padding: $pad;
+    padding: calc($pad * .65);
     border-radius: 50%;
     &:hover {
       background-color: var(--c95);
