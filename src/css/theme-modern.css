@@ -246,7 +246,7 @@ code {
 }
 .split-btn-menu > * {
   border-radius: var(--radius-sm);
-  padding: 7px 12px;
+  padding: 4px 12px;
 }
 .split-btn-menu > :hover {
   background-color: var(--accent-5);
