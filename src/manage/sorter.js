@@ -191,7 +191,7 @@ function updateColumnWidth(_, val) {
 }
 
 function onResize(evt) {
-  const c = Math.max(1, (innerWidth - headerWidth) / minWidth >> 0);
+  const c = 1; /* forced single-column style list */
   if (columns !== c) {
     $root.style.setProperty(COL_PROP, c);
     if (evt) {

@@ -306,6 +306,11 @@ code {
   background: var(--bg);
 }
 
+/* Manage: force a single-column style list (full-width rows) */
+#installed {
+  --columns: 1 !important;
+}
+
 /* ---- Options dialog (standalone tab & embedded modal) ---- */
 /* Modal card: rounded corners + a soft, layered shadow */
 body.tab {
