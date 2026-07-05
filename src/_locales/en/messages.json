@@ -786,8 +786,8 @@
     "description": "Master switch that toggles whether the extension applies any styles"
   },
   "menuShowBadge": {
-    "message": "Show active style count",
-    "description": "Label (must be very short) for the checkbox in the toolbar button context menu controlling toolbar badge text."
+    "message": "Show active style",
+    "description": "Label (must be very short) for the checkbox in the toolbar button context menu controlling the toolbar badge indicator."
   },
   "meta_invalidCheckboxDefault": {
     "message": "Invalid @var checkbox: value must be 0 or 1",

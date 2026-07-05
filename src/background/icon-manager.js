@@ -124,7 +124,7 @@ export function overrideBadge({text = '', color = '', title = ''} = {}) {
 
 function refreshIconBadgeText(tabId) {
   if (badgeOvr.text) return;
-  const text = __prefs[kShowBadge] ? `${getStyleCount(tabId)}` : '';
+  const text = __prefs[kShowBadge] && getStyleCount(tabId) ? '●' : '';
   setBadgeText({tabId, text});
 }
 
