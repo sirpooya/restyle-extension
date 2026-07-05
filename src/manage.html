@@ -41,25 +41,27 @@
 
   <template data-id="styleNewUI">
     <div class="entry">
-      <h2 class="style-name">
-        <input type="checkbox" i18n="title:toggleStyle">
-        <a class="style-name-link">
-          &nbsp;
-          <span class="style-info" data-type="version"></span>
-        </a>
-        <a target="_blank" class="homepage icon" tabindex="0"><i class=i-external></i></a>
-      </h2>
-      <p class="actions">
-        <a class="delete" i18n="title:deleteStyleLabel" tabindex="0">
-          <i class=i-close></i>
-        </a>
-      </p>
+      <input type="checkbox" class="slider entry-toggle" i18n="title:toggleStyle">
+      <div class="entry-text">
+        <h2 class="style-name">
+          <a class="style-name-link">
+            &nbsp;
+            <span class="style-info" data-type="version"></span>
+          </a>
+          <a target="_blank" class="homepage icon" tabindex="0"><i class=i-external></i></a>
+        </h2>
+        <div class="applies-to">
+          <a class="expander" tabindex="0"><i>▼</i></a>
+          <div class="targets"></div>
+        </div>
+      </div>
       <p class="style-info" data-type="size"></p>
       <p class="style-info" data-type="age"></p>
-      <div class="applies-to">
-        <a class="expander" tabindex="0"><i>▼</i></a>
-        <div class="targets"></div>
-      </div>
+      <p class="actions">
+        <a class="delete" i18n="title:deleteStyleLabel" tabindex="0">
+          <i class=i-trash></i>
+        </a>
+      </p>
     </div>
   </template>
 

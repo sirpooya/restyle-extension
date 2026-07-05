@@ -15,25 +15,30 @@ $iconGapY: .25rem;
     --target-height: 18px;
     --name-size: 14px;
     --padY: .5rem;
-    padding: 0 .5em;
+    padding: calc(var(--padY) * 1.5) 1em;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 12px;
     border: none;
-    contain-intrinsic-block-size: auto max(
-      var(--num-targets, 0) * var(--target-height) + var(--padY),
-      var(--padY) * 2 + var(--name-size) * 1.2/*line-height*/);
     &.odd {
       background-color: var(--zebra);
     }
     > * {
-      padding: var(--padY) 0;
       margin: 0;
-      display: flex;
-      align-items: center;
     }
-    input[type="checkbox"]:not(.slider) {
+    input.slider {
       pointer-events: all;
+      flex: 0 0 auto;
     }
+  }
+  /* Title + targets stacked vertically; grouped horizontally with the switch */
+  .entry-text {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
   }
   .style-info {
     &:is([data-type=size], [data-type=age]) {
@@ -61,17 +66,12 @@ $iconGapY: .25rem;
   }
   .style-name {
     font-size: var(--name-size);
-    padding-left: var(--name-padding-left);
+    font-weight: 600;
     position: relative;
     cursor: pointer;
-    justify-content: space-between;
-    flex: 0 0 var(--name-width);
-    min-width: 25%;
-    max-width: 50%;
-    :root:not(.has-targets) & {
-      max-width: none;
-      flex: 1;
-    }
+    display: flex;
+    align-items: center;
+    margin: 0;
     &:hover .style-name-link {
       text-decoration: underline;
     }
@@ -80,15 +80,21 @@ $iconGapY: .25rem;
     }
   }
   .style-name-link {
-    width: 100%;
     word-break: break-word;
   }
   .actions {
-    flex: 0 0 calc(3 * var(--action-size));
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* push actions to the trailing edge */
     z-index: 100;
     .delete i {
       font-size: 16px;
     }
+  }
+  /* Not interested in size/age in this list */
+  .style-info:is([data-type=size], [data-type=age]) {
+    display: none;
   }
   .updater-icons > * {
     transition: opacity 1s;
@@ -168,8 +174,8 @@ $iconGapY: .25rem;
     }
   }
   .applies-to {
-    padding: calc(var(--padY) / 2) 0 calc(var(--padY) / 2) 1em;
-    flex-grow: 999;
+    position: relative;
+    padding: 0;
     :root:not(.has-targets) & {
       display: none;
     }
