@@ -34,9 +34,13 @@ const COMMANDS = {
 const chromeCommands = chrome.commands;
 const chromeMenus = chrome.contextMenus;
 
+/** Non-strict i18n lookup: some locales lack the newer menu keys, and a
+ * missing string must not throw during service-worker startup. */
+const tMenu = (key, fallback) => t(key, undefined, false) || fallback || key;
+
 /** id is either a prefs id or an i18n key to be used for the title */
 const MENUS = !!chromeMenus && {
-  'show-badge': [togglePref, {title: t('menuShowBadge')}],
+  'show-badge': [togglePref, {title: tMenu('menuShowBadge', 'Show number of styles on the icon')}],
 };
 if (MENUS) {
   for (const [menuId, cmdId = menuId] of [
@@ -48,7 +52,7 @@ if (MENUS) {
   ]) {
     MENUS[menuId] = [
       COMMANDS[cmdId],
-      {title: MF.commands[cmdId]?.description || t(cmdId)},
+      {title: MF.commands[cmdId]?.description || tMenu(cmdId)},
     ];
   }
 }
