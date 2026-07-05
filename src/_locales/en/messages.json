@@ -1034,9 +1034,9 @@
     "message": "Manage",
     "description": "Link to open style manager."
   },
-  "openManageSidebar": {
-    "message": "Manage styles in sidebar",
-    "description": "Tooltip for the popup toolbar button that opens the style manager in the browser's side panel."
+  "openOptionsSidebar": {
+    "message": "Options in sidebar",
+    "description": "Tooltip for the popup toolbar button that opens Options UI in the browser's side panel."
   },
   "openOptions": {
     "message": "Options",
