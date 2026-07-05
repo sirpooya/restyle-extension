@@ -252,14 +252,17 @@ h1 {
 
 .oldUI .disabled h2::after,
 .entry.usercss .style-name-link::after {
-  font-size: 11px;
-  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: .3px;
+  border-radius: 3px;
   margin-left: 1ex;
   white-space: nowrap;
   content: "UC";
-  background-color: hsla(180, 35%, 50%, .35);
-  padding: 2px 3px;
-  color: var(--fg);
+  background-color: hsl(230 12% 90%); /* neutral gray, not teal */
+  padding: 2px 4px;
+  color: var(--c40);
 }
 .oldUI .disabled h2::after {
   content: var(--genericDisabledLabel);

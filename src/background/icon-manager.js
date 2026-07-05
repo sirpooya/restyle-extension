@@ -264,7 +264,7 @@ async function setIcon(data, dot) {
   if (hasCanvas) {
     const imageData = {};
     for (const [key, url] of Object.entries(data.path)) {
-      const cacheKey = dot ? `${url}|${dot}` : url;
+      const cacheKey = dot ? `${url}|${dot}|${colorScheme.isDark ? 'd' : 'l'}` : url;
       let val = imageDataCache[cacheKey];
       if (!val) {
         val = imageDataCache[url] || (imageDataCache[url] = loadImage(url));
@@ -291,9 +291,20 @@ async function setIcon(data, dot) {
 function paintDot(img, color) {
   const {width: w, height: h} = img;
   const r = w * 3 / 16; // 3px radius on the 16px icon, scales with DPI variants
+  const bw = w * 2 / 16; // 2px border on the 16px icon, scales with DPI variants
+  // A blue dot with a border matching the toolbar (dark border on a dark
+  // toolbar, light on a light one) so the dot reads cleanly on either.
+  const dotColor = '#1f6fe5';
+  const borderColor = colorScheme.isDark ? '#000' : '#fff';
   return paintCanvas(w, h, ctx => {
     ctx.putImageData(img, 0, 0);
-    ctx.fillStyle = color;
+    // outer border circle
+    ctx.fillStyle = borderColor;
+    ctx.beginPath();
+    ctx.arc(w - r, h - r, r + bw, 0, 2 * Math.PI);
+    ctx.fill();
+    // inner blue dot
+    ctx.fillStyle = dotColor;
     ctx.beginPath();
     ctx.arc(w - r, h - r, r, 0, 2 * Math.PI);
     ctx.fill();

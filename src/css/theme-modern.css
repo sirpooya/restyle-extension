@@ -241,7 +241,10 @@ input[type="checkbox"]:not(.slider):checked::after {
 }
 input[type="checkbox"]:not(.slider):hover {
   border-color: var(--accent-1);
-  background-color: transparent;
+}
+/* keep the accent fill on hover when checked (don't reset it to transparent) */
+input[type="checkbox"]:not(.slider):checked:hover {
+  background-color: var(--accent-1);
 }
 
 /* Radios: crisp accent ring + filled dot, matching the checkboxes */

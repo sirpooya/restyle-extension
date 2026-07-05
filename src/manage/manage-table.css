@@ -15,11 +15,11 @@ $iconGapY: .25rem;
     --target-height: 18px;
     --name-size: 14px;
     --padY: .5rem;
-    padding: calc(var(--padY) * 1.5) 1em;
+    padding: calc(var(--padY) * 1.75) 1.5em;
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
-    gap: 12px;
+    gap: 18px; /* generous space between the switch and the title/desc group */
     border: none;
     &.odd {
       background-color: var(--zebra);
@@ -86,6 +86,7 @@ $iconGapY: .25rem;
     flex: 0 0 auto;
     display: flex;
     align-items: center;
+    gap: 6px; /* breathing room between update/refresh and delete */
     z-index: 100;
     .delete i {
       font-size: 16px;
