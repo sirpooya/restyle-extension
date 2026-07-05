@@ -99,7 +99,7 @@ h1 {
     }
   }
   :is(
-    & details:not([open]) + main button,
+    & details:not([open]) + main button.icon,
     .normal-layout & #update-history-button
   ):not(:hover) {
     background: none;
@@ -366,6 +366,9 @@ h1 {
     gap: $pad05;
   }
   a {
+    display: flex;
+    align-items: center;
+    gap: .5ex;
     width: auto;
     min-width: 0;
     padding-right: 0;
@@ -510,6 +513,16 @@ button i {
 }
 #search + * {
   margin-left: -1px;
+}
+/* Join the search field and its mode dropdown into one segmented control:
+   flatten the touching corners so they read as a single pill. */
+#search {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+#search-wrapper .select-wrapper > select {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 #manage\.searchMode {
   background: var(--bg);

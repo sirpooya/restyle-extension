@@ -235,6 +235,8 @@ label.disabled + .sites {
 
 footer {
   justify-content: center;
+  align-items: center;
+  gap: .5em;
   padding: var(--pad05) var(--pad);
   background-color: var(--c90);
   margin: 0;
@@ -247,9 +249,6 @@ footer {
   bottom: 0;
   left: 0;
   right: 0;
-  button {
-    margin: 0 .25em;
-  }
 }
 
 [data-cmd="check-updates"] button {

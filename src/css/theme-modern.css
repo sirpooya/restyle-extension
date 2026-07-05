@@ -159,6 +159,17 @@ button[name="install"]:not(:disabled):hover,
   border-color: var(--accent-2);
 }
 
+/* Split buttons: join the main button and its pedal into one control
+   by flattening the corners where they meet. */
+.split-btn > :first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.split-btn-pedal {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
 input:not([type]),
 input[type=text],
 input[type=number],
@@ -171,9 +182,25 @@ input[type=url] {
 }
 input:not([type]):hover,
 input[type=text]:hover,
+input[type=number]:hover,
 input[type=search]:hover,
 input[type=url]:hover {
   border-color: var(--c50);
+}
+/* Number inputs: tighter padding so the value and the native
+   up/down spinner aren't cramped, and give the spinner room. */
+input[type=number] {
+  padding: 0 6px !important;
+  text-align: left;
+}
+input[type=number]::-webkit-inner-spin-button {
+  height: var(--input-height);
+  margin-left: 4px;
+  opacity: .6;
+}
+input[type=number]:hover::-webkit-inner-spin-button,
+input[type=number]:focus::-webkit-inner-spin-button {
+  opacity: 1;
 }
 
 select {

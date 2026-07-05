@@ -695,6 +695,9 @@ a:hover i {
   background: var(--bg);
   justify-content: space-between;
   align-items: center;
+  [hidden] {
+    display: none !important; /* beats the flex display rules below */
+  }
   > div > a,
   > a {
     display: inline-flex;
@@ -705,7 +708,7 @@ a:hover i {
       background-color: var(--c95);
     }
   }
-  .split-btn {
+  .split-btn:not([hidden]) {
     display: flex;
     align-items: center;
     > a:first-child {
@@ -717,6 +720,12 @@ a:hover i {
       border-radius: 0 50% 50% 0;
     }
   }
+}
+/* When the dropdown chevron is hidden (e.g. blocked pages), the lone
+   manage button should be a full circle, not a half pill. */
+.blocked #popup-options .split-btn > a:first-child:has(~ .dropdown.if-not-blocked) {
+  padding-right: $pad;
+  border-radius: 50%;
 }
 .i-manage {
   font-size: 18px;
@@ -782,6 +791,11 @@ a:hover i {
     font-weight: normal;
     font-size: calc(var(--font-size) - 2px);
     text-align: center;
+    opacity: .65;
+  }
+  > a {
+    font-weight: normal;
+    font-size: calc(var(--font-size) - 2px);
     opacity: .65;
   }
   > :nth-child(n + 2) {
