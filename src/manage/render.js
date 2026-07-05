@@ -4,7 +4,7 @@ import {animateElement, scrollElementIntoView} from '@/js/dom-util';
 import {breakWord, template} from '@/js/localization';
 import * as prefs from '@/js/prefs';
 import {TO_CSS} from '@/js/style-util';
-import {renderTargetIcons} from '@/js/target-icons';
+import {faviconForTarget, renderTargetIcons} from '@/js/target-icons';
 import {FIREFOX} from '@/js/ua';
 import {sessionStore, t} from '@/js/util';
 import {filterAndAppend} from './filters';
@@ -149,6 +149,7 @@ export function createTargetsElement({entry, expanded, style = entry.styleMeta})
   let el = entryTargets.firstElementChild;
   let numTargets = 0;
   let allTargetsRendered = true;
+  let firstTarget;
   for (const type in TO_CSS) {
     const cssType = TO_CSS[type];
     for (const section of style.sections) {
@@ -156,6 +157,7 @@ export function createTargetsElement({entry, expanded, style = entry.styleMeta})
         if (displayed.has(targetValue)) {
           continue;
         }
+        firstTarget ??= {type: cssType, val: targetValue};
         if (++numTargets > maxTargets) {
           allTargetsRendered = expanded;
           break;
@@ -209,6 +211,13 @@ export function createTargetsElement({entry, expanded, style = entry.styleMeta})
   entry._allTargetsRendered = allTargetsRendered;
   entry._numTargets = numTargets;
   if (UI.tableView) entry.style.setProperty('--num-targets', Math.min(numTargets, UI.targets));
+  // Single favicon shown before the title (derived from the first target)
+  const fav = entry.$('.entry-favicon');
+  if (fav) {
+    const src = firstTarget && faviconForTarget(firstTarget.type, firstTarget.val);
+    if (src) fav.src = src;
+    fav.classList.toggle('hidden', !src);
+  }
 }
 
 function highlightEditedStyle() {

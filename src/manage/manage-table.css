@@ -71,6 +71,7 @@ $iconGapY: .25rem;
     cursor: pointer;
     display: flex;
     align-items: center;
+    gap: 6px;
     margin: 0;
     &:hover .style-name-link {
       text-decoration: underline;
@@ -78,6 +79,26 @@ $iconGapY: .25rem;
     .entry.enabled &:hover .style-name-link {
       color: var(--accent-1);
     }
+  }
+  /* one favicon before the title (populated from the first target) */
+  .entry-favicon {
+    flex: 0 0 16px;
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    &.hidden, &:not([src]) {
+      display: none;
+    }
+    :root:not(.has-favicons) & {
+      display: none;
+    }
+  }
+  /* favicons now live before the title, so drop the per-URL favicons here */
+  .entry .target img {
+    display: none;
+  }
+  .has-favicons & .entry .target {
+    padding-left: 0;
   }
   .style-name-link {
     word-break: break-word;

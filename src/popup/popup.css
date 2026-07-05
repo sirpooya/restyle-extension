@@ -695,6 +695,7 @@ a:hover i {
   background: var(--bg);
   justify-content: space-between;
   align-items: center;
+  padding: calc($pad * .35) calc($pad * .5); /* keep buttons off the popup edges */
   [hidden] {
     display: none !important; /* beats the flex display rules below */
   }
