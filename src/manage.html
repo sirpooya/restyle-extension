@@ -297,6 +297,18 @@
 
 <div id="installed"></div>
 
+<!-- shown only when there are zero styles (see .empty on the root element) -->
+<div id="empty-state">
+  <h2 i18n="emptyStateTitle"></h2>
+  <p i18n="emptyStateSubtitle"></p>
+  <div class="flex wrap center-items">
+    <button id="empty-import" i18n="importLabel"></button>
+    <button id="empty-get-styles" i18n="linkGetStyles"></button>
+    <button id="empty-write-style" i18n="addStyleLabel"></button>
+    <button id="empty-sync" i18n="optionsCustomizeSync"></button>
+  </div>
+</div>
+
 </template>
 </head>
 

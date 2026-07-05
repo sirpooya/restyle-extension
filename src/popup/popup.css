@@ -699,6 +699,10 @@ a:hover i {
   [hidden] {
     display: none !important; /* beats the flex display rules below */
   }
+  #popup-trailing-icons {
+    align-items: center;
+    gap: calc($pad * .2);
+  }
   > div > a,
   > a {
     display: inline-flex;

@@ -43,8 +43,21 @@ import '@/css/theme-modern.css';
   initSyncButton(data.sync || {});
   initGetStylesButton();
   initDropdownMenus();
+  initEmptyState();
   import('./import-export');
 })();
+
+function initEmptyState() {
+  // forwards to the real buttons so there's a single source of truth for behavior
+  const forward = (fromId, toId) => {
+    const from = $id(fromId);
+    if (from) from.on('click', () => $id(toId).click());
+  };
+  forward('empty-import', 'import');
+  forward('empty-get-styles', 'get-styles-button');
+  forward('empty-write-style', 'add-style');
+  forward('empty-sync', 'sync-styles');
+}
 
 function initDropdownMenus() {
   const menus = $$('.dropdown-menu');

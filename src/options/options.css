@@ -18,6 +18,7 @@ $blockBorder: 1px dotted var(--c80);
 }
 
 body {
+  --modal-radius: 20px;
   background: none;
   position: relative;
   width: fit-content;
@@ -26,7 +27,7 @@ body {
   flex-direction: column;
   max-height: var(--100dvh);
   box-sizing: border-box;
-  border-radius: 20px;
+  border-radius: var(--modal-radius);
   overflow: hidden;
   box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
   .tab & {
@@ -59,6 +60,7 @@ header {
   align-items: center;
   gap: var(--pad05);
   border-bottom: 1px solid var(--c85);
+  border-radius: var(--modal-radius) var(--modal-radius) 0 0;
   img {
     width: 20px;
     height: 20px;
@@ -253,6 +255,7 @@ footer {
   margin: 0;
   border-top: 1px solid var(--c60);
   border-bottom: none;
+  border-radius: 0 0 var(--modal-radius) var(--modal-radius);
   display: flex;
   height: $footerH;
   box-sizing: border-box;

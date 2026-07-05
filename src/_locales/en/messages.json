@@ -376,6 +376,14 @@
   "emptyCode": {
     "message": "Style sections for this URL are empty"
   },
+  "emptyStateSubtitle": {
+    "message": "Write your own, import a backup, or browse styles made by others.",
+    "description": "Subtitle shown in the style manager when there are no styles installed yet"
+  },
+  "emptyStateTitle": {
+    "message": "No styles yet",
+    "description": "Title shown in the style manager when there are no styles installed yet"
+  },
   "emptyStyle": {
     "message": "Style is empty"
   },
