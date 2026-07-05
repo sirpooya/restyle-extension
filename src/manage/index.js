@@ -2,7 +2,7 @@ import '@/js/dom-init';
 import {kNone, kSidebar, pSync} from '@/js/consts';
 import {$create, $toggleDataset} from '@/js/dom';
 import {setupLiveDetails, setupLivePrefs} from '@/js/dom-prefs';
-import {animateElement} from '@/js/dom-util';
+import {animateElement, messageBox} from '@/js/dom-util';
 import {onMessage} from '@/js/msg';
 import {swController} from '@/js/msg-init';
 import * as prefs from '@/js/prefs';
@@ -41,8 +41,25 @@ import '@/css/theme-modern.css';
   router.update();
   showStyles(__.MV3 ? JSON.parse(data.styles || '[]') : data.styles || [], data.ids);
   initSyncButton(data.sync || {});
+  initGetStylesButton();
   import('./import-export');
 })();
+
+function initGetStylesButton() {
+  const btn = $id('get-styles-button');
+  if (!btn) return;
+  btn.on('click', () => {
+    const content = $id('get-styles-content').cloneNode(true);
+    content.removeAttribute('hidden');
+    content.removeAttribute('id');
+    messageBox.show({
+      title: t('linkGetStyles'),
+      contents: content,
+      className: 'center-dialog',
+      buttons: [t('confirmClose')],
+    });
+  });
+}
 
 // translate CSS manually
 document.styleSheets[0].insertRule(

@@ -257,9 +257,10 @@
     </div>
 
     <div class="settings-column" id="links">
-      <details data-pref="manage.links.expanded">
-        <summary></summary>
-        <main><% _.forEach([
+      <button id="get-styles-button" i18n="linkGetStyles"></button>
+      <!-- links + backup hint live here (hidden); shown in a modal via the button -->
+      <div id="get-styles-content" hidden>
+        <div class="links-list"><% _.forEach([
           ['userstyles.world/explore', /*i18n*/'linkGetShareStyles'],
           ['uso.kkx.one/browse/styles', /*i18n*/'linkGetStyles'],
           ['github.com/openstyles/stylus/wiki', /*i18n*/'linkGetHelp'],
@@ -270,15 +271,9 @@
         <% } else { %>
           <a href="https://<%= url %>" target="_blank" class="target"><%= text %></a>
         <% }}); %>
-        </main>
-      </details>
-    </div>
-
-    <div class="settings-column" id="backup-hint">
-      <details data-pref="manage.backup.expanded">
-        <summary></summary>
-        <main i18n="backupReminder"></main>
-      </details>
+        </div>
+        <p class="backup-hint" i18n="backupReminder"></p>
+      </div>
     </div>
 
   </div>

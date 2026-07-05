@@ -395,6 +395,8 @@ h1 {
 }
 .filters-popup {
   position: absolute;
+  top: 100%;
+  left: 0;
   z-index: 20;
   margin-top: 6px;
   min-width: 15em;
@@ -406,6 +408,10 @@ h1 {
   border: 1px solid var(--c75);
   border-radius: var(--radius, 8px);
   box-shadow: var(--shadow-lg);
+  /* the .invert selects are kept in the DOM (JS reads them) but not shown */
+  .select-wrapper[hidden] {
+    display: none !important;
+  }
 }
 .filter-switch {
   display: flex;
@@ -425,40 +431,37 @@ h1 {
   white-space: nowrap;
 }
 
-#links {
-  details:not([open]) h2::after {
-    content: "...";
-  }
-  main {
-    display: flex;
-    flex-flow: wrap;
-    gap: $pad05;
-  }
+#get-styles-button {
+  width: 100%;
+}
+/* the links list shown inside the Get-styles modal */
+.links-list {
+  display: flex;
+  flex-flow: column;
+  gap: $pad05;
   a {
     display: flex;
     align-items: center;
     gap: .5ex;
-    width: auto;
-    min-width: 0;
-    padding-right: 0;
+    width: max-content;
+    max-width: 100%;
+  }
+  img {
+    flex: 0 0 16px;
+    height: 16px;
   }
 }
+.backup-hint {
+  margin: $pad 0 0;
+  padding-top: $pad;
+  border-top: 1px solid var(--c85);
+  font-size: smaller;
+  color: var(--c40);
+  line-height: 1.5;
+}
 /* no styles */
-.empty {
-  #installed {
-    flex: 0;
-  }
-  #links {
-    padding: calc(1.5*$pad) 0 0 calc(1.5*$pad);
-    line-height: 2;
-    font-size: larger;
-    summary {
-      display: none;
-    }
-    main {
-      flex-flow: column;
-    }
-  }
+.empty #installed {
+  flex: 0;
 }
 
 button i {
