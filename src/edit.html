@@ -29,25 +29,27 @@
   <template data-id="body"><!-- https://crbug.com/1288447 -->
     <div id="header" class="dvh100">
       <section id="basic-info">
-        <a id="cancel-button" i18n="title:styleCancelEditLabel" tabindex="0" class="icon">
-          <i class=i-back></i>
-        </a>
-        <h1 class="ellipsis hide-if-compact"></h1>
-        <a id="url" target="_blank" class="icon" i18n="title:externalHomepage">
-          <i class=i-external></i>
-        </a>
-        <a class="icon" target="_blank" i18n="title:linkStylusWiki"
-           href="https://github.com/openstyles/stylus/wiki/Writing-styles">
-          <i class=i-info></i>
-        </a>
-        <a class="usercss-only icon" target="_blank" id="usercss-docs"
-           href="https://github.com/openstyles/stylus/wiki/Writing-UserCSS"
-           i18n="title:externalUsercssDocument">
-          <i class=i-usercss style="font-size: 16px"></i>
-        </a>
-        <a class="icon" id="preview-error" target="_blank" hidden>
-          <i class="i-caution red1"></i>
-        </a>
+        <div id="basic-info-toprow">
+          <a id="cancel-button" i18n="title:styleCancelEditLabel" tabindex="0" class="icon">
+            <i class=i-back></i>
+          </a>
+          <h1 class="ellipsis hide-if-compact"></h1>
+          <a id="url" target="_blank" class="icon" i18n="title:externalHomepage">
+            <i class=i-external></i>
+          </a>
+          <a class="icon" target="_blank" i18n="title:linkStylusWiki"
+             href="https://github.com/openstyles/stylus/wiki/Writing-styles">
+            <i class=i-info></i>
+          </a>
+          <a class="usercss-only icon" target="_blank" id="usercss-docs"
+             href="https://github.com/openstyles/stylus/wiki/Writing-UserCSS"
+             i18n="title:externalUsercssDocument">
+            <i class=i-usercss style="font-size: 16px"></i>
+          </a>
+          <a class="icon" id="preview-error" target="_blank" hidden>
+            <i class="i-caution red1"></i>
+          </a>
+        </div>
         <div id="basic-info-name">
           <input id="name" spellcheck="false">
           <a id="reset-name" i18n="title:customNameResetHint" tabindex="0" hidden>

@@ -15,6 +15,7 @@ import './colorpicker-helper';
 import USWIntegration from './usw-integration';
 import './windowed-mode';
 import './css/index.css';
+import '@/css/theme-modern.css';
 
 (async () => {
   if (loading) await loading;

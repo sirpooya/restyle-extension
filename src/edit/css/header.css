@@ -12,6 +12,12 @@
 }
 h1 {
   margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 /* basic info */
 #basic-info,
@@ -21,8 +27,35 @@ h1 {
   align-items: center;
   gap: $pad05;
 }
+/* ---- App bar: the top row (back + title + icons) reads as a toolbar ---- */
+#basic-info {
+  flex-direction: column;
+  align-items: stretch;
+  row-gap: $pad05;
+}
+#basic-info-toprow {
+  display: flex;
+  align-items: center;
+  gap: $pad05;
+  box-sizing: border-box;
+  padding: 0 $pad $pad05;
+  margin-bottom: $pad05;
+  border-bottom: 1px solid var(--c85);
+  /* an app bar spans the full width of the header, ignoring the block padding
+     that main.css applies to #basic-info on the full-width layout */
+  margin-left: calc(-1 * $pad);
+  margin-right: calc(-1 * $pad);
+}
+#basic-info-toprow .icon {
+  display: inline-flex;
+  align-items: center;
+}
+#cancel-button {
+  margin-right: $pad025;
+}
 #basic-info-name {
   flex: 1;
+  width: 100%;
 }
 #name {
   flex: 1;
@@ -40,7 +73,7 @@ h1 {
   margin: 0 .5ch 0 1ch;
   max-width: 8ch;
 }
-/* collapsibles */
+/* collapsibles - Figma-style expand/collapse panels */
 #details-wrapper {
   display: flex;
   flex-flow: column;
@@ -50,25 +83,56 @@ h1 {
     &[open] {
       overflow-y: auto;
     }
+    /* the whole header row is the click target, with a chevron at the far end */
     > summary {
+      display: flex;
       align-items: center;
       white-space: nowrap;
       overflow: hidden;
+      list-style: none;
+      cursor: pointer;
+      box-sizing: border-box;
+      padding: $pad05 $pad;
+      border-radius: var(--radius-sm, 6px);
+      transition: background-color .1s;
+      &::-webkit-details-marker { display: none; }
+      &::marker { content: ''; }
+      /* trailing chevron, rotates when the panel is open */
+      &::after {
+        content: '';
+        flex: 0 0 auto;
+        margin-left: auto;
+        width: 7px;
+        height: 7px;
+        border-right: 1.5px solid var(--c50);
+        border-bottom: 1.5px solid var(--c50);
+        transform: rotate(-45deg);
+        transition: transform .15s ease;
+      }
+      &:hover {
+        color: var(--fg);
+        background-color: hsla(0, 0%, 50%, .1);
+        &::after { border-color: var(--fg); }
+      }
+    }
+    &[open] > summary::after {
+      transform: rotate(45deg);
     }
   }
   h2 {
     display: inline-block;
-    border-bottom: 1px dotted transparent;
-    margin: 0 0 0 -13px;
-    padding-left: 13px; /* clicking directly on details-marker doesn't set pref so we cover it with h2 */
+    border-bottom: none;
+    margin: 0;
+    padding: 0;
     vertical-align: middle;
   }
   .settings .icon {
     margin-top: -.1em;
   }
+  /* panel body: indent to align with the header text, not the panel edge */
   details > :not(summary) {
     margin: 0 $pad;
-    padding: $pad025 0;
+    padding: $pad025 0 $pad05;
   }
 }
 #general {

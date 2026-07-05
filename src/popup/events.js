@@ -24,6 +24,7 @@ const selConfig = '.configure';
 const selEdit = '.style-edit-link';
 const selFinder = '#find-styles-btn';
 const selManager = '#popup-manage-button';
+const selManagerTab = '#popup-manage-tab-button';
 const selOptions = '#options-btn';
 export const selUnstylable = '#unstylable';
 /** @type {{[sel: string]: OnClickHandler}} */
@@ -40,6 +41,7 @@ const GlobalClick = {
   'a[href*="edit.html"]': openEditor,
   [selFinder]: openStyleFinder,
   [selManager]: openManager,
+  [selManagerTab]: openManagerTab,
   [selOptions]: openOptions,
 };
 export const styleFinder = {};
@@ -187,6 +189,15 @@ function openManager(event) {
       ? {search: tabUrl, searchMode: 'url'}
       : {},
     true, close, {windowId});
+}
+
+/**
+ * Always opens (or focuses) a real Manage Styles tab, bypassing the sidebar.
+ * @param {MouseEvent|KeyboardEvent} event
+ */
+function openManagerTab(event) {
+  event?.preventDefault();
+  return API.openManager({}).then(close);
 }
 
 export function openOptions() {

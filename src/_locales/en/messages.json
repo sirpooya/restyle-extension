@@ -1038,6 +1038,10 @@
     "message": "Manage styles",
     "description": "Link to open style manager."
   },
+  "openManageTab": {
+    "message": "Open Manage Styles in a new tab",
+    "description": "Tooltip for the popup toolbar button that always opens the style manager as a regular tab, bypassing the sidebar."
+  },
   "openOptionsSidebar": {
     "message": "Options in sidebar",
     "description": "Tooltip for the popup toolbar button that opens Options UI in the browser's side panel."
