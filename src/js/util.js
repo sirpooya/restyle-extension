@@ -34,10 +34,24 @@ export const isSidebar = __.ENTRY === true && urlParams.has(kSidebar);
 
 const tCache = /*@__PURE__*/new Map();
 
+/** Last-resort readable label from a message key when the active locale lacks it,
+ * e.g. "menuShowBadge" -> "Menu show badge". Only hit on partially-translated locales. */
+const humanizeKey = key => {
+  const words = `${key}`.replace(/[._]+/g, ' ').replace(/([a-z\d])([A-Z])/g, '$1 $2').toLowerCase().trim();
+  return words ? words[0].toUpperCase() + words.slice(1) : key;
+};
+
 export const t = (key, params, strict = true) => {
   const cached = !params && tCache.get(key);
   const s = cached || chrome.i18n.getMessage(key, params);
-  if (!s && strict) throw `Missing string "${key}"`;
+  if (!s && strict) {
+    // A key absent from the active locale must not crash the page/worker.
+    // Some shipped locales are only partially translated (e.g. en_GB, fa have
+    // ~20 of 500+ strings), and Chrome's i18n does NOT fall back to `en` for
+    // individual missing keys. In DEBUG we still throw to catch real typos.
+    if (__.DEBUG) throw `Missing string "${key}"`;
+    return humanizeKey(key);
+  }
   if (!params) tCache.set(key, s);
   return s;
 };

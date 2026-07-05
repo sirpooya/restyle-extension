@@ -60,7 +60,7 @@ if (MENUS && (__.B_CHROME || __.B_ANY && CHROME)) {
   MENUS['editor.contextDelete'] = [(info, tab) => {
     sendTab(tab.id, {method: 'editDeleteText'});
   }, {
-    title: t('editDeleteText'),
+    title: tMenu('editDeleteText', 'Delete'),
     type: 'normal',
     contexts: ['editable'],
     documentUrlPatterns: [ownRoot + '*'],
@@ -79,7 +79,7 @@ export default !chromeMenus ? NOP : function initContextMenus() {
       if (isInit) {
         item.id = id;
         item.contexts ??= [__.MV3 ? 'action' : 'browser_action'];
-        item.title = item.title ?? t(id);
+        item.title = item.title ?? tMenu(id);
       }
       if (typeof prefs.__defaults[id] === 'boolean') {
         if (!item.type) {
