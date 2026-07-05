@@ -171,6 +171,23 @@ button[name="install"]:not(:disabled):hover,
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
+/* Accent split buttons (Save): the pedal matches the main button so the two
+   read as one seamless segmented control with a white caret. */
+:is(#save-button, button.save, button[name="install"]) + .split-btn-pedal {
+  background: var(--accent-1);
+  border-color: var(--accent-1);
+  color: var(--accent-contrast);
+  /* the seam between the two halves is a subtle white divider, not a gray edge */
+  border-left-color: hsl(0 0% 100% / .35) !important;
+}
+:is(#save-button, button.save, button[name="install"]) + .split-btn-pedal:not(:disabled):hover {
+  background: var(--accent-2);
+  border-color: var(--accent-2);
+  border-left-color: hsl(0 0% 100% / .35) !important;
+}
+:is(#save-button, button.save, button[name="install"]) + .split-btn-pedal::after {
+  border-top-color: var(--accent-contrast); /* white caret */
+}
 
 input:not([type]),
 input[type=text],
@@ -316,12 +333,14 @@ code {
 
 /* ---- Options dialog (standalone tab & embedded modal) ---- */
 /* Modal card: rounded corners + a soft, layered shadow */
-body.tab {
-  border: 1px solid var(--c80) !important;
+body {
   border-radius: var(--radius-lg) !important;
   box-shadow: 0 10px 30px -8px hsl(230 30% 15% / .28),
               0 4px 10px -4px hsl(230 30% 15% / .18) !important;
   overflow: hidden;
+  .tab & {
+    border: 1px solid var(--c80) !important;
+  }
 }
 /* Title bar: drop the loud accent tint for a calm neutral header */
 body > header {

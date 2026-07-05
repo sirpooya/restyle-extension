@@ -79,6 +79,12 @@ h1 {
   flex-flow: column;
   flex-grow: 1;
   margin-top: $pad05;
+  /* the whole list scrolls when the open panels exceed the header height, so the
+     last panel is never clipped by the fixed-height (100dvh) #header */
+  min-height: 0;
+  overflow-y: auto;
+  /* breathing room below the final panel */
+  padding-bottom: $pad;
   > details {
     &[open] {
       overflow-y: auto;
@@ -93,7 +99,7 @@ h1 {
       cursor: pointer;
       box-sizing: border-box;
       padding: $pad05 $pad;
-      border-radius: var(--radius-sm, 6px);
+      border-top: 1px solid var(--c85);
       transition: background-color .1s;
       &::-webkit-details-marker { display: none; }
       &::marker { content: ''; }

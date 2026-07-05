@@ -309,7 +309,10 @@ h1 {
 }
 
 [id=header] {
-  details {
+  /* dropdown-menu details are excluded: a closed <details> still generates a
+     box for its content slot, so the gap would reserve phantom space next to
+     the summary (shrinking #sort-button / offsetting #overflow-button by 8px) */
+  details:not(.dropdown-menu) {
     display: flex;
     gap: $pad05;
   }
@@ -457,7 +460,7 @@ h1 {
   list-style: none;
   &::-webkit-details-marker { display: none; }
   &::marker { content: ''; }
-  i { font-size: 18px; color: var(--c50); }
+  i { font-size: 18px; color: var(--c35); }
   &:hover { background: hsla(0, 0%, 50%, .15); }
 }
 #overflow-menu[open] #overflow-button {
