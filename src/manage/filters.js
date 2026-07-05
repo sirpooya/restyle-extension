@@ -87,7 +87,7 @@ function initFilters() {
     if (!filtersSelector.hide) {
       return;
     }
-    for (const el of $$('#filters [data-filter]')) {
+    for (const el of $$('#filters-menu [data-filter]')) {
       let value;
       if (el.type === 'checkbox' && el.checked) {
         value = el.checked = false;

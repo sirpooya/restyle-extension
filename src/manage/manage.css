@@ -121,12 +121,6 @@ h1 {
         left: 3px;
       }
     }
-    .normal-layout & #update-history-button {
-      padding-left: calc($btnTextX - 9px);
-      &::before {
-        content: '\a0';
-      }
-    }
   }
 }
 #backup {
@@ -363,7 +357,7 @@ h1 {
   }
 }
 
-#filters :is(label, .filter-selection) {
+#filters-menu :is(label, .filter-selection) {
   transition: background-color .25s;
   &:hover {
     background-color: hsla(0, 0%, 50%, .2);
@@ -373,14 +367,22 @@ h1 {
 /* ---- Filter button + popup ---- */
 #filters-menu {
   position: relative;
+  flex-shrink: 0;
+  margin-left: -1px;
 }
 #filters-button {
   display: inline-flex;
   align-items: center;
   gap: .5ex;
+  height: var(--input-height);
+  box-sizing: border-box;
   padding: 5px 12px;
   border: 1px solid var(--c65);
   border-radius: var(--radius-sm, 6px);
+  /* joined to the search box on its left: flatten the touching corners
+     so they read as one segmented control */
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
   background: var(--c95);
   cursor: pointer;
   list-style: none;
@@ -424,10 +426,10 @@ h1 {
   &:hover { background: var(--c95); }
 }
 
-/* Sort field label */
+/* Sort field label, stacked above the dropdown */
 #sort-wrapper .field-label {
   color: var(--c40);
-  margin-right: .5ex;
+  margin-bottom: $iconGapY;
   white-space: nowrap;
 }
 
@@ -471,7 +473,7 @@ button i {
 .compact-layout h1,
 .disabled .disable,
 .enabled .enable,
-.empty #filters,
+.empty #filters-menu,
 #header:not(.filtered) #stats,
 #update-all:empty,
 .can-update .check-update,
@@ -583,18 +585,25 @@ button i {
     }
   }
 }
-#search + * {
-  margin-left: -1px;
+/* the sort label sits above its dropdown instead of beside it */
+#sort-wrapper {
+  flex-flow: column;
+  align-items: stretch;
+  > :first-child {
+    flex-grow: 0;
+    max-width: none;
+  }
 }
-/* Join the search field and its mode dropdown into one segmented control:
+/* the filter button is attached to the search box, not a fixed-size icon,
+   so let the input grow to fill whatever space it leaves */
+#search-wrapper > :first-child {
+  max-width: none;
+}
+/* Join the search field and the filter button into one segmented control:
    flatten the touching corners so they read as a single pill. */
 #search {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-}
-#search-wrapper .select-wrapper > select {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
 }
 #manage\.searchMode {
   background: var(--bg);

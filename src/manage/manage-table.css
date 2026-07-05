@@ -127,6 +127,9 @@ $iconGapY: .25rem;
     flex-direction: row-reverse;
     gap: 8px; /* breathing room between update/refresh and delete */
     z-index: 100;
+    a {
+      cursor: pointer;
+    }
     .delete i {
       font-size: 16px;
     }
@@ -249,13 +252,17 @@ $iconGapY: .25rem;
   .expander {
     cursor: pointer;
     position: absolute;
-    top: 0;
+    top: 50%;
     right: 4px;
-    bottom: 0;
+    transform: translateY(-50%);
     display: flex;
     align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
     &:hover {
-      background: hsla(0, 0%, 50%, .05);
+      background: hsla(0, 0%, 50%, .15);
     }
     i {
       width: 16px;

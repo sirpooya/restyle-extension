@@ -42,8 +42,22 @@ import '@/css/theme-modern.css';
   showStyles(__.MV3 ? JSON.parse(data.styles || '[]') : data.styles || [], data.ids);
   initSyncButton(data.sync || {});
   initGetStylesButton();
+  initFiltersMenu();
   import('./import-export');
 })();
+
+function initFiltersMenu() {
+  const menu = $id('filters-menu');
+  if (!menu) return;
+  // close the filters popup when clicking anywhere outside it
+  document.on('pointerdown', e => {
+    if (menu.open && !menu.contains(e.target)) menu.open = false;
+  });
+  // and on Escape
+  document.on('keydown', e => {
+    if (menu.open && e.key === 'Escape') menu.open = false;
+  });
+}
 
 function initGetStylesButton() {
   const btn = $id('get-styles-button');
