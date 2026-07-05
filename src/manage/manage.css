@@ -59,6 +59,12 @@ a, .disabled a:hover {
     margin-left: .25em;
   }
 }
+#header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $pad05;
+}
 h1 {
   margin-top: 0;
   margin-bottom: $pad05;
@@ -98,10 +104,7 @@ h1 {
       }
     }
   }
-  :is(
-    & details:not([open]) + main button.icon,
-    .normal-layout & #update-history-button
-  ):not(:hover) {
+  & details:not([open]) + main button.icon:not(:hover) {
     background: none;
     border-color: transparent;
   }
@@ -424,6 +427,61 @@ h1 {
   cursor: pointer;
   white-space: nowrap;
   &:hover { background: var(--c95); }
+}
+
+/* ---- Overflow (⋯) menu: houses less-used actions moved out of the toolbar ---- */
+#overflow-menu {
+  position: relative;
+  flex: 0 0 auto;
+}
+#overflow-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  list-style: none;
+  &::-webkit-details-marker { display: none; }
+  &::marker { content: ''; }
+  i { font-size: 18px; color: var(--c50); }
+  &:hover { background: hsla(0, 0%, 50%, .15); }
+}
+#overflow-menu[open] #overflow-button {
+  background: hsla(0, 0%, 50%, .15);
+}
+.overflow-popup {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 20;
+  margin-top: 6px;
+  min-width: 12em;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px;
+  background: var(--bg);
+  border: 1px solid var(--c75);
+  border-radius: var(--radius, 8px);
+  box-shadow: var(--shadow-lg);
+  button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 8px;
+    border: none;
+    background: none;
+    box-shadow: none;
+    border-radius: var(--radius-sm, 6px);
+    cursor: pointer;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+    white-space: nowrap;
+    &:hover { background: var(--c95); }
+  }
 }
 
 /* Sort field label, stacked above the dropdown */

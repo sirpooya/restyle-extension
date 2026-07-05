@@ -742,6 +742,10 @@
   "manageMinColumnWidth": {
     "message": "Minimum column width (in pixels; 9999 disables multi-column mode)"
   },
+  "manageMoreActions": {
+    "message": "More",
+    "description": "Tooltip for the overflow (⋯) button that opens History and Style injection order"
+  },
   "manageNewUI": {
     "message": "Table layout",
     "description": "Label for the checkbox to show styles in a table (grid) in style manager"

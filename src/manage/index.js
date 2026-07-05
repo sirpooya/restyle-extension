@@ -42,20 +42,25 @@ import '@/css/theme-modern.css';
   showStyles(__.MV3 ? JSON.parse(data.styles || '[]') : data.styles || [], data.ids);
   initSyncButton(data.sync || {});
   initGetStylesButton();
-  initFiltersMenu();
+  initDropdownMenus();
   import('./import-export');
 })();
 
-function initFiltersMenu() {
-  const menu = $id('filters-menu');
-  if (!menu) return;
-  // close the filters popup when clicking anywhere outside it
+function initDropdownMenus() {
+  const menus = $$('.dropdown-menu');
+  if (!menus.length) return;
+  // close an open dropdown when clicking anywhere outside it
   document.on('pointerdown', e => {
-    if (menu.open && !menu.contains(e.target)) menu.open = false;
+    for (const menu of menus) {
+      if (menu.open && !menu.contains(e.target)) menu.open = false;
+    }
   });
   // and on Escape
   document.on('keydown', e => {
-    if (menu.open && e.key === 'Escape') menu.open = false;
+    if (e.key !== 'Escape') return;
+    for (const menu of menus) {
+      if (menu.open) menu.open = false;
+    }
   });
 }
 
