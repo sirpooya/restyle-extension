@@ -26,7 +26,8 @@
     flex-grow: 1;
     margin: 0;
     padding: 0;
-    --input-height: 1.2rem;
+    /* taller rows so the URL field & type dropdown text isn't vertically cramped */
+    --input-height: 1.75rem;
   }
   li {
     display: flex;

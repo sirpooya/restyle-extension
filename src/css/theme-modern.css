@@ -188,6 +188,11 @@ button[name="install"]:not(:disabled):hover,
 :is(#save-button, button.save, button[name="install"]) + .split-btn-pedal::after {
   border-top-color: var(--accent-contrast); /* white caret */
 }
+/* keep the two halves in the same state: when the main button is disabled,
+   dim the pedal identically so the control reads as one uniform color */
+.split-btn:has(> :is(#save-button, button.save, button[name="install"]):disabled) .split-btn-pedal {
+  opacity: .6;
+}
 
 input:not([type]),
 input[type=text],
@@ -206,15 +211,15 @@ input[type=search]:hover,
 input[type=url]:hover {
   border-color: var(--c50);
 }
-/* Number inputs: value padded on the left only; the native spinner
-   sits flush against the right border (no gap after it). */
+/* Number inputs: value padded on the left, plus a gap before the spinner
+   so the value isn't flush against the up/down arrows. */
 input[type=number] {
-  padding: 0 0 0 8px !important;
+  padding: 0 6px 0 8px !important;
   text-align: left;
 }
 input[type=number]::-webkit-inner-spin-button {
   height: var(--input-height);
-  margin: 0;
+  margin: 0 0 0 2px;
   opacity: .55;
 }
 input[type=number]:hover::-webkit-inner-spin-button,

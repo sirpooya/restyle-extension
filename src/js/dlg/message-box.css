@@ -114,7 +114,10 @@
     border-bottom-color: transparent;
   }
   #message-box-title::before {
-    content: "!";
+    /* plain Unicode warning glyph: the icon font's compound "attention" path
+       (a triangle with cutout holes for the "!") isn't rendering right */
+    content: "\26A0";
+    font-family: initial;
     color: white;
   }
   #message-box-contents {
