@@ -184,7 +184,9 @@ function getStyleCount(tabId) {
   return allIds.size || '';
 }
 
-// Caches imageData for icon paths
+// Caches imageData for icon paths.
+// Never rejects: returns null on failure (e.g. transient "Failed to fetch"
+// while the SW is spinning up) so callers can fall back and retry later.
 async function loadImage(url) {
   let img;
   try {
@@ -196,11 +198,9 @@ async function loadImage(url) {
           onload: e => resolve(e.target),
           onerror: reject,
         }));
-  } catch (err) {
-    // Transient "Failed to fetch" happens while the SW is spinning up; don't
-    // poison the cache with a rejected promise, let the next call retry.
-    delete imageDataCache[url];
-    throw err;
+  } catch {
+    delete imageDataCache[url]; // don't leave a rejected promise cached
+    return null;
   }
   const {width: w, height: h} = img;
   const result = paintCanvas(w, h, ctx => ctx.drawImage(img, 0, 0, w, h));
@@ -254,41 +254,35 @@ function refreshStaleBadges() {
  * @param {string} [dot] paints a small active-style dot of this color in the bottom-right corner
  */
 async function setIcon(data, dot) {
-  try {
-    if (hasCanvas == null) {
-      const url = MF_ICON_PATH + ICON_SIZES[0] + MF_ICON_EXT;
-      hasCanvas = imageDataCache[url] = loadImage(url);
-      hasCanvas = (await hasCanvas).data.some(b => b !== 255);
-    } else if (hasCanvas.then) {
-      await hasCanvas;
-    }
-    if (hasCanvas) {
-      data.imageData = {};
-      for (const [key, url] of Object.entries(data.path)) {
-        const cacheKey = dot ? `${url}|${dot}` : url;
-        let val = imageDataCache[cacheKey];
-        if (!val) {
-          val = imageDataCache[url] || (imageDataCache[url] = loadImage(url));
-          if (dot) {
-            val = imageDataCache[cacheKey] = Promise.resolve(val).then(img => paintDot(img, dot));
-          }
+  if (hasCanvas == null) {
+    const url = MF_ICON_PATH + ICON_SIZES[0] + MF_ICON_EXT;
+    const probe = await (imageDataCache[url] = loadImage(url));
+    hasCanvas = probe ? probe.data.some(b => b !== 255) : (delete imageDataCache[url], null);
+  } else if (hasCanvas.then) {
+    hasCanvas = await hasCanvas;
+  }
+  if (hasCanvas) {
+    const imageData = {};
+    for (const [key, url] of Object.entries(data.path)) {
+      const cacheKey = dot ? `${url}|${dot}` : url;
+      let val = imageDataCache[cacheKey];
+      if (!val) {
+        val = imageDataCache[url] || (imageDataCache[url] = loadImage(url));
+        if (dot) {
+          val = imageDataCache[cacheKey] = Promise.resolve(val)
+            .then(img => img && paintDot(img, dot));
         }
-        data.imageData[key] = val.then ? await val : val;
       }
-      delete data.path;
+      val = val.then ? await val : val;
+      // any size failed to load -> drop the poisoned entry and fall back to path icons
+      if (!val) {
+        delete imageDataCache[cacheKey];
+        return void browserAction.setIcon(data).catch(NOP);
+      }
+      imageData[key] = val;
     }
-  } catch (err) {
-    // A failed image load (e.g. transient "Failed to fetch" during SW startup)
-    // must not become an uncaught rejection; drop the poisoned cache entries so
-    // hasCanvas is re-probed and fall back to the plain path-based icon below.
-    if (hasCanvas && hasCanvas.then) {
-      delete imageDataCache[MF_ICON_PATH + ICON_SIZES[0] + MF_ICON_EXT];
-      hasCanvas = null;
-    }
-    for (const url of Object.values(data.path || {})) {
-      delete imageDataCache[`${url}|${dot}`];
-    }
-    delete data.imageData;
+    data.imageData = imageData;
+    delete data.path;
   }
   browserAction.setIcon(data).catch(NOP);
 }
