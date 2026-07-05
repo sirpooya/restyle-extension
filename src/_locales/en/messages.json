@@ -1608,6 +1608,10 @@
     "message": "Select a sort to apply to the installed styles",
     "description": "Title on the sort select to indicate it is used for sorting entries"
   },
+  "sortShortLabel": {
+    "message": "Sort",
+    "description": "Short label shown before the sort dropdown"
+  },
   "sortLabelTitleAsc": {
     "message": "Title Ascending",
     "description": "Text added to option group to indicate a block of options that apply a title ascending (A to Z) sort"

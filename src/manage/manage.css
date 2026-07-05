@@ -370,6 +370,61 @@ h1 {
   }
 }
 
+/* ---- Filter button + popup ---- */
+#filters-menu {
+  position: relative;
+}
+#filters-button {
+  display: inline-flex;
+  align-items: center;
+  gap: .5ex;
+  padding: 5px 12px;
+  border: 1px solid var(--c65);
+  border-radius: var(--radius-sm, 6px);
+  background: var(--c95);
+  cursor: pointer;
+  list-style: none;
+  width: max-content;
+  &::-webkit-details-marker { display: none; }
+  &::marker { content: ''; }
+  i { font-size: 14px; }
+  &:hover { background: var(--c90); border-color: var(--c50); }
+}
+#filters-menu[open] #filters-button {
+  border-color: var(--accent-1);
+}
+.filters-popup {
+  position: absolute;
+  z-index: 20;
+  margin-top: 6px;
+  min-width: 15em;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px;
+  background: var(--bg);
+  border: 1px solid var(--c75);
+  border-radius: var(--radius, 8px);
+  box-shadow: var(--shadow-lg);
+}
+.filter-switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 8px;
+  border-radius: var(--radius-sm, 6px);
+  cursor: pointer;
+  white-space: nowrap;
+  &:hover { background: var(--c95); }
+}
+
+/* Sort field label */
+#sort-wrapper .field-label {
+  color: var(--c40);
+  margin-right: .5ex;
+  white-space: nowrap;
+}
+
 #links {
   details:not([open]) h2::after {
     content: "...";

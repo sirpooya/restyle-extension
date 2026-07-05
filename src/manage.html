@@ -126,57 +126,61 @@
         </a>
       </div>
 
-      <div class="filter-selection">
-        <label>
-          <input id="manage.onlyEnabled" type="checkbox"
-                 data-filter=".enabled"
-                 data-filter-hide=".disabled">
-        </label>
-        <div class="select-wrapper">
-          <select id="manage.onlyEnabled.invert" class="fit-width">
-            <option i18n="manageOnlyEnabled" value="false"></option>
-            <option i18n="manageOnlyDisabled" value="true"></option>
-          </select>
-        </div>
-      </div>
+      <details id="filters-menu">
+        <summary id="filters-button">
+          <i class=i-sliders></i>
+          <span i18n="manageFilters"></span>
+        </summary>
+        <div class="filters-popup">
+          <label class="filter-switch">
+            <input id="manage.onlyEnabled" type="checkbox" class="slider"
+                   data-filter=".enabled"
+                   data-filter-hide=".disabled">
+            <span i18n="manageOnlyEnabled"></span>
+          </label>
+          <div class="select-wrapper" hidden>
+            <select id="manage.onlyEnabled.invert">
+              <option i18n="manageOnlyEnabled" value="false"></option>
+              <option i18n="manageOnlyDisabled" value="true"></option>
+            </select>
+          </div>
 
-      <div class="filter-selection">
-        <label>
-          <input id="manage.onlyLocal" type="checkbox"
-                 data-filter=":not(.updatable):not(.update-done)"
-                 data-filter-hide=".updatable, .update-done">
-        </label>
-        <div class="select-wrapper">
-          <select id="manage.onlyLocal.invert" i18n="title:manageOnlyLocalTooltip" class="fit-width">
-            <option i18n="manageOnlyLocal" value="false"></option>
-            <option i18n="manageOnlyExternal" value="true"></option>
-          </select>
-        </div>
-      </div>
+          <label class="filter-switch">
+            <input id="manage.onlyLocal" type="checkbox" class="slider"
+                   data-filter=":not(.updatable):not(.update-done)"
+                   data-filter-hide=".updatable, .update-done">
+            <span i18n="manageOnlyLocal"></span>
+          </label>
+          <div class="select-wrapper" hidden>
+            <select id="manage.onlyLocal.invert" i18n="title:manageOnlyLocalTooltip">
+              <option i18n="manageOnlyLocal" value="false"></option>
+              <option i18n="manageOnlyExternal" value="true"></option>
+            </select>
+          </div>
 
-      <div class="filter-selection">
-        <label>
-          <input id="manage.onlyUsercss" type="checkbox"
-                 data-filter=".usercss"
-                 data-filter-hide=":not(.usercss)">
-        </label>
-        <div class="select-wrapper">
-          <select id="manage.onlyUsercss.invert" class="fit-width">
-            <option i18n="manageOnlyUsercss" value="false"></option>
-            <option i18n="manageOnlyNonUsercss" value="true"></option>
-          </select>
-        </div>
-      </div>
+          <label class="filter-switch">
+            <input id="manage.onlyUsercss" type="checkbox" class="slider"
+                   data-filter=".usercss"
+                   data-filter-hide=":not(.usercss)">
+            <span i18n="manageOnlyUsercss"></span>
+          </label>
+          <div class="select-wrapper" hidden>
+            <select id="manage.onlyUsercss.invert">
+              <option i18n="manageOnlyUsercss" value="false"></option>
+              <option i18n="manageOnlyNonUsercss" value="true"></option>
+            </select>
+          </div>
 
-      <div class="filter-selection" hidden>
-        <label id="only-updates" i18n="+manageOnlyUpdates">
-          <input type="checkbox"
-                 data-filter=".can-update, .update-problem, .update-done"
-                 data-filter-hide=":not(.updatable):not(.update-done),
-                                   .no-update:not(.update-problem),
-                                   .updatable:not(.can-update):not(.update-problem):not(.update-done)">
-        </label>
-      </div>
+          <label class="filter-switch" hidden>
+            <input id="only-updates" type="checkbox" class="slider"
+                   data-filter=".can-update, .update-problem, .update-done"
+                   data-filter-hide=":not(.updatable):not(.update-done),
+                                     .no-update:not(.update-problem),
+                                     .updatable:not(.can-update):not(.update-problem):not(.update-done)">
+            <span i18n="manageOnlyUpdates"></span>
+          </label>
+        </div>
+      </details>
     </div>
 
     <div class="settings-column" id="wide-inputs">
@@ -196,7 +200,7 @@
         </div>
 
       <div id="sort-wrapper">
-        <span class="field-label" i18n="sortLabel"></span>
+        <span class="field-label" i18n="sortShortLabel"></span>
         <div class="select-wrapper" i18n="title:sortLabel">
           <select id="manage.newUI.sort"></select>
         </div>
