@@ -228,6 +228,10 @@ input[type="checkbox"]:not(.slider) {
   border-radius: 4px;
   border: 1.5px solid var(--c50);
   background-color: transparent;
+  /* center the checkmark glyph regardless of surrounding layout */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 input[type="checkbox"]:not(.slider):checked {
   background-color: var(--accent-1);
@@ -237,6 +241,7 @@ input[type="checkbox"]:not(.slider):checked::after {
   content: '✓';
   font: 700 11px/1 var(--family);
   color: var(--accent-contrast);
+  display: block;
 }
 input[type="checkbox"]:not(.slider):hover {
   border-color: var(--accent-1);

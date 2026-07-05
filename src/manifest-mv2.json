@@ -2,6 +2,7 @@
   "minimum_chrome_version": "86",
   "manifest_version": 2,
   "permissions": [
+    "webRequestBlocking",
     "<all_urls>"
   ],
   "background": {

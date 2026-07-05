@@ -25,13 +25,15 @@ export function setupLiveDetails() {
     const {open} = el;
     const key = el.dataset.pref;
     const fn = onDetailsToggled.get(el);
-    const canSave = !el.matches(SEL_NO_SAVE);
+    /* `key` may be gone: updateTotal() in manage/render.js removes data-pref
+       from the #links details while the style list is empty */
+    const canSave = key && !el.matches(SEL_NO_SAVE);
     if (canSave) prefs.set(key, open);
     fn?.(key, open);
   }
   function updateOnPrefChange(key, value) {
     const el = $(`details[data-pref="${key}"]`);
-    if (el.open !== value && !el.matches(SEL_NO_SAVE)) {
+    if (el && el.open !== value && !el.matches(SEL_NO_SAVE)) {
       el.open = value;
     }
   }

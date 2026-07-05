@@ -18,8 +18,7 @@
     "tabs",
     "unlimitedStorage",
     "webNavigation",
-    "webRequest",
-    "webRequestBlocking"
+    "webRequest"
   ],
   "background": {},
   "commands": {
