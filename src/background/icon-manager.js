@@ -72,7 +72,10 @@ function initIcons(runNow = !__.MV3) {
     kDisableAll,
     kBadgeDisabled,
     kBadgeNormal,
-  ], () => debounce(refreshIconBadgeColor), runNow);
+  ], () => {
+    debounce(refreshIconBadgeColor);
+    debounce(refreshAllIcons); // the active-style dot uses the badge colors
+  }, runNow);
   subscribe([
     kShowBadge,
   ], () => debounce(refreshAllIconsBadgeText), runNow);
@@ -124,8 +127,11 @@ export function overrideBadge({text = '', color = '', title = ''} = {}) {
 
 function refreshIconBadgeText(tabId) {
   if (badgeOvr.text) return;
-  const text = __prefs[kShowBadge] && getStyleCount(tabId) ? '●' : '';
+  /* Active-style indicator is a small dot painted onto the icon in setIcon();
+     the native badge is too large, so it's only a fallback when canvas is unavailable */
+  const text = FIREFOX_ANDROID && __prefs[kShowBadge] && getStyleCount(tabId) ? '●' : '';
   setBadgeText({tabId, text});
+  refreshIcon(tabId);
 }
 
 function getIconName(hasStyles = false) {
@@ -141,16 +147,23 @@ function refreshIcon(tabId, force = false) {
     {id: tabId}
   );
   const oldIcon = td.icon;
-  const newIcon = getIconName(td[kStyleIds]?.[0]);
+  const hasStyles = td[kStyleIds]?.[0];
+  const dot = !!(hasStyles && __prefs[kShowBadge]) && getDotColor();
+  const iconName = getIconName(hasStyles);
+  const newIcon = iconName + (dot || '');
   // (changing the icon only for the main page, frameId = 0)
   if (!force && oldIcon === newIcon) {
     return;
   }
   tabSet(tabId, 'icon', newIcon);
   setIcon({
-    path: getIconPath(newIcon),
+    path: getIconPath(iconName),
     tabId,
-  });
+  }, dot);
+}
+
+function getDotColor() {
+  return __prefs[__prefs[kDisableAll] ? kBadgeDisabled : kBadgeNormal];
 }
 
 function getIconPath(icon) {
@@ -228,8 +241,11 @@ function refreshStaleBadges() {
   staleBadges.clear();
 }
 
-/** @param {chrome.browserAction.TabIconDetails} data */
-async function setIcon(data) {
+/**
+ * @param {chrome.browserAction.TabIconDetails} data
+ * @param {string} [dot] paints a small active-style dot of this color in the bottom-right corner
+ */
+async function setIcon(data, dot) {
   if (hasCanvas == null) {
     const url = MF_ICON_PATH + ICON_SIZES[0] + MF_ICON_EXT;
     hasCanvas = imageDataCache[url] = loadImage(url);
@@ -240,12 +256,32 @@ async function setIcon(data) {
   if (hasCanvas) {
     data.imageData = {};
     for (const [key, url] of Object.entries(data.path)) {
-      const val = imageDataCache[url] || (imageDataCache[url] = loadImage(url));
+      const cacheKey = dot ? `${url}|${dot}` : url;
+      let val = imageDataCache[cacheKey];
+      if (!val) {
+        val = imageDataCache[url] || (imageDataCache[url] = loadImage(url));
+        if (dot) {
+          val = imageDataCache[cacheKey] = Promise.resolve(val).then(img => paintDot(img, dot));
+        }
+      }
       data.imageData[key] = val.then ? await val : val;
     }
     delete data.path;
   }
   browserAction.setIcon(data).catch(NOP);
+}
+
+/** @param {ImageData} img */
+function paintDot(img, color) {
+  const {width: w, height: h} = img;
+  const r = w * 3 / 16; // 3px radius on the 16px icon, scales with DPI variants
+  return paintCanvas(w, h, ctx => {
+    ctx.putImageData(img, 0, 0);
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(w - r, h - r, r, 0, 2 * Math.PI);
+    ctx.fill();
+  });
 }
 
 /** @param {chrome.browserAction.BadgeTextDetails} data */
