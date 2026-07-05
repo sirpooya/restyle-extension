@@ -1,5 +1,4 @@
-<!-- BSD 3-Clause https://github.com/indiana-university/rivet-icons -->
-<svg id="!" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-  <path d="M7 9V4h2v5zm1 3a1 1 0 1 0 0-2a1 1 0 0 0 0 2"/>
-  <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-6a6 6 0 1 0 0 12A6 6 0 0 0 8 2"/>
+<!-- MIT https://github.com/tailwindlabs/heroicons (exclamation-triangle) -->
+<svg id="!" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd"/>
 </svg>

@@ -1,1 +1,4 @@
-<svg id="➖" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="m51,205v102h410v-102H51Z"/></svg>
+<!-- MIT https://github.com/tailwindlabs/heroicons (minus) -->
+<svg id="➖" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <path fill-rule="evenodd" d="M4.25 12a.75.75 0 0 1 .75-.75h14a.75.75 0 0 1 0 1.5H5a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd"/>
+</svg>

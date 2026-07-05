@@ -1,1 +1,4 @@
-<svg id="▼" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M402.286 201.143q0 7.429-5.428 12.857l-128 128q-5.428 5.428-12.857 5.428t-12.857-5.428l-128-128q-5.428-5.428-5.428-12.857t5.428-12.857 12.857-5.428h256q7.428 0 12.857 5.428t5.428 12.857z"/></svg>
+<!-- MIT https://github.com/tailwindlabs/heroicons (chevron-down) -->
+<svg id="▼" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <path fill-rule="evenodd" d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z" clip-rule="evenodd"/>
+</svg>
