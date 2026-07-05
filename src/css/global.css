@@ -82,6 +82,11 @@ a {
     color: var(--accent-1);
   }
   &.icon { text-decoration: none; }
+  /* JS-driven icon buttons (back, reset-name, …) have no href, so the
+     `a[href] > i` pointer rule below misses them — cover them here */
+  &.icon[tabindex="0"], &[href].icon {
+    cursor: pointer;
+  }
   &:is([title][tabindex="0"]):has(>.i-info) {
     cursor: help;
   }
