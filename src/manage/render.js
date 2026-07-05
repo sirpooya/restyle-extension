@@ -2,7 +2,6 @@ import {kStyleIdPrefix, UCD} from '@/js/consts';
 import {$toggleDataset} from '@/js/dom';
 import {animateElement, scrollElementIntoView} from '@/js/dom-util';
 import {breakWord, template} from '@/js/localization';
-import * as prefs from '@/js/prefs';
 import {TO_CSS} from '@/js/style-util';
 import {faviconForTarget, renderTargetIcons} from '@/js/target-icons';
 import {FIREFOX} from '@/js/ua';
