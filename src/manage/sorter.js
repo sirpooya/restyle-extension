@@ -77,6 +77,7 @@ let minWidth;
 export function init() {
   prefs.subscribe(ID, update);
   addOptions();
+  initCustomDropdown();
   prefs.subscribe('manage.minColumnWidth', updateColumnWidth, true);
 }
 
@@ -121,6 +122,97 @@ function addOptions() {
   renderBin.appendChild(container);
   select.appendChild(renderBin);
   select.value = getPref();
+}
+
+/** Builds a custom searchable dropdown mirroring the (now hidden) native
+ * `select`, which stays in the DOM purely so the generic pref-sync logic
+ * in dom-prefs.js keeps working unmodified. */
+function initCustomDropdown() {
+  const menu = $id('sort-menu');
+  if (!menu) return;
+  const select = $id(ID);
+  const button = $id('sort-button');
+  const filterInput = $id('sort-filter');
+  const list = $id('sort-options');
+  const groupTpl = $tag('div');
+  groupTpl.className = 'sort-group-label';
+  const optTpl = $tag('div');
+  optTpl.className = 'sort-option';
+  const renderBin = document.createDocumentFragment();
+  const addOption = (opt, parent) => {
+    const el = optTpl.cloneNode();
+    el.textContent = opt.textContent;
+    el.dataset.value = opt.value;
+    parent.appendChild(el);
+  };
+  for (const node of select.children) {
+    if (node.localName === 'optgroup') {
+      const label = groupTpl.cloneNode();
+      label.textContent = node.label;
+      renderBin.appendChild(label);
+      for (const opt of node.children) addOption(opt, renderBin);
+    } else {
+      addOption(node, renderBin);
+    }
+  }
+  list.appendChild(renderBin);
+
+  function render() {
+    const value = getPref();
+    for (const el of list.children) {
+      if (!el.classList.contains('sort-option')) continue;
+      const isSelected = el.dataset.value === value;
+      el.classList.toggle('selected', isSelected);
+      if (isSelected) button.textContent = el.textContent;
+    }
+  }
+
+  function selectOption(el) {
+    if (select.value !== el.dataset.value) {
+      select.value = el.dataset.value;
+      select.dispatchEvent(new Event('change', {bubbles: true}));
+    }
+    menu.open = false;
+  }
+
+  function filterOptions() {
+    const q = filterInput.value.trim().toLowerCase();
+    let lastGroup = null;
+    for (const el of list.children) {
+      if (el.classList.contains('sort-group-label')) {
+        lastGroup = el;
+        el.classList.add('hidden-by-filter');
+      } else {
+        const shown = !q || el.textContent.toLowerCase().includes(q);
+        el.classList.toggle('hidden-by-filter', !shown);
+        if (shown && lastGroup) {
+          lastGroup.classList.remove('hidden-by-filter');
+          lastGroup = null;
+        }
+      }
+    }
+  }
+
+  list.on('click', e => {
+    const el = e.target.closest('.sort-option');
+    if (el) selectOption(el);
+  });
+  filterInput.on('input', filterOptions);
+  filterInput.on('keydown', e => {
+    if (e.key !== 'Enter') return;
+    e.preventDefault();
+    const first = [...list.children].find(el =>
+      el.classList.contains('sort-option') && !el.classList.contains('hidden-by-filter'));
+    if (first) selectOption(first);
+  });
+  menu.on('toggle', () => {
+    if (menu.open) {
+      filterInput.value = '';
+      filterOptions();
+      filterInput.focus();
+    }
+  });
+  prefs.subscribe(ID, render, true);
 }
 
 export function sort(styles) {

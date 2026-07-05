@@ -91,7 +91,7 @@ document.styleSheets[0].insertRule(
 
 function initSyncButton(sync) {
   const el = $id('sync-styles');
-  const elMsg = $('#backup p');
+  const elMsg = $id('sync-status');
   const render = val => {
     const driveId = val.drive || prefs.__values[pSync];
     const drive = syncUtil.DRIVE_NAMES[driveId];

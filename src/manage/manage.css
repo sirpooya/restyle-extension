@@ -1,7 +1,6 @@
 /* postcss-simple-vars */
 $pad: 16px;
 $pad05: calc(0.5 * $pad);
-$summaryX: calc($pad - 3px);
 $iconGapX: 12px;
 $iconGapY: 4px;
 
@@ -61,13 +60,14 @@ a, .disabled a:hover {
 }
 #header-top {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: $pad05;
+  margin-bottom: $pad;
 }
 h1 {
-  margin-top: 0;
-  margin-bottom: $pad05;
+  margin: 0;
+  font-size: 20px;
   .filtered & {
     visibility: hidden;
   }
@@ -92,23 +92,6 @@ h1 {
     > * {
       margin: 0 $iconGapY $iconGapY 0;
     }
-  }
-  $iconPad: calc($iconGapY / 2);
-  details:not([open]) + main {
-    button.icon {
-      --cloud-pad-r: calc($iconPad * 2);
-      padding: $iconPad;
-      line-height: 1;
-      &:not([data-cloud]) {
-        border-radius: 50%;
-      }
-    }
-  }
-  & details:not([open]) + main button.icon:not(:hover) {
-    background: none;
-    border-color: transparent;
-  }
-  details[open] + main {
     $btnTextX: 26px;
     button.icon {
       display: flex;
@@ -126,18 +109,15 @@ h1 {
     }
   }
 }
-#backup {
-  gap: $iconGapY;
-  p {
-    &:empty {
-      display: none;
-    }
-    word-break: break-word;
-    font-size: smaller;
-    user-select: text;
-    color: var(--accent-1);
-    margin-left: 4px;
+#sync-status {
+  &:empty {
+    display: none;
   }
+  word-break: break-word;
+  font-size: smaller;
+  user-select: text;
+  color: var(--accent-1);
+  margin: 0 8px 2px;
 }
 #backup-hint {
   hr {
@@ -155,8 +135,6 @@ h1 {
   &[data-cloud] {
     &::before {
       content: attr(data-cloud);
-      padding-left: $iconPad;
-      padding-right: var(--cloud-pad-r);
       order: 1;
     }
     i {
@@ -367,41 +345,38 @@ h1 {
   }
 }
 
-/* ---- Filter button + popup ---- */
+/* ---- Filter button + popup: a plain icon button overlaid inside the
+   search box's trailing edge, not a separate segmented sibling ---- */
 #filters-menu {
-  position: relative;
-  flex-shrink: 0;
-  margin-left: -1px;
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  transform: translateY(-50%);
 }
 #filters-button {
   display: inline-flex;
   align-items: center;
-  gap: .5ex;
-  height: var(--input-height);
-  box-sizing: border-box;
-  padding: 5px 12px;
-  border: 1px solid var(--c65);
-  border-radius: var(--radius-sm, 6px);
-  /* joined to the search box on its left: flatten the touching corners
-     so they read as one segmented control */
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  background: var(--c95);
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  background: none;
   cursor: pointer;
   list-style: none;
-  width: max-content;
   &::-webkit-details-marker { display: none; }
   &::marker { content: ''; }
-  i { font-size: 14px; }
-  &:hover { background: var(--c90); border-color: var(--c50); }
+  i { font-size: 15px; color: var(--c50); }
+  &:hover { background: hsla(0, 0%, 50%, .15); }
 }
 #filters-menu[open] #filters-button {
-  border-color: var(--accent-1);
+  background: hsla(0, 0%, 50%, .15);
+  i { color: var(--accent-1); }
 }
 .filters-popup {
   position: absolute;
   top: 100%;
-  left: 0;
+  right: 0;
   z-index: 20;
   margin-top: 6px;
   min-width: 15em;
@@ -495,8 +470,11 @@ h1 {
   white-space: nowrap;
 }
 
+#get-styles-row {
+  gap: $iconGapY;
+}
 #get-styles-button {
-  width: 100%;
+  flex: 1 1 auto;
 }
 /* the links list shown inside the Get-styles modal */
 .links-list {
@@ -656,26 +634,24 @@ button i {
     max-width: none;
   }
 }
-/* the filter button is attached to the search box, not a fixed-size icon,
-   so let the input grow to fill whatever space it leaves */
-#search-wrapper > :first-child {
-  max-width: none;
+/* the filter button now overlays the search box instead of sitting beside
+   it, so the input is free to fill the whole width and stay fully rounded */
+#search-wrapper {
+  position: relative;
+  > :first-child {
+    max-width: none;
+  }
 }
-/* Join the search field and the filter button into one segmented control:
-   flatten the touching corners so they read as a single pill. */
 #search {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+  width: 100%;
+  /* room for the filter icon overlaid at the trailing edge */
+  padding-right: 30px !important;
 }
 #manage\.searchMode {
   background: var(--bg);
 }
 
-#manage\.newUI\.sort {
-  max-width: 100%;
-}
-
-#search, #manage\.newUI\.sort {
+#search {
   min-width: 4em; /* reduces the big default width */
   background: var(--bg);
   box-sizing: border-box;
@@ -684,9 +660,100 @@ button i {
   border: 1px solid var(--c65);
 }
 
-#manage\.newUI\.sort {
-  padding: 0 18px 0 4px;
+/* ---- Custom sort dropdown (native select stays hidden for pref sync) ---- */
+#sort-button {
+  display: block;
   width: 100%;
+  box-sizing: border-box;
+  min-width: 4em;
+  height: var(--input-height);
+  padding: 0 22px 0 10px;
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--c65);
+  border-radius: var(--radius-sm, 6px);
+  cursor: pointer;
+  list-style: none;
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: var(--input-height);
+  &::-webkit-details-marker { display: none; }
+  &::marker { content: ''; }
+  &::after {
+    content: '▼';
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%) scaleY(.7);
+    font-size: 10px;
+    color: var(--c50);
+  }
+  &:hover { border-color: var(--c50); }
+}
+#sort-menu[open] #sort-button {
+  border-color: var(--accent-1);
+}
+.sort-popup {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  border: 1px solid var(--c75);
+  border-radius: var(--radius, 8px);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+#sort-filter {
+  margin: 6px;
+  padding: 4px 8px;
+}
+#sort-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 0 6px 6px;
+  max-height: 18em;
+  overflow-y: auto;
+  .sort-group-label {
+    padding: 6px 8px 2px;
+    font-size: smaller;
+    color: var(--c50);
+    &:not(:first-child) {
+      margin-top: 4px;
+      border-top: 1px solid var(--c90);
+    }
+  }
+  .sort-option {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px 6px 22px;
+    border-radius: var(--radius-sm, 6px);
+    cursor: pointer;
+    text-align: left;
+    white-space: nowrap;
+    position: relative;
+    &:hover { background: var(--c95); }
+    &.selected {
+      background: var(--accent-1);
+      color: var(--accent-contrast, #fff);
+      &::before {
+        content: '✓';
+        position: absolute;
+        left: 8px;
+      }
+    }
+    &.hidden-by-filter {
+      display: none;
+    }
+  }
 }
 
 #incremental-search {
@@ -839,16 +906,8 @@ button i {
 }
 
 .normal-layout {
-  [id=header] {
-    summary {
-      margin-left: calc(-1 * $summaryX);
-    }
-  }
   #actions {
     align-items: flex-start;
-    summary {
-      margin-top: 4px;
-    }
   }
 }
 

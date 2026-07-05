@@ -118,6 +118,17 @@
         <i class=i-menu></i>
       </summary>
       <div class="overflow-popup">
+        <button id="check-all-updates" i18n="title:checkAllUpdates">
+          <i class=i-update-check></i>
+          <span i18n="checkAllUpdates"></span>
+          <span id="update-progress"></span>
+        </button>
+        <button id="sync-styles" i18n="title:optionsCustomizeSync">
+          <img hidden>
+          <i class=i-cloud></i>
+          <span i18n="optionsCustomizeSync"></span>
+        </button>
+        <p id="sync-status"></p>
         <button id="update-history-button" i18n="title:genericHistoryLabel">
           <i class=i-log></i>
           <span i18n="genericHistoryLabel"></span>
@@ -157,11 +168,10 @@
             <option i18n="searchStylesAll" value="all" selected></option>
           </select>
 
-          <!-- attached to the search box as one segmented control -->
+          <!-- trailing icon button overlaid inside the search box -->
           <details id="filters-menu" class="dropdown-menu">
-            <summary id="filters-button">
+            <summary id="filters-button" i18n="title:manageFilters">
               <i class=i-sliders></i>
-              <span i18n="manageFilters"></span>
             </summary>
             <div class="filters-popup">
               <label class="filter-switch">
@@ -217,21 +227,21 @@
 
       <div id="sort-wrapper">
         <span class="field-label" i18n="sortShortLabel"></span>
-        <div class="select-wrapper" i18n="title:sortLabel">
-          <select id="manage.newUI.sort"></select>
-        </div>
+        <!-- real select stays in the DOM (hidden) so the existing pref
+             sync / sorter.js logic keeps working unmodified -->
+        <select id="manage.newUI.sort" hidden></select>
+        <details id="sort-menu" class="dropdown-menu" i18n="title:sortLabel">
+          <summary id="sort-button"></summary>
+          <div class="sort-popup">
+            <input id="sort-filter" type="text" i18n="placeholder:search" spellcheck="false" autocomplete="off">
+            <div id="sort-options"></div>
+          </div>
+        </details>
       </div>
     </div>
 
     <div class="settings-column flex" id="actions">
-      <details data-pref="manage.actions.expanded">
-        <summary></summary>
-      </details>
       <main class="flex wrap center-items">
-        <button id="check-all-updates" i18n="title:checkAllUpdates" class="icon">
-          <i class=i-update-check></i>
-          <span id="update-progress"></span>
-        </button>
         <button id="manage-options-button" i18n="title:openOptions" class="icon">
           <svg class="hollow-gear" viewBox="0 0 20 20" stroke-width="1.25px">
             <text y="100%">⚙</text>
@@ -250,24 +260,18 @@
             <button id="check-all-updates-force" i18n="checkAllUpdatesForce"></button>
           </template>
         </div>
-
-        <div id="backup" class="flex wrap center-items">
-          <button id="sync-styles" class="icon flex center-items" i18n="title:optionsCustomizeSync">
-            <img hidden>
-            <i class=i-cloud></i>
-          </button>
-          <button id="import" i18n="importLabel"></button>
-          <span class="split-btn">
-            <button id="export" i18n="exportLabel"></button
-            ><button class="split-btn-pedal" i18n="menu-compat:exportCompatible"></button>
-          </span>
-          <p></p>
-        </div>
       </main>
     </div>
 
     <div class="settings-column" id="links">
-      <button id="get-styles-button" i18n="linkGetStyles"></button>
+      <div id="get-styles-row" class="flex wrap center-items">
+        <button id="get-styles-button" i18n="linkGetStyles"></button>
+        <button id="import" i18n="importLabel"></button>
+        <span class="split-btn">
+          <button id="export" i18n="exportLabel"></button
+          ><button class="split-btn-pedal" i18n="menu-compat:exportCompatible"></button>
+        </span>
+      </div>
       <!-- links + backup hint live here (hidden); shown in a modal via the button -->
       <div id="get-styles-content" hidden>
         <div class="links-list"><% _.forEach([
