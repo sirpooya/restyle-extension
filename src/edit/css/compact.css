@@ -50,6 +50,23 @@
     button {
       height: var(--input-height); /* some buttons may be icons */
     }
+    /* Save split-button: keep both halves the same height & vertically aligned
+       so the caret pedal isn't clipped or taller than the Save half. */
+    .split-btn {
+      display: inline-flex;
+      align-items: stretch;
+      height: var(--input-height);
+    }
+    .split-btn > button {
+      height: var(--input-height);
+      box-sizing: border-box;
+    }
+    .split-btn-pedal {
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      padding: 0 8px !important;
+    }
   }
   #header.sticky .hide-if-sticky,
   .hide-if-compact {
@@ -111,6 +128,7 @@
     flex-flow: row wrap;
     margin: 0;
     order: 3; /* panels toolbar sits below the app bar and name/actions row */
+    position: relative; /* anchor the popups to the toolbar, not the viewport */
     > details[open] {
       z-index: 50;
       &:hover, &:focus-within {
@@ -120,14 +138,21 @@
         color: var(--accent-1);
         /* the tab whose popup is open reads as a selected pill */
         background-color: var(--accent-5) !important;
-        /* the floating popup panel: rounded, bordered, soft-shadowed card */
+        /* the floating popup panel: rounded, bordered, soft-shadowed card.
+           Pinned to the toolbar's right edge so it always stays on-screen
+           (tabs live near the right side, so left-anchoring overflowed). */
         + * {
           position: absolute;
+          top: 100%;
+          right: 0;
+          left: auto;
           margin-top: 6px;
           overflow: hidden auto;
           max-height: var(--max-height, 60vh);
-          max-width: calc(100vw - 2 * $pad);
           width: max-content;
+          /* clamp so long content (e.g. the lint report) wraps inside the card */
+          max-width: min(24em, calc(100vw - 2 * $pad));
+          box-sizing: border-box;
           background: var(--bg);
           border: 1px solid var(--c75);
           border-radius: var(--radius-lg, 12px);
@@ -161,16 +186,15 @@
     max-width: 50vw;
   }
   #publish[open],
-  #lint:not([open]) {
+  #lint {
+    /* the Issues tab stays a fixed-size icon button whether open or closed
+       (the report lives in the absolutely-positioned popup, not the tab) */
     flex: 0 0 auto;
     overflow-x: hidden;
   }
   #publish dd {
     white-space: normal;
     max-height: 1.25em;
-  }
-  #lint {
-    padding: 0 4px;
   }
   #sections {
     padding: 0;

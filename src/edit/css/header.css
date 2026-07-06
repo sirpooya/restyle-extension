@@ -56,10 +56,32 @@ h1 {
 #basic-info-name {
   flex: 1;
   width: 100%;
+  /* anchor the clear (×) button inside the name field's trailing edge */
+  position: relative;
 }
 #name {
   flex: 1;
   padding-right: var(--input-height);
+}
+/* the reset/clear button sits inside the name input, at its right end */
+#reset-name {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  width: var(--input-height);
+  height: var(--input-height);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  i {
+    font-size: 14px;
+    color: var(--c50);
+  }
+  &:hover i {
+    color: var(--fg);
+  }
 }
 #url {
   margin-left: $pad025;

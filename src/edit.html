@@ -146,17 +146,19 @@
           <summary>
             <h2 data-icon="ⓘ"><span i18n="linterIssues"></span><span id="issue-count"></span></h2>
           </summary>
-          <div class="lint-actions">
-            <a id="lint-help" class="icon" tabindex="0"
-               show-if="editor.linter.on">
-              <i class=i-info></i>
-            </a>
-            <a class="icon config" i18n="title:linterConfigTooltip" tabindex="0"
-               show-if="editor.linter.on">
-              <i class=i-config-lite></i>
-            </a>
+          <div class="lint-body">
+            <div class="lint-actions">
+              <a id="lint-help" class="icon" tabindex="0"
+                 show-if="editor.linter.on">
+                <i class=i-info></i>
+              </a>
+              <a class="icon config" i18n="title:linterConfigTooltip" tabindex="0"
+                 show-if="editor.linter.on">
+                <i class=i-config-lite></i>
+              </a>
+            </div>
+            <div class="lint-report-container"></div>
           </div>
-          <div class="lint-report-container"></div>
         </details>
       </div>
       <div id="header-resizer" i18n="title:headerResizerHint"></div>

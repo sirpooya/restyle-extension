@@ -69,6 +69,45 @@
     }
   }
 }
+
+/* In the compact popup the issues report must wrap and stay inside the card
+   instead of running off the right edge of the screen. */
+.compact-layout #lint {
+  /* give the popup a definite width so its report/table have a basis to wrap
+     against (max-content would otherwise let the message run off-screen) */
+  .lint-body {
+    width: 20em;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .lint-report-container,
+  /* stack the linter caption above the table so the table gets the full width */
+  .report {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .caption {
+    display: block;
+    margin-bottom: $pad025;
+  }
+  /* auto layout keeps the tiny line/col columns snug; only the message column
+     is fluid and wraps within the popup instead of running off-screen */
+  table {
+    width: 100%;
+  }
+  td {
+    vertical-align: top; /* align the severity marker & numbers to the first line */
+  }
+  td[role="message"] {
+    /* the base `td:last-child{width:100%}` already makes this fill the row;
+       just let it wrap and give it a little breathing room from the numbers */
+    white-space: normal;
+    overflow-wrap: anywhere;
+    padding-left: $pad05;
+  }
+}
 #issue-count::before {
   content: ':\A0';
 }
