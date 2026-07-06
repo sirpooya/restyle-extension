@@ -294,6 +294,29 @@
 
 <div id="installed"></div>
 
+<!-- Bottom action bar: fixed over the list (rows scroll behind it), shown only
+     when at least one style exists (hidden via .empty on the root element).
+     Buttons forward their clicks to the real sidebar controls — see initBottomBar. -->
+<div id="bottom-bar">
+  <button id="bottom-options" i18n="title:openOptions" class="icon">
+    <svg class="hollow-gear" viewBox="0 0 20 20" stroke-width="1.25px">
+      <text y="100%">⚙</text>
+    </svg>
+    <span i18n="optionsHeading"></span>
+  </button>
+  <button id="bottom-write-style" class="icon">
+    <i class=i-plus></i>
+    <span i18n="addStyleLabel"></span>
+  </button>
+  <button id="bottom-sync" class="icon">
+    <i class=i-cloud></i>
+    <span i18n="optionsCustomizeSync"></span>
+  </button>
+  <button id="bottom-get-styles" i18n="linkGetStyles"></button>
+  <button id="bottom-import" i18n="importLabel"></button>
+  <button id="bottom-export" i18n="exportLabel"></button>
+</div>
+
 <!-- shown only when there are zero styles (see .empty on the root element) -->
 <div id="empty-state">
   <h2 i18n="emptyStateTitle"></h2>

@@ -44,8 +44,24 @@ import '@/css/theme-modern.css';
   initGetStylesButton();
   initDropdownMenus();
   initEmptyState();
+  initBottomBar();
   import('./import-export');
 })();
+
+function initBottomBar() {
+  // Each bottom-bar button forwards its click to the real sidebar control,
+  // keeping a single source of truth for behavior (same pattern as the empty state).
+  const forward = (fromId, toId) => {
+    const from = $id(fromId);
+    if (from) from.on('click', () => $id(toId).click());
+  };
+  forward('bottom-options', 'manage-options-button');
+  forward('bottom-write-style', 'add-style');
+  forward('bottom-sync', 'sync-styles');
+  forward('bottom-get-styles', 'get-styles-button');
+  forward('bottom-import', 'import');
+  forward('bottom-export', 'export');
+}
 
 function initEmptyState() {
   // forwards to the real buttons so there's a single source of truth for behavior

@@ -340,8 +340,10 @@ code {
 }
 
 /* ---- Options dialog (standalone tab & embedded modal) ---- */
-/* Modal card: rounded corners + a soft, layered shadow */
-body {
+/* Modal card: rounded corners + a soft, layered shadow.
+   Scoped to the options page ONLY (#stylus-options) so other full pages
+   (manage, popup, edit) don't get the floating-card border/radius/shadow. */
+#stylus-options {
   border-radius: var(--radius-lg) !important;
   box-shadow: 0 10px 30px -8px hsl(230 30% 15% / .28),
               0 4px 10px -4px hsl(230 30% 15% / .18) !important;
@@ -350,15 +352,20 @@ body {
     border: 1px solid var(--c80) !important;
   }
 }
-/* Title bar: drop the loud accent tint for a calm neutral header */
-body > header {
+/* Title bar: drop the loud accent tint for a calm neutral header.
+   Round the top corners so the header follows the card, not square over it. */
+#stylus-options > header {
   background-color: var(--c95);
   border-bottom: 1px solid var(--c85);
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
 }
 /* Action bar (footer): a lighter neutral than the old --c90 */
-body > footer {
+#stylus-options > footer {
   background-color: var(--c95);
   border-top: 1px solid var(--c85);
+  border-bottom-left-radius: var(--radius-lg);
+  border-bottom-right-radius: var(--radius-lg);
 }
 
 /* Message boxes / menus: modern floating cards */

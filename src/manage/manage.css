@@ -155,6 +155,40 @@ h1 {
   flex-wrap: wrap;
 }
 
+/* ---- Bottom action bar (shown only when at least one style exists) ---- */
+#bottom-bar {
+  position: fixed;
+  bottom: 0;
+  /* sits over the list area, to the right of the sidebar in normal layout */
+  left: calc(var(--header-width) + var(--header-resizer-width));
+  right: 0;
+  z-index: 10; /* above the scrolling rows, which pass behind it */
+  display: flex;
+  flex-wrap: wrap;
+  gap: $pad05;
+  align-items: center;
+  padding: $pad;
+  background: var(--c97);
+  border-top: 1px solid var(--c85);
+  box-sizing: border-box;
+  button {
+    display: inline-flex;
+    align-items: center;
+    gap: .5ex;
+    white-space: nowrap;
+  }
+}
+.empty #bottom-bar {
+  display: none;
+}
+/* keep the last rows clear of the fixed bar */
+:not(.empty) #installed {
+  padding-bottom: calc(var(--action-size, 32px) + 2 * $pad);
+}
+.compact-layout #bottom-bar {
+  left: 0;
+}
+
 #empty-state {
   display: none;
 }
@@ -178,6 +212,7 @@ h1 {
   }
   .flex {
     gap: 8px;
+    justify-content: center;
   }
   button {
     display: inline-flex;
@@ -558,7 +593,6 @@ button i {
 .compact-layout h1,
 .disabled .disable,
 .enabled .enable,
-.empty #filters-menu,
 #header:not(.filtered) #stats,
 #update-all:empty,
 .can-update .check-update,
@@ -990,6 +1024,12 @@ button i {
       }
     }
   }
+  /* the title is hidden here, so push the ⋮ button to the top-right corner
+     and give it breathing room (the header's own padding is 0 in this layout) */
+  #header-top {
+    justify-content: flex-end;
+    margin: $pad05 $pad05 0;
+  }
   #actions {
     display: flex;
   }
@@ -1000,6 +1040,10 @@ button i {
     flex-flow: wrap;
     align-items: flex-start;
     padding: $pad;
+  }
+  /* search + sort span the full header width in the stacked layout */
+  #wide-inputs {
+    flex: 1 1 100%;
   }
   #installed {
     margin-top: 0;
