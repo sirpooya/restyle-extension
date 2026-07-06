@@ -309,6 +309,10 @@
     "message": "Are you sure you want to delete this style?",
     "description": "Confirmation before deleting a style"
   },
+  "deleteStyleConfirmDetail": {
+    "message": "This action cannot be undone.",
+    "description": "Extra detail shown below the style name in the delete confirmation dialog"
+  },
   "deleteStyleLabel": {
     "message": "Delete",
     "description": "Label for the button to delete a style"

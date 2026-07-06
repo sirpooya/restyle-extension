@@ -144,6 +144,7 @@ button:disabled {
    Note: button#import — not #import — so the import *report* container
    (a <div id="import"> in the message box) doesn't get an accent fill. */
 button#import,
+button#empty-import,
 #save-button,
 button.save,
 button[name="install"],
@@ -151,8 +152,10 @@ button[name="install"],
   background: var(--accent-1);
   border-color: var(--accent-1);
   color: var(--accent-contrast);
+  i { color: var(--accent-contrast); }
 }
 button#import:not(:disabled):hover,
+button#empty-import:not(:disabled):hover,
 #save-button:not(:disabled):hover,
 button.save:not(:disabled):hover,
 button[name="install"]:not(:disabled):hover,

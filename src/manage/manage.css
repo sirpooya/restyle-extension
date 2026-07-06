@@ -164,11 +164,8 @@ h1 {
   align-items: center;
   justify-content: center;
   gap: 16px;
-  width: 100%;
-  min-height: var(--100dvh);
   box-sizing: border-box;
   padding: 40px;
-  padding-left: calc(40px + var(--header-width) + var(--header-resizer-width));
   text-align: center;
   h2 {
     margin: 0;
@@ -182,6 +179,24 @@ h1 {
   .flex {
     gap: 8px;
   }
+  button {
+    display: inline-flex;
+    align-items: center;
+    gap: .5ex;
+  }
+}
+/* side-by-side layout: float over the content area to the right of the sidebar */
+.normal-layout.empty #empty-state {
+  position: fixed;
+  left: calc(var(--header-width) + var(--header-resizer-width));
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+/* stacked layout: flow normally below the header, same as #installed */
+.compact-layout.empty #empty-state {
+  width: 100%;
+  min-height: 40vh;
 }
 
 .entry {
@@ -989,9 +1004,6 @@ button i {
   #installed {
     margin-top: 0;
     padding-left: 0;
-  }
-  .empty #empty-state {
-    padding-left: 40px;
   }
   #backup-hint {
     main {

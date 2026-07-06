@@ -1,5 +1,5 @@
 import {kPopup, kStyleIdPrefix, UCD} from '@/js/consts';
-import {$toggleClasses} from '@/js/dom';
+import {$create, $toggleClasses} from '@/js/dom';
 import {
   animateElement, configDialog, getEventKeyName, messageBox, scrollElementIntoView,
 } from '@/js/dom-util';
@@ -68,9 +68,11 @@ const ENTRY_ROUTES = {
     animateElement(entry);
     const meta = entry.styleMeta;
     const name = meta.customName || meta.name;
-    if (await messageBox.confirm(name, 'danger', t('deleteStyleConfirm'), {
-      buttons: [t('confirmDelete'), t('confirmCancel')],
-    })) {
+    if (await messageBox.confirm(
+      [$create('b', name), $create('p', t('deleteStyleConfirmDetail'))],
+      'danger', t('deleteStyleConfirm'), {
+        buttons: [t('confirmDelete'), t('confirmCancel')],
+      })) {
       API.styles.remove(entry.styleId);
     }
   },
@@ -148,6 +150,11 @@ export function onEntryClicked(event) {
         return routes[selector].call(el, event, entry);
       }
     }
+  }
+  // clicking anywhere else in the row (blank space, URLs, size/age) opens
+  // the editor; the toggle switch and other actions above already returned
+  if (event.type === 'click' && entry && UI.tableView) {
+    edit(event, entry);
   }
 }
 
