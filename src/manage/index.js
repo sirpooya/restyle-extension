@@ -45,7 +45,10 @@ import '@/css/theme-modern.css';
   initDropdownMenus();
   initEmptyState();
   initBottomBar();
-  import('./import-export');
+  // Lazy chunk; swallow a transient load failure so it can't surface as an
+  // uncaught promise rejection on the errors page (import/export still works
+  // on next interaction once the chunk is cached).
+  import('./import-export').catch(() => {});
 })();
 
 function initBottomBar() {
