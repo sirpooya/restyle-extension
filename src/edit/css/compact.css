@@ -167,6 +167,11 @@
         }
       }
     }
+    /* The Issues report can otherwise collapse to a narrow strip (its table
+       shrinks under max-content), so give that popup a real minimum width. */
+    > #lint[open] > summary + * {
+      min-width: min(18em, calc(100vw - 2 * $pad));
+    }
   }
   @keyframes popup-in {
     from { opacity: 0; transform: translateY(-4px); }

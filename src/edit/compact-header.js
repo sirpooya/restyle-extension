@@ -52,6 +52,24 @@ export default function CompactHeader() {
         if (d.localName === 'details' && d.open) positionCompactPopup(d);
       }
     });
+    // in compact layout, a click/tap outside the open popup closes it
+    const closeOnOutside = e => {
+      if (!$root.classList.contains('compact-layout')) return;
+      for (const d of wrap.children) {
+        if (d.localName === 'details' && d.open && !d.contains(e.target)) {
+          d.open = false;
+        }
+      }
+    };
+    document.on('pointerdown', closeOnOutside);
+    // Escape closes the open popup too
+    document.on('keydown', e => {
+      if (e.key === 'Escape' && $root.classList.contains('compact-layout')) {
+        for (const d of wrap.children) {
+          if (d.localName === 'details' && d.open) d.open = false;
+        }
+      }
+    });
   }
 
   /** @param {IntersectionObserverEntry[]} entries */
