@@ -214,15 +214,16 @@ input[type=search]:hover,
 input[type=url]:hover {
   border-color: var(--c50);
 }
-/* Number inputs: value padded on the left, plus a gap before the spinner
-   so the value isn't flush against the up/down arrows. */
+/* Number inputs: value padded on the left; the spinner sits flush against the
+   right border (right: 0), with the gap living between the value and the arrows. */
 input[type=number] {
-  padding: 0 6px 0 8px !important;
+  padding: 0 0 0 8px !important;
   text-align: left;
 }
 input[type=number]::-webkit-inner-spin-button {
   height: var(--input-height);
-  margin: 0 0 0 2px;
+  margin: 0;
+  margin-left: 6px; /* gap between the value and the arrows, not after them */
   opacity: .55;
 }
 input[type=number]:hover::-webkit-inner-spin-button,

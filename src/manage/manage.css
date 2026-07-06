@@ -81,6 +81,12 @@ h1 {
   flex: 1;
   gap: $pad;
 }
+/* The toolbar buttons now live in the bottom action bar (#bottom-bar) in every
+   layout, so hide the in-sidebar #actions toolbar. The real controls stay in the
+   DOM (hidden) because #bottom-bar forwards its clicks to them. */
+#actions {
+  display: none;
+}
 [id=actions] /* reducing specificity */ {
   flex: 1;
   main {
@@ -181,12 +187,10 @@ h1 {
 .empty #bottom-bar {
   display: none;
 }
-/* keep the last rows clear of the fixed bar */
-:not(.empty) #installed {
+/* keep the last rows clear of the fixed bar (normal layout only — in compact
+   the bar is a sticky element in normal flow and takes its own space) */
+.normal-layout:not(.empty) #installed {
   padding-bottom: calc(var(--action-size, 32px) + 2 * $pad);
-}
-.compact-layout #bottom-bar {
-  left: 0;
 }
 
 #empty-state {
@@ -200,6 +204,8 @@ h1 {
   gap: 16px;
   box-sizing: border-box;
   padding: 40px;
+  /* bias the centered block upward (~40% from top) so it doesn't sit dead center */
+  padding-bottom: 20vh;
   text-align: center;
   h2 {
     margin: 0;
@@ -987,8 +993,12 @@ button i {
 }
 
 .compact-layout {
+  /* full-height flex column so the list fills the space and the bottom bar
+     is pushed to the viewport bottom instead of sitting under a short list */
   body {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    min-height: var(--100dvh);
     height: auto;
   }
 
@@ -1017,6 +1027,9 @@ button i {
     z-index: 1000;
     border-right: none;
     border-bottom: 1px dashed var(--c65);
+    /* the header is short here (height:auto), so let the dropdown popups
+       (overflow ⋮, filter, sort) escape it instead of being clipped */
+    overflow: visible;
     details {
       align-items: center;
       &:not([open]):only-child {
@@ -1030,11 +1043,6 @@ button i {
     justify-content: flex-end;
     margin: $pad05 $pad05 0;
   }
-  /* Narrow layout: the toolbar buttons MOVE into the bottom action bar
-     (#bottom-bar), so hide the in-header #actions toolbar entirely here. */
-  #actions {
-    display: none;
-  }
   #stats {
     position: static;
   }
@@ -1043,19 +1051,27 @@ button i {
     align-items: flex-start;
     padding: $pad;
   }
-  /* the bottom bar becomes a sticky footer within the scrolling page */
+  /* the list grows to fill, pushing the bottom bar to the viewport bottom;
+     pack rows to the top (default align-content would center the lone row) */
+  #installed {
+    margin-top: 0;
+    padding-left: 0;
+    flex: 1 0 auto;
+    align-content: flex-start;
+  }
+  /* the drag-handle affordance sits at left:6px and collides with the toggle
+     switch in this narrow layout — hide it here */
+  .drag-handle {
+    display: none;
+  }
+  /* bottom bar sits at the end of the flex column (the filled list above it) */
   #bottom-bar {
-    position: sticky;
-    left: 0;
-    right: 0;
+    position: static;
+    flex: 0 0 auto;
   }
   /* search + sort span the full header width in the stacked layout */
   #wide-inputs {
     flex: 1 1 100%;
-  }
-  #installed {
-    margin-top: 0;
-    padding-left: 0;
   }
   #backup-hint {
     main {

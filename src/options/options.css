@@ -26,11 +26,15 @@ body {
   flex-direction: column;
   max-height: var(--100dvh);
   box-sizing: border-box;
+  /* Center the card with a gap around it so its rounded corners are visible.
+     Applies to both the standalone tab and the embedded iframe modal — the
+     embedded case has no `.tab` class, and without this the body sat flush in
+     the iframe's square top-left corner, masking the radius. */
+  @media (min-height: $docMin1W) {
+    max-height: calc(var(--100dvh) - $outerPad * 2);
+  }
+  margin: auto;
   .tab & {
-    @media (min-height: $docMin1W) {
-      max-height: calc(var(--100dvh) - $outerPad * 2);
-    }
-    margin: auto;
     border: 1px solid var(--c60);
   }
 }

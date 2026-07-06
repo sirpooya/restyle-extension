@@ -86,8 +86,11 @@ h1 {
   /* breathing room below the final panel */
   padding-bottom: $pad;
   > details {
+    /* the wrapper is the single scroll container; individual panels must NOT
+       scroll/clip their own content (that was cropping the last row) */
     &[open] {
-      overflow-y: auto;
+      overflow: visible;
+      flex: 0 0 auto;
     }
     /* the whole header row is the click target, with a chevron at the far end */
     > summary {
@@ -152,11 +155,19 @@ h1 {
   background: none;
   margin-left: $pad05;
 }
+/* Dirty (unsaved changes): Save is fully active in the accent color. Previously
+   this went gold/orange, which clashed with the modern blue accent — now it's
+   simply the full-strength blue vs. the dimmed blue of the disabled state. */
 .dirty #save-button {
   &, & + button {
-    background: linear-gradient(gold, orange);
-    border-color: darkgoldenrod;
-    color: #000;
+    background: var(--accent-1);
+    border-color: var(--accent-1);
+    color: var(--accent-contrast);
+  }
+  &:not(:disabled):hover,
+  & + button:not(:disabled):hover {
+    background: var(--accent-2);
+    border-color: var(--accent-2);
   }
 }
 
