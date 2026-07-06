@@ -31,7 +31,7 @@
   }
   li {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap; /* keep the select, field and -/+ buttons on one row */
     list-style-type: none;
     align-items: center;
     padding: 1px 0; /* room for focus outline */
@@ -50,7 +50,8 @@
       margin-left: 1rem;
     }
     .applies-value-wrapper {
-      flex-grow: 1;
+      flex: 1 1 0; /* grow to fill, but shrink below content so buttons never wrap */
+      min-width: 0;
       display: flex;
       align-items: center;
     }
@@ -70,19 +71,29 @@
     border-color: var(--c85);
     caret-color: auto;
   }
-  .select-wrapper, img {
+  .select-wrapper {
+    /* a comfortable gap between the type dropdown and the URL field */
+    margin-right: $pad05;
+  }
+  img {
     margin-right: calc(2px + $targetGapY);
   }
 }
 .add-applies-to,
 .remove-applies-to {
+  flex: 0 0 auto; /* never shrink or wrap off the row */
   font-size: 0;
   cursor: pointer;
   margin-left: $plus-minus-pad;
+  /* centered square tap targets so the -/+ line up with the field on one row */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--input-height);
   i {
     pointer-events: none;
     color: var(--c60);
-    line-height: var(--input-height);
+    line-height: 1;
   }
   &:hover i {
     color: var(--fg);

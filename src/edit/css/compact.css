@@ -55,25 +55,62 @@
   .hide-if-compact {
     display: none !important;
   }
+  /* ---- Mobile app bar ----
+     Flatten #basic-info so its toprow (app bar) and name row become direct
+     children of the #header flex row, letting us line up:
+       Row 1: back  ·  "Edit Style"  ·  info/code/error icons
+       Row 2: name field  ·  close (×)  ·  Save  ·  Beautify */
   #basic-info {
-    flex: 100;
-    max-width: 100%;
+    display: contents;
+  }
+  /* app bar row */
+  #basic-info-toprow {
+    flex: 1 1 100%;
+    width: 100%;
+    order: 0;
+    align-items: center;
+    gap: $pad05;
+    padding-bottom: $pad05;
+    margin: 0;
+    border-bottom: 1px solid var(--c85);
+    /* show the "Edit Style" title in the app bar (it's hidden elsewhere in compact) */
+    > h1.hide-if-compact {
+      display: block !important;
+      flex: 1;
+      font-size: 18px;
+      font-weight: 700;
+    }
+    /* the info/code/error icons sit at the trailing end, after the title */
+    > .icon:not(#cancel-button) {
+      flex: 0 0 auto;
+    }
   }
   #basic-info-name {
-    order: -1;
+    order: 1;
+    flex: 1 1 12em;
+    min-width: 8em;
     max-width: 100%;
     overflow: hidden;
     padding: 1px; /* to fit the focus outline on the input */
+    display: flex;
+    align-items: center;
+  }
+  /* actions (Save split-btn + Beautify) share row 2 with the name field */
+  #actions {
+    order: 2;
+    flex: 0 0 auto;
   }
   #name {
     field-sizing: content;
     min-width: 5em;
+    flex: 1;
   }
   #details-wrapper {
     display: flex;
     align-items: center;
     flex-flow: row wrap;
     margin: 0;
+    order: 3; /* panels toolbar sits below the app bar and name/actions row */
     > details {
       border: 1px solid transparent;
     }
@@ -161,30 +198,12 @@
     }
   }
 
-  /* ---- App bar in compact: the top row (back + icons) is a normal wrapping
-     row again, not a full-bleed bordered bar. ---- */
-  #basic-info {
-    flex-direction: row;
-    flex-wrap: wrap;
+  /* consistent tap targets for the app-bar icon buttons */
+  #basic-info-toprow > .icon {
+    display: inline-flex;
     align-items: center;
-  }
-  #basic-info-toprow {
-    margin: 0;
-    padding: 0;
-    border-bottom: none;
-    order: 1; /* icons sit after the name input (which is order:-1) */
-    /* give the icon row its own full-width line and let it size to content so
-       it doesn't collapse to width:0 between the name field and the actions */
-    flex: 1 1 100%;
-    width: 100%;
-    gap: $pad05;
-    > .icon {
-      flex: 0 0 auto;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: var(--input-height);
-      height: var(--input-height);
-    }
+    justify-content: center;
+    min-width: var(--input-height);
+    height: var(--input-height);
   }
 }
