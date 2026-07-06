@@ -40,9 +40,13 @@ window.on('keydown', event => {
   }
 });
 if (top !== window) {
-  // clicking the backdrop area around the dialog (embedded iframe mode) closes it
-  document.body.on('click', e => {
-    if (e.target === document.body) tellTopToCloseOptions();
+  // Clicking the backdrop around the dialog (embedded iframe mode) closes it.
+  // The body is width:fit-content and centered, so the dark backdrop is the
+  // iframe's root/viewport (documentElement), not the body — listen on both.
+  document.on('click', e => {
+    if (e.target === document.documentElement || e.target === document.body) {
+      tellTopToCloseOptions();
+    }
   });
 }
 top.on('beforeunload', () => {

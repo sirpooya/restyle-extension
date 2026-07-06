@@ -1030,8 +1030,10 @@ button i {
     justify-content: flex-end;
     margin: $pad05 $pad05 0;
   }
+  /* Narrow layout: the toolbar buttons MOVE into the bottom action bar
+     (#bottom-bar), so hide the in-header #actions toolbar entirely here. */
   #actions {
-    display: flex;
+    display: none;
   }
   #stats {
     position: static;
@@ -1040,6 +1042,12 @@ button i {
     flex-flow: wrap;
     align-items: flex-start;
     padding: $pad;
+  }
+  /* the bottom bar becomes a sticky footer within the scrolling page */
+  #bottom-bar {
+    position: sticky;
+    left: 0;
+    right: 0;
   }
   /* search + sort span the full header width in the stacked layout */
   #wide-inputs {

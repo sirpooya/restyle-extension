@@ -352,20 +352,18 @@ code {
     border: 1px solid var(--c80) !important;
   }
 }
-/* Title bar: drop the loud accent tint for a calm neutral header.
-   Round the top corners so the header follows the card, not square over it. */
+/* Title bar: white app-bar matching the GetStyles (message-box) modal.
+   No corner radius here — the card's `overflow: hidden` clips the header/footer
+   to the body's rounded corners. Rounding them again with the same radius, but
+   offset inward by the 1px border, leaves a see-through sliver at the corner. */
 #stylus-options > header {
-  background-color: var(--c95);
+  background-color: var(--bg);
   border-bottom: 1px solid var(--c85);
-  border-top-left-radius: var(--radius-lg);
-  border-top-right-radius: var(--radius-lg);
 }
-/* Action bar (footer): a lighter neutral than the old --c90 */
+/* Action bar (footer): matches the GetStyles modal's button bar (--c95) */
 #stylus-options > footer {
   background-color: var(--c95);
   border-top: 1px solid var(--c85);
-  border-bottom-left-radius: var(--radius-lg);
-  border-bottom-right-radius: var(--radius-lg);
 }
 
 /* Message boxes / menus: modern floating cards */
