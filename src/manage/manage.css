@@ -204,8 +204,6 @@ h1 {
   gap: 16px;
   box-sizing: border-box;
   padding: 40px;
-  /* bias the centered block upward (~40% from top) so it doesn't sit dead center */
-  padding-bottom: 20vh;
   text-align: center;
   h2 {
     margin: 0;
@@ -226,18 +224,23 @@ h1 {
     gap: .5ex;
   }
 }
-/* side-by-side layout: float over the content area to the right of the sidebar */
+/* side-by-side layout: float over the content area to the right of the sidebar;
+   bias the centered block upward (~40% from top) so it doesn't sit dead center */
 .normal-layout.empty #empty-state {
   position: fixed;
   left: calc(var(--header-width) + var(--header-resizer-width));
   right: 0;
   top: 0;
   bottom: 0;
+  padding-bottom: 20vh;
 }
-/* stacked layout: flow normally below the header, same as #installed */
+/* stacked (mobile) layout: overlay the full viewport and center, so the text +
+   buttons sit dead-center on screen rather than centered only in the shorter
+   area below the sticky header (which reads as sitting too low) */
 .compact-layout.empty #empty-state {
+  position: fixed;
+  inset: 0;
   width: 100%;
-  min-height: 40vh;
 }
 
 .entry {
@@ -1053,11 +1056,16 @@ button i {
   }
   /* the list grows to fill, pushing the bottom bar to the viewport bottom;
      pack rows to the top (default align-content would center the lone row) */
-  #installed {
+  &:not(.empty) #installed {
     margin-top: 0;
     padding-left: 0;
     flex: 1 0 auto;
     align-content: flex-start;
+  }
+  /* when empty, the empty-state does the growing instead */
+  &.empty #installed {
+    margin-top: 0;
+    padding-left: 0;
   }
   /* the drag-handle affordance sits at left:6px and collides with the toggle
      switch in this narrow layout — hide it here */

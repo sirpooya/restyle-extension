@@ -111,30 +111,35 @@
     flex-flow: row wrap;
     margin: 0;
     order: 3; /* panels toolbar sits below the app bar and name/actions row */
-    > details {
-      border: 1px solid transparent;
-    }
     > details[open] {
       z-index: 50;
-      background: var(--bg);
-      border-color: var(--c80);
       &:hover, &:focus-within {
         z-index: 51;
       }
       > summary {
         color: var(--accent-1);
+        /* the tab whose popup is open reads as a selected pill */
+        background-color: var(--accent-5) !important;
+        /* the floating popup panel: rounded, bordered, soft-shadowed card */
         + * {
           position: absolute;
+          margin-top: 6px;
           overflow: hidden auto;
-          max-height: var(--max-height, 25vh);
+          max-height: var(--max-height, 60vh);
           max-width: calc(100vw - 2 * $pad);
           width: max-content;
           background: var(--bg);
-          box-shadow: 0 6px 20px rgba(0, 0, 0, .3);
+          border: 1px solid var(--c75);
+          border-radius: var(--radius-lg, 12px);
+          box-shadow: var(--shadow-lg);
           padding: $pad;
+          animation: popup-in .14s ease-out;
         }
       }
     }
+  }
+  @keyframes popup-in {
+    from { opacity: 0; transform: translateY(-4px); }
   }
   #options > main {
     display: flex;

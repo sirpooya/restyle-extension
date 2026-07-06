@@ -72,11 +72,18 @@
     caret-color: auto;
   }
   .select-wrapper {
-    /* a comfortable gap between the type dropdown and the URL field */
-    margin-right: $pad05;
+    /* a small gap between the type dropdown and the URL field */
+    margin-right: $pad025;
   }
+  /* the favicon <img> is decorative and unreliable (shows a broken-image glyph
+     when it has no/failed src, e.g. the stray arrow in the narrow layout) —
+     only show it once it has actually loaded a real image */
   img {
     margin-right: calc(2px + $targetGapY);
+  }
+  img:not([src]),
+  img[src=""] {
+    display: none;
   }
 }
 .add-applies-to,
