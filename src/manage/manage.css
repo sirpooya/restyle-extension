@@ -1077,9 +1077,46 @@ button i {
     position: static;
     flex: 0 0 auto;
   }
-  /* search + sort span the full header width in the stacked layout */
+  /* Compact layout: search + sort sit side by side on one row (search fills,
+     sort sits to its right) instead of stacked full-width columns. */
   #wide-inputs {
     flex: 1 1 100%;
+    flex-flow: row;
+    align-items: center;
+    gap: $pad05;
+    > * {
+      flex: 0 0 auto;
+    }
+    #search-wrapper {
+      flex: 1 1 auto; /* search takes the remaining width */
+    }
+  }
+  /* drop the "Sort" label; the dropdown itself reads "Sort" (see below) */
+  #sort-wrapper .field-label {
+    display: none;
+  }
+  #sort-wrapper {
+    flex: 0 0 auto;
+    width: auto;
+  }
+  /* the sort dropdown shows a fixed "Sort" caption here instead of the current
+     value: zero out the JS-set text and paint the label via ::before */
+  #sort-button {
+    width: auto;
+    font-size: 0;
+    &::before {
+      content: var(--sortShortLabel, "Sort");
+      font-size: var(--font-size);
+    }
+  }
+  /* the sort button is narrow here (just fits "Sort"), so the popup can't
+     stretch left:0/right:0 to it — size it to its content and anchor to the
+     button's right edge so the option labels aren't clipped */
+  .sort-popup {
+    left: auto;
+    right: 0;
+    width: max-content;
+    max-width: 80vw;
   }
   #backup-hint {
     main {

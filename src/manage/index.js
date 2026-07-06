@@ -124,6 +124,7 @@ document.styleSheets[0].insertRule(
     'genericDisabledLabel',
     'updateAllCheckSucceededSomeEdited',
     'filteredStylesAllHidden',
+    'sortShortLabel', // compact layout paints this as the sort dropdown's caption
   ].map(id => `--${id}:"${CSS.escape(t(id))}";`).join('')
   }}`);
 

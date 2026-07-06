@@ -30,6 +30,16 @@ export function setupLiveDetails() {
     const canSave = key && !el.matches(SEL_NO_SAVE);
     if (canSave) prefs.set(key, open);
     fn?.(key, open);
+    /* In the compact editor header the panels are icon-tab popups: opening one
+       should close the others (accordion behavior) so only one popup shows and
+       only one tab stays highlighted at a time. */
+    if (open
+    && el.parentElement?.id === 'details-wrapper'
+    && document.documentElement.classList.contains('compact-layout')) {
+      for (const sib of el.parentElement.children) {
+        if (sib !== el && sib.open) sib.open = false;
+      }
+    }
   }
   function updateOnPrefChange(key, value) {
     const el = $(`details[data-pref="${key}"]`);
