@@ -7,6 +7,15 @@
       color: var(--fg);
     }
   }
+  /* the Issues help + linter-config actions live below the header now, so the
+     Issues tab itself is a plain icon button in the compact/mobile layout */
+  .lint-actions {
+    display: flex;
+    align-items: center;
+    gap: $pad05;
+    margin-bottom: $pad05;
+    &:empty { display: none; }
+  }
   table {
     border-spacing: 0;
     line-height: 1.0;

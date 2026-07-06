@@ -77,7 +77,7 @@
       <div id="details-wrapper">
         <details id="general" class="ignore-pref-if-compact"
                  data-pref="editor.general.expanded">
-          <summary><h2 i18n="general" data-icon="‖"></h2></summary>
+          <summary><h2 i18n="general" data-icon="ⓘ"></h2></summary>
           <main>
             <label id="enabled-label"
                    i18n="+styleEnabledLabel, title:toggleStyle"
@@ -118,11 +118,11 @@
         </details>
         <details id="options" class="settings ignore-pref-if-compact"
                  data-pref="editor.options.expanded">
-          <summary><h2 i18n="editorSettings" data-icon="s"></h2></summary>
+          <summary><h2 i18n="editorSettings" data-icon="‹"></h2></summary>
         </details>
         <details id="styleOpts" class="settings ignore-pref-if-compact"
                  data-pref="editor.options.style.expanded">
-          <summary><h2 i18n="styleSettings" data-icon="S"></h2></summary>
+          <summary><h2 i18n="styleSettings" data-icon="✒"></h2></summary>
         </details>
         <details id="publish" data-pref="editor.publish.expanded"
                  class="ignore-pref-if-compact hide-if-new">
@@ -139,22 +139,23 @@
           </main>
         </details>
         <details id="sections-list" data-pref="editor.toc.expanded" class="ignore-pref-if-compact">
-          <summary><h2 id="toc-title" i18n="sections"></h2></summary>
+          <summary><h2 id="toc-title" i18n="sections" data-icon="s"></h2></summary>
           <ol id="toc" i18n="data-empty:appliesToEverything"></ol>
         </details>
         <details id="lint" data-pref="editor.lint.expanded" class="ignore-pref-if-compact" hidden>
           <summary>
-            <h2><span i18n="linterIssues"></span><span id="issue-count"></span>
-              <a id="lint-help" class="icon ml2" tabindex="0"
-                 show-if="editor.linter.on">
-                <i class=i-info></i>
-              </a>
-              <a class="icon config ml2" i18n="title:linterConfigTooltip" tabindex="0"
-                 show-if="editor.linter.on">
-                <i class=i-config-lite></i>
-              </a>
-            </h2>
+            <h2 data-icon="ⓘ"><span i18n="linterIssues"></span><span id="issue-count"></span></h2>
           </summary>
+          <div class="lint-actions">
+            <a id="lint-help" class="icon" tabindex="0"
+               show-if="editor.linter.on">
+              <i class=i-info></i>
+            </a>
+            <a class="icon config" i18n="title:linterConfigTooltip" tabindex="0"
+               show-if="editor.linter.on">
+              <i class=i-config-lite></i>
+            </a>
+          </div>
           <div class="lint-report-container"></div>
         </details>
       </div>

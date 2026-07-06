@@ -122,6 +122,10 @@
         <i class=i-menu></i>
       </summary>
       <div class="overflow-popup">
+        <button id="overflow-options" i18n="title:openOptions">
+          <i class=i-config></i>
+          <span i18n="optionsHeading"></span>
+        </button>
         <button id="check-all-updates" i18n="title:checkAllUpdates">
           <i class=i-update-check></i>
           <span i18n="checkAllUpdates"></span>
@@ -301,12 +305,6 @@
      when at least one style exists (hidden via .empty on the root element).
      Buttons forward their clicks to the real sidebar controls — see initBottomBar. -->
 <div id="bottom-bar">
-  <button id="bottom-options" i18n="title:openOptions" class="icon">
-    <svg class="hollow-gear" viewBox="0 0 20 20" stroke-width="1.25px">
-      <text y="100%">⚙</text>
-    </svg>
-    <span i18n="optionsHeading"></span>
-  </button>
   <button id="bottom-write-style" class="icon">
     <i class=i-plus></i>
     <span i18n="addStyleLabel"></span>

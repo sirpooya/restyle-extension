@@ -58,12 +58,18 @@ function initBottomBar() {
     const from = $id(fromId);
     if (from) from.on('click', () => $id(toId).click());
   };
-  forward('bottom-options', 'manage-options-button');
   forward('bottom-write-style', 'add-style');
   forward('bottom-sync', 'sync-styles');
   forward('bottom-get-styles', 'get-styles-button');
   forward('bottom-import', 'import');
   forward('bottom-export', 'export');
+  // Options lives in the ⋮ overflow menu; forward it to the real control and
+  // close the menu afterward (clicking inside a <details> doesn't close it).
+  const opts = $id('overflow-options');
+  if (opts) opts.on('click', () => {
+    opts.closest('details')?.removeAttribute('open');
+    $id('manage-options-button').click();
+  });
 }
 
 function initEmptyState() {
