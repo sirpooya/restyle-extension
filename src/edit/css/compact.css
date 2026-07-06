@@ -140,4 +140,51 @@
     overflow: hidden;
     flex: 1;
   }
+
+  /* ---- Undo the wide-layout "Figma panel" summary styling here: in compact
+     mode the panels are horizontal icon tabs, not a vertical list, so the
+     right-aligned chevron, the row border-top and the row padding don't apply. */
+  #details-wrapper {
+    /* the wrapper is not a scroll container in compact; it's a wrapping toolbar */
+    overflow: visible;
+    min-height: 0;
+    padding-bottom: 0;
+    > details > summary {
+      padding: $pad05;
+      border-top: none;
+      border-radius: var(--radius-sm, 6px);
+      &::after { content: none; } /* no chevron next to the icon tabs */
+      &:hover { background-color: hsla(0, 0%, 50%, .12); }
+    }
+    > details[open] > summary {
+      background-color: hsla(0, 0%, 50%, .12);
+    }
+  }
+
+  /* ---- App bar in compact: the top row (back + icons) is a normal wrapping
+     row again, not a full-bleed bordered bar. ---- */
+  #basic-info {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  #basic-info-toprow {
+    margin: 0;
+    padding: 0;
+    border-bottom: none;
+    order: 1; /* icons sit after the name input (which is order:-1) */
+    /* give the icon row its own full-width line and let it size to content so
+       it doesn't collapse to width:0 between the name field and the actions */
+    flex: 1 1 100%;
+    width: 100%;
+    gap: $pad05;
+    > .icon {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: var(--input-height);
+      height: var(--input-height);
+    }
+  }
 }

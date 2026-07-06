@@ -135,24 +135,25 @@ $iconGapY: .25rem;
     word-break: break-word;
   }
   .actions {
-    /* fixed width (room for the widest case: update/refresh + delete) so
+    /* fixed width (room for the widest case: update/refresh + edit + delete) so
        delete always lands in the same spot and size/age stay aligned
        across rows regardless of how many icons a row has */
-    flex: 0 0 48px;
+    flex: 0 0 76px;
     display: flex;
     align-items: center;
     /* row-reverse's main-start is the right edge, so flex-start packs
        icons flush right — delete always lands in the same spot */
     justify-content: flex-start;
-    /* delete is first in the DOM but must sit rightmost; appended update/refresh
-       icons then fall to its left */
+    /* delete is first in the DOM but must sit rightmost; edit (next in DOM) and
+       any appended update/refresh icons then fall to its left */
     flex-direction: row-reverse;
-    gap: 8px; /* breathing room between update/refresh and delete */
+    gap: 8px; /* breathing room between the action icons */
     z-index: 100;
     a {
       cursor: pointer;
     }
-    .delete i {
+    .delete i,
+    .edit i {
       font-size: 16px;
     }
   }

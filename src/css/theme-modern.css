@@ -353,6 +353,14 @@ code {
     border: 1px solid var(--c80) !important;
   }
 }
+/* CRITICAL: `overflow` on a <body> element is propagated to the viewport by the
+   browser (the "body overflow propagation" quirk), so `overflow:hidden` on the
+   body does NOT clip its children to the rounded corners — the header/footer
+   corners stay square. Setting `overflow:clip` on the documentElement (<html>)
+   stops the propagation, so the body clips to its own radius. */
+html:has(> #stylus-options) {
+  overflow: clip;
+}
 /* Title bar: white app-bar matching the GetStyles (message-box) modal.
    No corner radius here — the card's `overflow: hidden` clips the header/footer
    to the body's rounded corners. Rounding them again with the same radius, but

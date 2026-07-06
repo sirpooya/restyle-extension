@@ -46,10 +46,8 @@ const ENTRY_ROUTES = {
     API.styles.toggle(entry.styleId, this.matches('.enable') || this.checked);
   },
 
-  '.style-name'(event, entry) {
-    if (UI.tableView && !event.target.closest('.homepage')) {
-      edit(event, entry);
-    }
+  '.edit'(event, entry) {
+    edit(event, entry);
   },
 
   '.homepage': openLink,
@@ -150,11 +148,6 @@ export function onEntryClicked(event) {
         return routes[selector].call(el, event, entry);
       }
     }
-  }
-  // clicking anywhere else in the row (blank space, URLs, size/age) opens
-  // the editor; the toggle switch and other actions above already returned
-  if (event.type === 'click' && entry && UI.tableView) {
-    edit(event, entry);
   }
 }
 
