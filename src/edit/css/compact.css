@@ -128,7 +128,11 @@
     flex-flow: row wrap;
     margin: 0;
     order: 3; /* panels toolbar sits below the app bar and name/actions row */
-    position: relative; /* anchor the popups to the toolbar, not the viewport */
+    /* every panel is its own positioning context so the popup opens directly
+       under its own tab (top:100% = just below that tab, not the whole toolbar) */
+    > details {
+      position: relative;
+    }
     > details[open] {
       z-index: 50;
       &:hover, &:focus-within {
@@ -139,19 +143,20 @@
         /* the tab whose popup is open reads as a selected pill */
         background-color: var(--accent-5) !important;
         /* the floating popup panel: rounded, bordered, soft-shadowed card.
-           Pinned to the toolbar's right edge so it always stays on-screen
-           (tabs live near the right side, so left-anchoring overflowed). */
+           Horizontal position is set by JS (positionCompactPopup) which centers
+           it under its tab and clamps it to the viewport; --popup-left is that
+           computed offset (relative to the tab / details box). */
         + * {
           position: absolute;
           top: 100%;
-          right: 0;
-          left: auto;
+          left: var(--popup-left, 0);
+          right: auto;
           margin-top: 6px;
           overflow: hidden auto;
           max-height: var(--max-height, 60vh);
+          /* size to content, but never wider than a sensible cap or the screen */
           width: max-content;
-          /* clamp so long content (e.g. the lint report) wraps inside the card */
-          max-width: min(24em, calc(100vw - 2 * $pad));
+          max-width: min(22em, calc(100vw - 2 * $pad));
           box-sizing: border-box;
           background: var(--bg);
           border: 1px solid var(--c75);
